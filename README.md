@@ -2,13 +2,12 @@
 
 **Real-time monitoring of global systemic risk across economic, climate, geopolitical, and biological domains.**
 
-[![WSSI Score](https://img.shields.io/badge/WSSI-27.8%2F100-yellow)](https://tashiikid.github.io/Polycrisis-Intelligence/dashboard/v2/)
-[![Themes Active](https://img.shields.io/badge/Themes-11-blue)](https://tashiikid.github.io/Polycrisis-Intelligence/dashboard/v2/)
-[![API Status](https://img.shields.io/badge/API-v1.0-green)](https://api.polycrisis.io/docs)
+[![WSSI Score](https://img.shields.io/badge/WSSI-27.8%2F100-yellow)](https://tashiikid.github.io/Polycrisis-Intelligence/)
+[![Themes Active](https://img.shields.io/badge/Themes-11-blue)](https://tashiikid.github.io/Polycrisis-Intelligence/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-🌍 **Live Demo:** [Dashboard V2](https://tashiikid.github.io/Polycrisis-Intelligence/dashboard/v2/)  
-📊 **API Docs:** [OpenAPI Reference](https://api.polycrisis.io/docs)  
-📖 **Roadmap:** [V2.0 Implementation Plan](WSSI_FRONTEND_V2_ROADMAP.md)
+🌍 **Live Dashboard:** [tashiikid.github.io/Polycrisis-Intelligence](https://tashiikid.github.io/Polycrisis-Intelligence/)  
+📖 **Documentation:** [GitHub Wiki](https://github.com/TashiikiD/Polycrisis-Intelligence/wiki) (coming soon)
 
 ---
 
@@ -25,103 +24,67 @@ The **Weighted Synchronous Stress Index (WSSI)** is a composite metric that meas
 | **Active Themes** | 11 | Across 4 categories |
 | **Above Warning** | 3 | Food, Real Assets, Weather |
 
-### 11 Active Themes
-
-| Category | Themes | Key Indicators |
-|----------|--------|----------------|
-| **Economic-Financial** (4) | Sovereign Debt, Corporate Debt, Banking Stress, Real Assets | BIS debt/GDP, FDIC metrics, Case-Shiller, spreads |
-| **Climate-Environmental** (3) | Tipping Points, Extreme Weather, Ecosystem Collapse | CO₂, ice loss, NOAA/ICES fisheries |
-| **Geopolitical-Conflict** (3) | Interstate Conflict, Resource Competition, Governance Decay | OFAC sanctions, mineral concentration, Polity5, CPI |
-| **Biological-Health** (1) | Food System Fragility | FAO food price, FAO cereals, USDA volatility |
-
-**Total Data Sources:** 23 indicators from 18 feeds (FRED, NOAA, FAO, USGS, ICES, etc.)
-
 ---
 
-## Product Suite
+## Features
 
-### 1. Dashboard V2 — Dual-Mode Interface
+### 🎛️ Dual-Mode Dashboard
 
-**Brief Mode** — Bloomberg-style executive view
-- Sortable theme table with sparklines
-- Comparative views (today vs last week/month/year)
-- PDF export for board presentations
-- Mobile-responsive
+- **Brief Mode:** Bloomberg-style executive view with sortable tables, sparklines, and PDF export
+- **Pulse Mode:** Living visualization with real-time orb, stress topology, and correlation maps
 
-**Pulse Mode** — Living system visualization
-- Central WSSI orb with real-time pulse
-- Stress topology map (force-directed correlations)
-- Temporal river (flowing time-series)
-- Cascade simulator (what-if scenarios)
+### 📡 23 Indicators, 11 Themes
 
-**Live:** [dashboard/v2/](https://tashiikid.github.io/Polycrisis-Intelligence/dashboard/v2/)
+Aggregated from 18 live data sources:
 
-### 2. API Service — Developer Access
+| Category | Sources | Key Metrics |
+|----------|---------|-------------|
+| **Economic-Financial** | FRED, BIS, FDIC | Debt ratios, spreads, asset prices |
+| **Climate-Environmental** | NOAA, NASA, ICES | CO₂, temperature, fisheries, ice loss |
+| **Geopolitical-Conflict** | OFAC, USGS, Polity5 | Sanctions, resource competition, governance |
+| **Biological-Health** | FAO, USDA | Food prices, supply volatility |
 
-**Base URL:** `https://api.polycrisis.io/v1`
+### 🔌 Open API
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /wssi/current` | Latest WSSI score + theme breakdown |
-| `GET /wssi/history` | Time series data |
-| `GET /themes` | All themes with current status |
-| `GET /indicators` | Raw indicator values |
+- **RESTful endpoints** for WSSI data, themes, and indicators
+- **Authentication** with API key management
+- **Rate limiting** with tiered access
+- **Auto-generated docs** via OpenAPI/Swagger
 
-**Features:**
-- API key authentication
-- Tiered rate limiting (Free/Basic/Pro/Enterprise)
-- Auto-generated TypeScript SDK
-- OpenAPI/Swagger documentation
+### 🚨 Alerting
 
-**Pricing:** Free (100 calls/day) → Pro ($199/mo, 100K calls/day)
-
-### 3. Alerting & Monitoring
-
-**Real-Time Alerts:**
-- Threshold breaches (Watch/Approaching/Critical)
-- Multi-channel delivery (email, Slack, Discord, webhook)
-- Correlation spike detection
-
-**Weekly Intelligence Reports:**
-- WoW WSSI delta analysis
-- Biggest movers identification
-- Alert summary and trend context
-
----
-
-## Technology Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Data Ingestion** | Python (requests, pandas), 18 live feeds |
-| **Database** | SQLite (dev), PostgreSQL (prod) |
-| **Analytics** | FastAPI, NumPy, MAD-based normalization |
-| **API Backend** | FastAPI, JWT auth, rate limiting |
-| **Dashboard** | Vanilla HTML/CSS/JS, Chart.js, D3.js, Three.js |
-| **Alerting** | Python daemon, SQLite state tracking |
-| **Hosting** | GitHub Pages (dashboard), Render/Railway (API) |
+- **Real-time monitoring** with threshold detection
+- **Multi-channel delivery:** Email, Slack, Discord, webhooks
+- **Weekly reports** with trend analysis
+- **Correlation spike detection**
 
 ---
 
 ## Quick Start
 
-### Run Dashboard Locally
+### Dashboard
+
+Visit the [live dashboard](https://tashiikid.github.io/Polycrisis-Intelligence/) or run locally:
+
 ```bash
 git clone https://github.com/TashiikiD/Polycrisis-Intelligence.git
-cd Polycrisis-Intelligence/dashboard/v2
+cd Polycrisis-Intelligence
+cd dashboard/v2
 python -m http.server 8000
 # Open http://localhost:8000
 ```
 
-### Run API Locally
+### API
+
 ```bash
-cd Polycrisis-Intelligence/wssi-api
+cd wssi-api
 pip install -r requirements.txt
 uvicorn main:app --reload
-# API at http://localhost:8000/docs
+# API docs at http://localhost:8000/docs
 ```
 
-### Docker Deployment
+### Docker
+
 ```bash
 docker-compose up -d
 # Dashboard: http://localhost:8080
@@ -130,55 +93,69 @@ docker-compose up -d
 
 ---
 
-## Project Status
+## API Endpoints
 
-| Phase | Status | Deliverables |
-|-------|--------|--------------|
-| **V1** | ✅ Complete | Basic dashboard, sample data |
-| **V2** | ✅ Complete | Dual-mode dashboard, 23 indicators, API, alerting |
-| **V2.0** | 🚧 Roadmap | React SPA, PWA, mobile apps, enterprise features |
+| Endpoint | Description |
+|----------|-------------|
+| `GET /wssi/current` | Latest WSSI score + theme breakdown |
+| `GET /wssi/history?days=30` | Historical time series |
+| `GET /themes` | All themes with current status |
+| `GET /themes/{id}` | Specific theme details |
+| `GET /indicators` | Raw indicator values |
+| `GET /health` | API health check |
 
-**Current:** Production-ready for beta customers. V2.0 roadmap prioritizes React migration, real-time updates, and enterprise SSO.
-
----
-
-## Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [`WSSI_FRONTEND_V2_ROADMAP.md`](WSSI_FRONTEND_V2_ROADMAP.md) | Comprehensive 120-160hr implementation plan |
-| [`WSSI_STAKEHOLDER_BRIEF.md`](WSSI_STAKEHOLDER_BRIEF.md) | Monetization deck for investor/customer conversations |
-| [`VIABILITY_RUBRIC.md`](VIABILITY_RUBRIC.md) | Business line prioritization framework |
-| [`wssi-api/README.md`](wssi-api/README.md) | API setup and deployment guide |
-| [`dashboard/v2-spec.md`](dashboard/v2-spec.md) | Design specification for dual-mode interface |
+See [wssi-api/README.md](wssi-api/README.md) for full documentation.
 
 ---
 
-## Target Customers
+## Technology Stack
 
-| Segment | Use Case | Price Point |
-|---------|----------|-------------|
-| **Asset Managers** | Portfolio risk overlay, tail hedging | $199-500/mo |
-| **Corporate Risk** | Supply chain resilience, scenario planning | $199-999/mo |
-| **Government/NGOs** | Policy planning, humanitarian early warning | $999-5,000/mo |
-| **Researchers** | Academic analysis (citation required) | Free |
+| Layer | Technology |
+|-------|------------|
+| **Data Ingestion** | Python, pandas, requests |
+| **Database** | SQLite (dev), PostgreSQL (prod) |
+| **API Backend** | FastAPI, Pydantic |
+| **Dashboard** | HTML5, CSS3, Chart.js, D3.js |
+| **Hosting** | GitHub Pages (dashboard), Render/Railway (API) |
+
+---
+
+## Project Structure
+
+```
+Polycrisis-Intelligence/
+├── dashboard/              # V2 dual-mode dashboard
+│   ├── v2/                # Brief + Pulse modes
+│   ├── latest.html        # V1 dashboard (legacy)
+│   └── data/              # Sample data files
+├── wssi-api/              # FastAPI backend
+│   ├── main.py           # API server
+│   ├── alerting/         # Monitoring daemon
+│   └── config/           # Example configurations
+├── legal/                 # Terms of Service, Privacy Policy
+└── index.html            # Landing page
+```
 
 ---
 
 ## Contributing
 
-This is a research and commercial project. For collaboration inquiries:
-- Open an issue for bugs or feature requests
-- See [`WSSI_STAKEHOLDER_BRIEF.md`](WSSI_STAKEHOLDER_BRIEF.md) for partnership options
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) (coming soon).
+
+Areas where help is needed:
+- Additional data source integrations
+- Frontend improvements (React/Vue migration)
+- Mobile app development
+- Documentation and tutorials
 
 ---
 
 ## License
 
-MIT License — See [LICENSE](LICENSE) file for details.
+[MIT License](LICENSE) — See file for details.
 
 ---
 
-Built with 🌩️ by Tashi + Lodestar
+Built with 🌩️ by [Tashi](https://github.com/TashiikiD) + Lodestar
 
 *Last Updated: February 12, 2026*

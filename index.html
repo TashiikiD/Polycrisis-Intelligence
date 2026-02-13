@@ -1,10 +1,449 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=dashboard/v2/">
-    <title>Polycrisis Intelligence</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polycrisis Intelligence | Real-Time Systemic Risk Monitoring</title>
+    <meta name="description" content="Real-time monitoring of global systemic risk across economic, climate, geopolitical, and biological domains. WSSI: Weighted Synchronous Stress Index.">
+    <style>
+        :root {
+            --bg-void: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-elevated: #1a1a24;
+            --accent-cyan: #00d4aa;
+            --accent-amber: #ff9f1c;
+            --accent-red: #ff3864;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8b8b9a;
+            --text-muted: #4a4a5a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--bg-elevated);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-void);
+        }
+
+        .btn-primary:hover {
+            background: #00e6b8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-elevated);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Live Status */
+        .status-bar {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-elevated);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 40px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .status-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .status-value.cyan { color: var(--accent-cyan); }
+        .status-value.amber { color: var(--accent-amber); }
+
+        .trend {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .trend.up { color: var(--accent-amber); }
+
+        /* Features */
+        .features {
+            padding: 60px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-elevated);
+            border-radius: 12px;
+            padding: 28px;
+            transition: border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 60px 0;
+            border-top: 1px solid var(--bg-elevated);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-elevated);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 0 auto 16px;
+        }
+
+        .step h3 {
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--bg-elevated);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .status-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting to <a href="dashboard/v2/">dashboard</a>...</p>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/Polycrisis-Intelligence/" class="logo">
+                    <span class="logo-icon">🌩️</span>
+                    <span>Polycrisis Intelligence</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="dashboard/v2/">Dashboard</a></li>
+                    <li><a href="https://github.com/TashiikiD/Polycrisis-Intelligence">GitHub</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>See the Synchronization</h1>
+                <p>Real-time monitoring of global systemic risk. WSSI measures when economic, climate, and geopolitical stresses align into compound crises.</p>
+                <div class="cta-group">
+                    <a href="dashboard/v2/" class="btn btn-primary">📊 Open Dashboard</a>
+                    <a href="https://github.com/TashiikiD/Polycrisis-Intelligence" class="btn btn-secondary">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-label">WSSI Score</div>
+                    <div class="status-value cyan">27.8</div>
+                    <div class="trend up">↑ +2.3 from last week</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Active Themes</div>
+                    <div class="status-value">11</div>
+                    <div class="trend">Across 4 categories</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Watch Level</div>
+                    <div class="status-value amber">3</div>
+                    <div class="trend">Food, Assets, Weather</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Data Sources</div>
+                    <div class="status-value">23</div>
+                    <div class="trend">From 18 feeds</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="about">
+            <div class="container">
+                <h2>What Makes WSSI Different</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3>Correlation Detection</h3>
+                        <p>Unlike single-domain risk indices, WSSI captures the dangerous moment when stresses across domains amplify each other.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📡</div>
+                        <h3>Real-Time Data</h3>
+                        <p>23 indicators from 18 live feeds: FRED economic data, NOAA climate, FAO food prices, USGS resources, and more.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔮</div>
+                        <h3>Dual-Mode Dashboard</h3>
+                        <p><strong>Brief mode:</strong> Bloomberg-style executive view.<br><strong>Pulse mode:</strong> Living visualization for analysts.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Open API</h3>
+                        <p>RESTful API with authentication, rate limiting, and auto-generated documentation. Build your own integrations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚨</div>
+                        <h3>Intelligent Alerts</h3>
+                        <p>Threshold monitoring, correlation spike detection, and weekly intelligence reports delivered to your channels.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔓</div>
+                        <h3>Open Source</h3>
+                        <p>MIT licensed. Fork it, extend it, deploy it yourself. Full transparency in methodology and calculation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="step-grid">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Ingest</h3>
+                        <p>Data from 18 sources: economic indicators, climate metrics, geopolitical events, and ecological data.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Normalize</h3>
+                        <p>MAD-based robust normalization accounts for outliers and non-normal distributions across diverse datasets.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Synchronize</h3>
+                        <p>Calculate stress synchronization across 11 themes in 4 categories: Economic, Climate, Geopolitical, Biological.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Alert</h3>
+                        <p>Real-time threshold detection, correlation spike warnings, and weekly intelligence reports.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                Built with 🌩️ by <a href="https://github.com/TashiikiD">Tashi</a> + Lodestar<br>
+                <a href="legal/privacy.html">Privacy</a> • <a href="legal/terms.html">Terms</a> • 
+                <a href="https://github.com/TashiikiD/Polycrisis-Intelligence">GitHub</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>

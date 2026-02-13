@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSSI Visualization Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        header h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00ffcc, #ff8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p {
+            font-size: 18px;
+            opacity: 0.6;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .demo-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .demo-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .demo-preview {
+            height: 250px;
+            background: linear-gradient(135deg, rgba(0,255,204,0.05), rgba(255,136,0,0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .demo-preview::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0,255,204,0.3), transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+        
+        .demo-content {
+            padding: 25px;
+        }
+        .demo-content h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .demo-content p {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+        
+        .demo-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.threejs { background: rgba(0,255,204,0.15); color: #00ffcc; }
+        .tag.d3js { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+        .tag.react { background: rgba(97,218,251,0.15); color: #61dafb; }
+        .tag.interactive { background: rgba(255,136,0,0.15); color: #ff8800; }
+        
+        .demo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .demo-link:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 300;
+            margin: 60px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-box {
+            background: rgba(0,255,204,0.05);
+            border: 1px solid rgba(0,255,204,0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        .info-box h3 {
+            color: #00ffcc;
+            margin-bottom: 10px;
+        }
+        .info-box code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+        }
+        
+        footer {
+            text-align: center;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.5;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 WSSI Visualization Demo</h1>
+            <p>Interactive 3D and network visualizations for the Polycrisis Intelligence Platform</p>
+        </header>
+        
+        <div class="info-box">
+            <h3>📋 About These Demos</h3>
+            <p>These visualizations demonstrate the <strong>Pulse Mode 2.0</strong> features from the WSSI Frontend V2 Roadmap, plus the <strong>Causal Loop Diagram</strong> systems model visualizations.</p>
+            <p style="margin-top: 15px;">WSSI data source: <code>polycrisis.db</code> | CLD tools: <code>causalloops</code></p>
+        </div>
+        
+        <h2 class="section-title">🎯 3D Living Orbs</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-preview">🌐</div>
+                <div class="demo-content">
+                    <h3>Pulse Mode Orb</h3>
+                    <p>Full immersive 3D visualization with pulsing core, theme nodes, and particle effects. The centerpiece of the Pulse Mode dashboard.</p>
+                    <div class="demo-tags">
+                        <span class="tag threejs">Three.js</span>
+                        <span class="tag interactive">Interactive</span>
+                    </div>
+                    <a href="orb-pulse-mode.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview">📊</div>
+                <div class="demo-content">
+                    <h3>Brief Mode Orb</h3>
+                    <p>Compact visualization for the Brief Mode dashboard. Shows top 3 themes and simplified orb with essential metrics.</p>
+                    <div class="demo-tags">
+                        <span class="tag threejs">Three.js</span>
+                        <span class="tag interactive">Compact</span>
+                    </div>
+                    <a href="orb-brief-mode.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview">⚡</div>
+                <div class="demo-content">
+                    <h3>Cascade Simulator</h3>
+                    <p>Interactive "What If" scenario builder. Adjust theme multipliers to see projected WSSI impact and cascade effects.</p>
+                    <div class="demo-tags">
+                        <span class="tag threejs">Three.js</span>
+                        <span class="tag interactive">Interactive</span>
+                    </div>
+                    <a href="orb-cascade-sim.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview">⚛️</div>
+                <div class="demo-content">
+                    <h3>React Component</h3>
+                    <p>Production-ready React/TypeScript component for integration into the WSSI dashboard application.</p>
+                    <div class="demo-tags">
+                        <span class="tag react">React</span>
+                        <span class="tag threejs">Three.js</span>
+                    </div>
+                    <a href="OrbPulse.tsx" class="demo-link">View Code →</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🔗 Network Graphs</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">🕸️</div>
+                <div class="demo-content">
+                    <h3>Stress Topology Map</h3>
+                    <p>Full force-directed network showing all crisis theme correlations. Features zoom, pan, node selection, and flash point alerts.</p>
+                    <div class="demo-tags">
+                        <span class="tag d3js">D3.js</span>
+                        <span class="tag interactive">Interactive</span>
+                    </div>
+                    <a href="network-topology.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">🌾</div>
+                <div class="demo-content">
+                    <h3>Food + Weather Focus</h3>
+                    <p>Focused correlation view between Extreme Weather Events (2.2) and Food System themes. Demonstrates cross-domain crisis linkages.</p>
+                    <div class="demo-tags">
+                        <span class="tag d3js">D3.js</span>
+                        <span class="tag interactive">Focused</span>
+                    </div>
+                    <a href="network-food-weather.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🔄 Causal Loop Diagrams</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">🔄</div>
+                <div class="demo-content">
+                    <h3>Static CLD (Read-Only)</h3>
+                    <p>Causal Loop Diagram visualization for systems models. Read-only version with dragging, tooltips, and storyboard navigation.</p>
+                    <div class="demo-tags">
+                        <span class="tag d3js">SVG</span>
+                        <span class="tag interactive">Interactive</span>
+                    </div>
+                    <a href="cld-static-standalone.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">📊</div>
+                <div class="demo-content">
+                    <h3>CLD Embedded Version</h3>
+                    <p>Compact embedded version suitable for inclusion in larger dashboards or reports. Same features, smaller footprint.</p>
+                    <div class="demo-tags">
+                        <span class="tag d3js">SVG</span>
+                        <span class="tag">Embedded</span>
+                    </div>
+                    <a href="cld-static-embed.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">📖 Documentation</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">📚</div>
+                <div class="demo-content">
+                    <h3>Visualization Skill</h3>
+                    <p>The complete skill documentation for creating these visualizations. Includes customization guides and API references.</p>
+                    <div class="demo-tags">
+                        <span class="tag">Documentation</span>
+                    </div>
+                    <a href="../../skills/polycrisis-visualization/SKILL.md" class="demo-link">View Skill →</a>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <div class="demo-preview" style="font-size: 48px;">🎨</div>
+                <div class="demo-content">
+                    <h3>Customization Guide</h3>
+                    <p>Learn how to customize colors, animations, node positioning, and styling for your specific dashboard needs.</p>
+                    <div class="demo-tags">
+                        <span class="tag">Guide</span>
+                    </div>
+                    <a href="../../skills/polycrisis-visualization/references/customization.md" class="demo-link">View Guide →</a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>WSSI Frontend V2.0 • polycrisis-visualization skill • causalloops static renderer</p>
+        </footer>
+    </div>
+</body>
+</html>

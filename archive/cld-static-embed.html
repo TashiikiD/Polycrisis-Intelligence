@@ -1,0 +1,156 @@
+<figure id="cld2-food-security-cascade" class="cld2" data-cld2-id="food-security-cascade" data-cld2-theme="light" data-cld="" style="margin:0;position:relative;background:transparent;border:1px solid rgba(0,0,0,0.18);border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.08);font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial"><style>
+        :root {
+          --cld-bg: transparent;
+          --cld-panel: rgba(255,255,255,0.96);
+          --cld-panel2: rgba(248,250,252,0.98);
+          --cld-border: rgba(0,0,0,0.18);
+          --cld-text: #0a0a0a;
+          --cld-muted: rgba(0,0,0,0.72);
+          --cld-grid: rgba(0,0,0,0.08);
+          --cld-good: #059669;
+          --cld-warn: #d97706;
+          --cld-bad: #dc2626;
+          --cld-plus: #16a34a;
+          --cld-minus: #dc2626;
+          --cld-neutralBg: rgba(0,0,0,0.06);
+          --cld-shadowSoft: rgba(0,0,0,0.08);
+          --cld-shadowStrong: rgba(0,0,0,0.18);
+          --cld-chipBg: rgba(255,255,255,0.8);
+          --cld-reinforcing: #dc2626;
+          --cld-balancing: #2563eb;
+          --cld-delay: #7c3aed;
+        }
+        .cld2[data-cld2-theme="dark"] {
+          --cld-bg: #0b0b0c;
+          --cld-panel: rgba(255,255,255,0.08);
+          --cld-panel2: rgba(255,255,255,0.06);
+          --cld-border: rgba(255,255,255,0.12);
+          --cld-text: #f3f4f6;
+          --cld-muted: rgba(255,255,255,0.7);
+          --cld-grid: rgba(255,255,255,0.08);
+          --cld-neutralBg: rgba(255,255,255,0.1);
+          --cld-shadowSoft: rgba(0,0,0,0.4);
+          --cld-shadowStrong: rgba(0,0,0,0.6);
+          --cld-chipBg: rgba(255,255,255,0.12);
+        }
+        .cld2 { color: var(--cld-text); }
+        .cld2-header { position: absolute; inset: 0 0 auto 0; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 5; }
+        .cld2-title { font-weight: 700; font-size: 16px; }
+        .cld2-subtitle { font-size: 12px; color: var(--cld-muted); }
+        .cld2-diagram { position: relative; width: 860px; height: 560px; background: radial-gradient(1200px 800px at 20% -10%, rgba(99,102,241,0.08), transparent), radial-gradient(900px 600px at 120% 20%, rgba(16,185,129,0.08), transparent), var(--cld-bg); }
+        .cld2-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--cld-grid) 1px, transparent 1px), linear-gradient(90deg, var(--cld-grid) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.7; }
+        .cld2-linkWrap { position: absolute; inset: 0; pointer-events: none; }
+        .cld2-linkWrap[data-link-id] { pointer-events: auto; }
+        .cld2-linkPath { fill: none; stroke: var(--cld-muted); stroke-width: 2; }
+        .cld2-linkPath.reinforcing { stroke: var(--cld-reinforcing); }
+        .cld2-linkPath.balancing { stroke: var(--cld-balancing); }
+        .cld2-linkPath.delayed { stroke-dasharray: 6,6; }
+        .cld2-badge { font-size: 11px; font-weight: 700; fill: white; text-anchor: middle; dominant-baseline: central; }
+        .cld2-linkPolarity { font-size: 12px; font-weight: 900; fill: white; text-anchor: middle; dominant-baseline: central; }
+        .cld2-delayBadge { font-size: 10px; fill: var(--cld-delay); font-weight: 700; }
+        .cld2-node { position: absolute; width: 112px; transform: translate(-50%, -50%); background: var(--cld-panel); border: 1px solid var(--cld-border); border-radius: 14px; padding: 10px 12px 12px; box-shadow: 0 8px 24px var(--cld-shadowSoft); cursor: grab; z-index: 2; }
+        .cld2-node:hover { box-shadow: 0 12px 32px var(--cld-shadowStrong); z-index: 3; }
+        .cld2-nodeIconWrap { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; margin: 0 auto; background: var(--cld-neutralBg); }
+        .cld2-nodeValue { text-align: center; font-weight: 900; font-size: 14px; margin-top: 6px; }
+        .cld2-nodeLabel { text-align: center; font-size: 10px; color: var(--cld-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cld2-meter { height: 6px; border-radius: 999px; background: var(--cld-neutralBg); overflow: hidden; border: 1px solid var(--cld-border); margin-top: 6px; }
+        .cld2-meterFill { height: 100%; width: 0%; background: var(--cld-good); }
+        .cld2-tooltip { position: absolute; left: 50%; top: calc(100% + 10px); transform: translateX(-50%); width: min(280px, 70vw); padding: 10px 12px; border-radius: 12px; background: var(--cld-panel); border: 1px solid var(--cld-border); box-shadow: 0 20px 60px var(--cld-shadowStrong); color: var(--cld-text); opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 10; font-size: 12px; }
+        .cld2-node:hover .cld2-tooltip { opacity: 1; transform: translateX(-50%) translateY(4px); }
+        .cld2-groupHull { fill: none; stroke-width: 2; stroke-dasharray: 6,6; opacity: 0.6; }
+        .cld2-legend { position: absolute; left: 12px; bottom: 12px; background: var(--cld-panel); border: 1px solid var(--cld-border); border-radius: 12px; padding: 10px 12px; font-size: 12px; }
+        .cld2-legendTitle { font-weight: 700; margin-bottom: 6px; }
+        .cld2-legendRow { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+        .cld2-legendDot { width: 10px; height: 10px; border-radius: 50%; }
+        .cld2-controls { position: absolute; right: 12px; top: 48px; background: var(--cld-panel); border: 1px solid var(--cld-border); border-radius: 12px; padding: 10px; font-size: 12px; }
+        .cld2-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--cld-border); background: var(--cld-panel2); color: var(--cld-text); font-size: 12px; cursor: pointer; }
+        .cld2-btn:hover { background: var(--cld-neutralBg); }
+        .cld2-storyboard { position: absolute; left: 12px; right: 12px; bottom: 12px; background: var(--cld-panel); border: 1px solid var(--cld-border); border-radius: 12px; padding: 12px; }
+        .cld2-storyboardTitle { font-weight: 700; margin-bottom: 8px; }
+        .cld2-storyboardFrame { display: none; }
+        .cld2-storyboardFrame.active { display: block; }
+        .cld2-storyboardNav { display: flex; gap: 8px; margin-top: 8px; }
+        </style><script>(function(){try{var fig=document.currentScript&&document.currentScript.closest&&document.currentScript.closest('figure.cld2');if(!fig)return;var w=window;var key='__cldThemeAuto2';var state=w[key];if(!state){state=w[key]={figures:[],installed:false};}if(state.figures.indexOf(fig)===-1)state.figures.push(fig);if(state.installed)return;state.installed=true;var mq=window.matchMedia('(prefers-color-scheme: dark)');var set=function(){var isDark=mq.matches;state.figures.forEach(function(f){f.setAttribute('data-cld2-theme',isDark?'dark':'light');});};if(mq.addEventListener){mq.addEventListener('change',set);}else{mq.addListener(set);}set();}catch(_){}})();</script><div class="cld2-header"><div><div class="cld2-title">Food Security Cascade</div><div class="cld2-subtitle">Static visualization example (read-only)</div></div></div><div id="cld2-food-security-cascade-d" class="cld2-diagram" data-cld2-animate="true"><div class="cld2-grid" aria-hidden="true"></div><svg width="860" height="560" style="position:absolute;inset:0"><path d="M720.02,298.272C717.382,234.57,733.309,100.537,681.506,86C668.111,82.241,648.778,83.822,633.506,86C530.705,100.659,433.069,317.571,424.038,426C422.696,442.108,416.038,466,424.038,474C432.038,482,455.874,475.487,472.038,474C550.812,466.751,705.947,418.222,720.02,346.272C722.908,331.509,720.702,314.744,720.02,298.272" class="cld2-groupHull" style="stroke:#dc2626"></path><g class="cld2-linkWrap" data-link-id="l1"><path d="M 632.67 122.92 Q 534.73 173.86 436.80 224.80" class="cld2-linkPath reinforcing"></path><circle cx="534.7306923312516" cy="173.8621264827152" r="10" class="cld2-badge" style="fill:#dc2626"></circle><text x="534.7306923312516" y="173.8621264827152" class="cld2-linkPolarity">+</text></g><g class="cld2-linkWrap" data-link-id="l2"><path d="M 669.18 314.28 Q 553.99 280.00 438.79 245.71" class="cld2-linkPath reinforcing"></path><circle cx="553.98755125822" cy="279.9980563229741" r="10" class="cld2-badge" style="fill:#dc2626"></circle><text x="553.98755125822" y="279.9980563229741" class="cld2-linkPolarity">+</text></g><g class="cld2-linkWrap" data-link-id="l3"><path d="M 443.35 422.40 Q 430.00 343.86 416.65 265.33" class="cld2-linkPath reinforcing"></path><circle cx="429.9964660934414" cy="343.8621264827152" r="10" class="cld2-badge" style="fill:#dc2626"></circle><text x="429.9964660934414" y="343.8621264827152" class="cld2-linkPolarity">+</text></g><g class="cld2-linkWrap" data-link-id="l4"><path d="M 387.06 250.55 Q 287.97 301.59 188.87 352.63" class="cld2-linkPath balancing"></path><circle cx="287.9675512582201" cy="301.5892788453389" r="10" class="cld2-badge" style="fill:#2563eb"></circle><text x="287.9675512582201" y="301.5892788453389" class="cld2-linkPolarity">-</text></g><g class="cld2-linkWrap" data-link-id="l5"><path d="M 671.13 335.09 Q 572.03 386.14 472.93 437.18" class="cld2-linkPath reinforcing"></path><circle cx="572.0289148352213" cy="386.1359298402589" r="10" class="cld2-badge" style="fill:#dc2626"></circle><text x="572.0289148352213" y="386.1359298402589" class="cld2-linkPolarity">+</text></g></svg><div class="cld2-node" data-node-id="food-price" style="left:411.95510251644015px;top:237.72425296543042px"><div class="cld2-nodeIconWrap"><span>[object Object]</span></div><div class="cld2-nodeValue" style="color:hsl(46 86% 53%)">+1.79</div><div class="cld2-nodeLabel">Food Prices</div><div class="cld2-meter"><div class="cld2-meterFill" style="width:35%;background:hsl(46 86% 40%)"></div></div><div class="cld2-tooltip"><div style="font-weight:700;margin-bottom:4px">Food Price Index</div><div>Global food prices are elevated due to supply constraints.</div></div></div><div class="cld2-node" data-node-id="food-access" style="left:163.98000000000008px;top:365.4543047252474px"><div class="cld2-nodeIconWrap"><span>[object Object]</span></div><div class="cld2-nodeValue" style="color:hsl(86 86% 55%)">64.5%</div><div class="cld2-nodeLabel">Food Access</div><div class="cld2-meter"><div class="cld2-meterFill" style="width:65%;background:hsl(86 86% 43%)"></div></div><div class="cld2-tooltip"><div style="font-weight:700;margin-bottom:4px">Household Food Access</div><div>Percentage of population with adequate food access.</div></div></div><div class="cld2-node" data-node-id="conflict" style="left:696.02px;top:322.27185968051776px"><div class="cld2-nodeIconWrap"><span>[object Object]</span></div><div class="cld2-nodeValue" style="color:hsl(20 86% 51%)">High</div><div class="cld2-nodeLabel">Conflict</div><div class="cld2-meter"><div class="cld2-meterFill" style="width:15%;background:hsl(20 86% 38%)"></div></div><div class="cld2-tooltip"><div style="font-weight:700;margin-bottom:4px">Conflict Intensity</div><div>Regional conflicts disrupting supply chains.</div></div></div><div class="cld2-node" data-node-id="climate" style="left:657.5062821460631px;top:110px"><div class="cld2-nodeIconWrap"><span></span></div><div class="cld2-nodeValue" style="color:hsl(33 86% 52%)">Severe</div><div class="cld2-nodeLabel">Climate Shocks</div><div class="cld2-meter"><div class="cld2-meterFill" style="width:25%;background:hsl(33 86% 39%)"></div></div><div class="cld2-tooltip"><div style="font-weight:700;margin-bottom:4px">Climate Events</div><div>Extreme weather affecting agricultural output.</div></div></div><div class="cld2-node" data-node-id="trade" style="left:448.03782967044265px;top:450px"><div class="cld2-nodeIconWrap"><span></span></div><div class="cld2-nodeValue" style="color:hsl(73 86% 54%)">+12%</div><div class="cld2-nodeLabel">Trade Barriers</div><div class="cld2-meter"><div class="cld2-meterFill" style="width:55%;background:hsl(73 86% 42%)"></div></div><div class="cld2-tooltip"><div style="font-weight:700;margin-bottom:4px">Export Restrictions</div><div>Increased export barriers affecting global supply.</div></div></div><div class="cld2-legend"><div class="cld2-legendTitle">Groups</div><div class="cld2-legendRow"><div class="cld2-legendDot" style="background:#dc2626"></div><span>System Drivers</span></div><div class="cld2-legendRow"><div class="cld2-legendDot" style="background:#2563eb"></div><span>Outcomes</span></div></div><div class="cld2-controls"><button class="cld2-btn" data-cld2-polarity-toggle="true">Toggle +/-</button></div></div><div class="cld2-storyboard"><div class="cld2-storyboardTitle">Cascade Analysis</div><div class="cld2-storyboardFrame" data-frame-id="f1" data-frame-index="0"><div style="font-weight:600">Initial Conditions</div><div style="font-size:12px;color:var(--cld-muted)">Baseline system state before shocks.</div></div><div class="cld2-storyboardFrame" data-frame-id="f2" data-frame-index="1"><div style="font-weight:600">Climate Shock</div><div style="font-size:12px;color:var(--cld-muted)">Extreme weather reduces yields.</div></div><div class="cld2-storyboardFrame" data-frame-id="f3" data-frame-index="2"><div style="font-weight:600">Price Spike</div><div style="font-size:12px;color:var(--cld-muted)">Reduced supply drives prices up.</div></div><div class="cld2-storyboardFrame" data-frame-id="f4" data-frame-index="3"><div style="font-weight:600">Access Crisis</div><div style="font-size:12px;color:var(--cld-muted)">High prices reduce food access.</div></div><div class="cld2-storyboardNav"><button class="cld2-btn" data-cld2-storyboard-prev="true">← Prev</button><button class="cld2-btn" data-cld2-storyboard-next="true">Next →</button></div></div><script>
+(function(){
+  var root = document.getElementById('cld2-food-security-cascade-d');
+  if (!root) return;
+  
+  var enableDragging = true;
+  var nodes = root.querySelectorAll('.cld2-node');
+  
+  // Simple dragging implementation
+  if (enableDragging) {
+    nodes.forEach(function(node) {
+      var isDragging = false;
+      var startX, startY, initialLeft, initialTop;
+      
+      node.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialLeft = parseFloat(node.style.left) || 0;
+        initialTop = parseFloat(node.style.top) || 0;
+        node.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+      
+      document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+        node.style.left = (initialLeft + dx) + 'px';
+        node.style.top = (initialTop + dy) + 'px';
+      });
+      
+      document.addEventListener('mouseup', function() {
+        if (isDragging) {
+          isDragging = false;
+          node.style.cursor = 'grab';
+        }
+      });
+    });
+  }
+  
+  // Polarity toggle
+  var polarityBtn = root.querySelector('[data-cld2-polarity-toggle]');
+  if (polarityBtn) {
+    var showingPolarity = true;
+    polarityBtn.addEventListener('click', function() {
+      showingPolarity = !showingPolarity;
+      root.classList.toggle('cld2-hide-polarity', !showingPolarity);
+    });
+  }
+  
+  // Storyboard navigation
+  var storyboard = root.parentElement.querySelector('.cld2-storyboard');
+  if (storyboard) {
+    var frames = storyboard.querySelectorAll('.cld2-storyboardFrame');
+    var currentFrame = 0;
+    
+    function showFrame(idx) {
+      frames.forEach(function(f, i) {
+        f.classList.toggle('active', i === idx);
+      });
+    }
+    
+    showFrame(0);
+    
+    var prevBtn = storyboard.querySelector('[data-cld2-storyboard-prev]');
+    var nextBtn = storyboard.querySelector('[data-cld2-storyboard-next]');
+    
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        currentFrame = Math.max(0, currentFrame - 1);
+        showFrame(currentFrame);
+      });
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        currentFrame = Math.min(frames.length - 1, currentFrame + 1);
+        showFrame(currentFrame);
+      });
+    }
+  }
+})();
+          </script></figure>

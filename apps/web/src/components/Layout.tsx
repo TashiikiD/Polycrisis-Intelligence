@@ -36,6 +36,14 @@ export default function Layout({ children }: LayoutProps) {
               >
                 Pulse
               </Link>
+              <Link
+                to="/network"
+                className={`text-sm transition-colors ${
+                  isActive('/network') ? 'text-cyan-500' : 'text-text-secondary hover:text-cyan-500'
+                }`}
+              >
+                Network
+              </Link>
               <a
                 href="https://github.com/TashiikiD/Polycrisis-Intelligence"
                 target="_blank"

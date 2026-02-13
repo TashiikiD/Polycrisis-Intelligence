@@ -44,19 +44,11 @@ Aggregated from 18 live data sources:
 | **Geopolitical-Conflict** | OFAC, USGS, Polity5 | Sanctions, resource competition, governance |
 | **Biological-Health** | FAO, USDA | Food prices, supply volatility |
 
-### 🔌 Open API
+### 🚀 Coming Soon
 
-- **RESTful endpoints** for WSSI data, themes, and indicators
-- **Authentication** with API key management
-- **Rate limiting** with tiered access
-- **Auto-generated docs** via OpenAPI/Swagger
-
-### 🚨 Alerting
-
-- **Real-time monitoring** with threshold detection
-- **Multi-channel delivery:** Email, Slack, Discord, webhooks
-- **Weekly reports** with trend analysis
-- **Correlation spike detection**
+- **REST API** — Programmatic access to WSSI data (in development)
+- **Real-time Alerts** — Threshold monitoring and notifications
+- **Mobile App** — iOS/Android companion app
 
 ---
 
@@ -74,37 +66,14 @@ python -m http.server 8000
 # Open http://localhost:8000
 ```
 
-### API
+### React Version (WIP)
 
 ```bash
-cd wssi-api
-pip install -r requirements.txt
-uvicorn main:app --reload
-# API docs at http://localhost:8000/docs
+cd apps/web
+npm install
+npm run dev
+# Open http://localhost:5173
 ```
-
-### Docker
-
-```bash
-docker-compose up -d
-# Dashboard: http://localhost:8080
-# API: http://localhost:8000
-```
-
----
-
-## API Endpoints
-
-| Endpoint | Description |
-|----------|-------------|
-| `GET /wssi/current` | Latest WSSI score + theme breakdown |
-| `GET /wssi/history?days=30` | Historical time series |
-| `GET /themes` | All themes with current status |
-| `GET /themes/{id}` | Specific theme details |
-| `GET /indicators` | Raw indicator values |
-| `GET /health` | API health check |
-
-See [wssi-api/README.md](wssi-api/README.md) for full documentation.
 
 ---
 
@@ -114,9 +83,9 @@ See [wssi-api/README.md](wssi-api/README.md) for full documentation.
 |-------|------------|
 | **Data Ingestion** | Python, pandas, requests |
 | **Database** | SQLite (dev), PostgreSQL (prod) |
-| **API Backend** | FastAPI, Pydantic |
-| **Dashboard** | HTML5, CSS3, Chart.js, D3.js |
-| **Hosting** | GitHub Pages (dashboard), Render/Railway (API) |
+| **API Backend** | FastAPI, Pydantic (in development) |
+| **Dashboard** | HTML5, CSS3, Chart.js, D3.js, React |
+| **Hosting** | GitHub Pages (dashboard) |
 
 ---
 
@@ -124,15 +93,18 @@ See [wssi-api/README.md](wssi-api/README.md) for full documentation.
 
 ```
 Polycrisis-Intelligence/
-├── dashboard/              # V2 dual-mode dashboard
+├── dashboard/              # V2 dual-mode dashboard (production)
 │   ├── v2/                # Brief + Pulse modes
 │   ├── latest.html        # V1 dashboard (legacy)
 │   └── data/              # Sample data files
-├── wssi-api/              # FastAPI backend
+├── apps/web/              # React dashboard (WIP)
+├── wssi-api/              # FastAPI backend (in development)
 │   ├── main.py           # API server
 │   ├── alerting/         # Monitoring daemon
 │   └── config/           # Example configurations
 ├── legal/                 # Terms of Service, Privacy Policy
+├── LICENSE                # MIT License
+├── CONTRIBUTING.md        # Contribution guidelines
 └── index.html            # Landing page
 ```
 
@@ -140,7 +112,7 @@ Polycrisis-Intelligence/
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) (coming soon).
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md).
 
 Areas where help is needed:
 - Additional data source integrations

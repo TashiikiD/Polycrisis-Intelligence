@@ -37,6 +37,9 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 
+# API docs (hidden until deployed)
+wssi-api/README.md
+
 # Temporary files
 *.tmp
 *.temp

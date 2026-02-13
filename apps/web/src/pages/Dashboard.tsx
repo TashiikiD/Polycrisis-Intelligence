@@ -1,6 +1,33 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useWSSI } from '../hooks/useWSSI';
 
 export default function Dashboard() {
+  const { data: wssi, isLoading, error } = useWSSI();
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <div className="animate-pulse text-text-secondary">Loading WSSI data...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center text-red-500">
+          Error loading data. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
+  const watchCount = wssi?.theme_signals.filter(t => 
+    t.stress_level === 'watch' || t.stress_level === 'approaching' || t.stress_level === 'critical'
+  ).length || 0;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
@@ -40,19 +67,24 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-6 bg-surface border border-surface rounded-lg text-center">
           <div className="text-sm text-text-muted mb-1">WSSI Score</div>
-          <div className="text-3xl font-bold text-cyan-500">27.8</div>
-          <div className="text-sm text-amber-500">↑ +2.3</div>
+          <div className="text-3xl font-bold text-cyan-500">
+            {wssi?.wssi_score?.toFixed(1) || '--'}
+          </div>
+          <div className={`text-sm ${wssi?.trend === 'up' ? 'text-amber-500' : 'text-cyan-500'}`}>
+            {wssi?.trend === 'up' ? '↑' : wssi?.trend === 'down' ? '↓' : '→'} 
+            {wssi?.wssi_delta?.toFixed(1) || '--'}
+          </div>
         </div>
 
         <div className="p-6 bg-surface border border-surface rounded-lg text-center">
           <div className="text-sm text-text-muted mb-1">Active Themes</div>
-          <div className="text-3xl font-bold">11</div>
+          <div className="text-3xl font-bold">{wssi?.theme_signals?.length || '--'}</div>
           <div className="text-sm text-text-secondary">4 categories</div>
         </div>
 
         <div className="p-6 bg-surface border border-surface rounded-lg text-center">
           <div className="text-sm text-text-muted mb-1">Watch Level</div>
-          <div className="text-3xl font-bold text-amber-500">3</div>
+          <div className="text-3xl font-bold text-amber-500">{watchCount}</div>
           <div className="text-sm text-text-secondary">themes</div>
         </div>
 
@@ -62,6 +94,12 @@ export default function Dashboard() {
           <div className="text-sm text-text-secondary">indicators</div>
         </div>
       </div>
+
+      {wssi?.calculation_timestamp && (
+        <div className="text-center mt-8 text-sm text-text-muted">
+          Last updated: {new Date(wssi.calculation_timestamp).toLocaleString()}
+        </div>
+      )}
     </div>
-  )
+  );
 }

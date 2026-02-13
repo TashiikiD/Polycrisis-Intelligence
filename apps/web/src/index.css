@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-void: #0a0a0f;
+  --bg-surface: #12121a;
+  --bg-elevated: #1a1a24;
+  --accent-cyan: #00d4aa;
+  --accent-amber: #ff9f1c;
+  --accent-red: #ff3864;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8b8b9a;
+  --text-muted: #4a4a5a;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+}

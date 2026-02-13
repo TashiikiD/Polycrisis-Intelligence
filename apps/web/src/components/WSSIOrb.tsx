@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 interface OrbNode {
@@ -32,13 +32,15 @@ interface WSSIOrbProps {
 
 export default function WSSIOrb({
   data,
-  width = 800,
-  height = 600,
+  width: initialWidth = 800,
+  height: initialHeight = 600,
   className = '',
   onNodeClick
 }: WSSIOrbProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
+  const [dimensions, setDimensions] = useState({ width: initialWidth, height: initialHeight });
+  const [hoveredNode, setHoveredNode] = useState<OrbNode | null>(null);
 
   // Get color based on WSSI value
   const getCoreColor = (value: number): string => {
@@ -48,18 +50,45 @@ export default function WSSIOrb({
     return '#00d4aa'; // Stable - cyan
   };
 
+  // Update dimensions based on container size
   useEffect(() => {
     if (!containerRef.current) return;
+    
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setDimensions({
+          width: rect.width || initialWidth,
+          height: rect.height || initialHeight
+        });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    
+    // Use ResizeObserver for more accurate sizing
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    resizeObserver.observe(containerRef.current);
+
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      resizeObserver.disconnect();
+    };
+  }, [initialWidth, initialHeight]);
+
+  useEffect(() => {
+    if (!containerRef.current || dimensions.width === 0) return;
 
     // Scene setup
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x0a0a0f, 0.02);
 
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, dimensions.width / dimensions.height, 0.1, 1000);
     camera.position.z = 8;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
+    renderer.setSize(dimensions.width, dimensions.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
@@ -112,6 +141,7 @@ export default function WSSIOrb({
 
     // Theme nodes
     const nodes: THREE.Mesh[] = [];
+    const nodeMeshes: Map<string, THREE.Mesh> = new Map();
 
     data.nodes.forEach(node => {
       if (node.type === 'theme') {
@@ -129,6 +159,7 @@ export default function WSSIOrb({
         mesh.userData = node;
         scene.add(mesh);
         nodes.push(mesh);
+        nodeMeshes.set(node.id, mesh);
 
         // Connection to core
         const lineGeometry = new THREE.BufferGeometry().setFromPoints([
@@ -164,6 +195,37 @@ export default function WSSIOrb({
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
+    // Raycaster for mouse interaction
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(nodes);
+
+      if (intersects.length > 0) {
+        const node = intersects[0].object.userData as OrbNode;
+        setHoveredNode(node);
+        document.body.style.cursor = 'pointer';
+      } else {
+        setHoveredNode(null);
+        document.body.style.cursor = 'default';
+      }
+    };
+
+    const handleClick = () => {
+      if (hoveredNode && onNodeClick) {
+        onNodeClick(hoveredNode);
+      }
+    };
+
+    renderer.domElement.addEventListener('mousemove', handleMouseMove);
+    renderer.domElement.addEventListener('click', handleClick);
+
     // Animation
     let time = 0;
     const stressLevel = data.stress_level;
@@ -192,34 +254,37 @@ export default function WSSIOrb({
 
     animate();
 
-    // Handle resize
-    const handleResize = () => {
-      if (!containerRef.current) return;
-      const newWidth = containerRef.current.clientWidth;
-      const newHeight = containerRef.current.clientHeight;
-      camera.aspect = newWidth / newHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, newHeight);
-    };
-
-    window.addEventListener('resize', handleResize);
-
     // Cleanup
     return () => {
       cancelAnimationFrame(animationRef.current);
-      window.removeEventListener('resize', handleResize);
+      renderer.domElement.removeEventListener('mousemove', handleMouseMove);
+      renderer.domElement.removeEventListener('click', handleClick);
       renderer.dispose();
-      if (containerRef.current) {
+      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
         containerRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [data, width, height]);
+  }, [data, dimensions, hoveredNode, onNodeClick]);
 
   return (
     <div
       ref={containerRef}
-      className={`wssi-orb ${className}`}
-      style={{ width, height }}
-    />
+      className={`wssi-orb relative ${className}`}
+      style={{ width: '100%', height: '100%' }}
+    >
+      {hoveredNode && (
+        <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur border border-surface rounded-lg p-3 pointer-events-none z-10">
+          <div className="text-sm font-semibold" style={{ color: hoveredNode.color }}>
+            {hoveredNode.name}
+          </div>
+          <div className="text-xs text-text-secondary mt-1">
+            {hoveredNode.category}
+          </div>
+          <div className="text-xs text-text-muted mt-1">
+            Click for details
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

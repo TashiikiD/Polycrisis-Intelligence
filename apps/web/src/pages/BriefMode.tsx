@@ -1,4 +1,5 @@
-import { useWSSI } from '../hooks/useWSSI';
+import { useWSSI, useWSSIHistory } from '../hooks/useWSSI';
+import Sparkline from '../components/Sparkline';
 
 const categoryColors: Record<string, string> = {
   'Economic-Financial': 'text-blue-400',
@@ -21,8 +22,24 @@ const statusBgColors: Record<string, string> = {
   'critical': 'bg-red-500/20 text-red-500 border-red-500/50',
 };
 
+// Generate mock historical data for sparklines
+function generateSparklineData(currentValue: number, points: number = 20): number[] {
+  const data: number[] = [];
+  let value = currentValue * 0.8;
+  
+  for (let i = 0; i < points; i++) {
+    value += (Math.random() - 0.4) * 5;
+    value = Math.max(0, Math.min(100, value));
+    data.push(value);
+  }
+  
+  data[data.length - 1] = currentValue;
+  return data;
+}
+
 export default function BriefMode() {
   const { data: wssi, isLoading, error } = useWSSI();
+  const { data: history } = useWSSIHistory(30);
 
   if (isLoading) {
     return (
@@ -55,6 +72,14 @@ export default function BriefMode() {
     const order = { critical: 0, approaching: 1, watch: 2, stable: 3 };
     return (order[a.stress_level as keyof typeof order] || 4) - (order[b.stress_level as keyof typeof order] || 4);
   });
+
+  // Generate sparkline color based on trend
+  const getSparklineColor = (theme: any): string => {
+    if (theme.stress_level === 'critical') return '#ff3864';
+    if (theme.stress_level === 'approaching') return '#ff6b35';
+    if (theme.stress_level === 'watch') return '#ff9f1c';
+    return '#00d4aa';
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -113,8 +138,8 @@ export default function BriefMode() {
                 <tr className="border-b border-void">
                   <th className="px-6 py-3 text-left text-sm font-medium text-text-muted">Theme</th>
                   <th className="px-6 py-3 text-left text-sm font-medium text-text-muted">Category</th>
-                  <th className="px-6 py-3 text-right text-sm font-medium text-text-muted">Raw Value</th>
-                  <th className="px-6 py-3 text-right text-sm font-medium text-text-muted">Normalized</th>
+                  <th className="px-6 py-3 text-right text-sm font-medium text-text-muted">Score</th>
+                  <th className="px-6 py-3 text-center text-sm font-medium text-text-muted">Trend (30d)</th>
                   <th className="px-6 py-3 text-center text-sm font-medium text-text-muted">Status</th>
                 </tr>
               </thead>
@@ -128,13 +153,18 @@ export default function BriefMode() {
                     <td className={`px-6 py-4 text-sm ${categoryColors[theme.category] || 'text-text-secondary'}`}>
                       {theme.category}
                     </td>
-                    <td className="px-6 py-4 text-right font-mono text-sm">
-                      {theme.raw_value.toFixed(2)}
-                    </td>
                     <td className={`px-6 py-4 text-right font-mono text-sm ${
-                      theme.normalized_value > 0 ? 'text-amber-500' : 'text-cyan-500'
+                      theme.normalized_score > 50 ? 'text-amber-500' : 'text-cyan-500'
                     }`}>
-                      {theme.normalized_value > 0 ? '+' : ''}{theme.normalized_value.toFixed(2)}
+                      {theme.normalized_score.toFixed(1)}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Sparkline 
+                        data={generateSparklineData(theme.normalized_score)}
+                        width={100}
+                        height={24}
+                        color={getSparklineColor(theme)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${

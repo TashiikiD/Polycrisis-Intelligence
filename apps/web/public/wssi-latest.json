@@ -1,0 +1,125 @@
+{
+  "date": "2026-02-12",
+  "wssi_value": -1.4313,
+  "wssi_score": 27.8,
+  "wssi_delta": 3.0377,
+  "trend": "up",
+  "theme_signals": [
+    {
+      "theme_id": "1.1",
+      "theme_name": "Sovereign Debt Stress",
+      "category": "Economic-Financial",
+      "raw_value": 2.70232342550646,
+      "normalized_value": 0.8267724583172694,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": 1.240158687475904
+    },
+    {
+      "theme_id": "1.2",
+      "theme_name": "Corporate Debt Distress",
+      "category": "Economic-Financial",
+      "raw_value": -0.102442947318297,
+      "normalized_value": -0.05226855543794998,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": -0.07840283315692498
+    },
+    {
+      "theme_id": "2.1",
+      "theme_name": "Tipping Point Proximity",
+      "category": "Climate-Environmental",
+      "raw_value": 12.38,
+      "normalized_value": -0.6555112308443027,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": -0.9832668462664541
+    },
+    {
+      "theme_id": "2.2",
+      "theme_name": "Extreme Weather Events",
+      "category": "Climate-Environmental",
+      "raw_value": 0.0,
+      "normalized_value": -2.424520838118572,
+      "stress_level": "approaching",
+      "weight": 1.5,
+      "weighted_contribution": -3.636781257177858
+    },
+    {
+      "theme_id": "1.3",
+      "theme_name": "Banking System Stress",
+      "category": "Economic-Financial",
+      "raw_value": -0.639406003672426,
+      "normalized_value": -0.5973725936423574,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": -0.896058890463536
+    },
+    {
+      "theme_id": "1.4",
+      "theme_name": "Real Asset Bubbles/Busts",
+      "category": "Economic-Financial",
+      "raw_value": 64.53,
+      "normalized_value": 1.3734195899487212,
+      "stress_level": "watch",
+      "weight": 1.0,
+      "weighted_contribution": 1.3734195899487212
+    },
+    {
+      "theme_id": "2.4",
+      "theme_name": "Ecosystem Collapse",
+      "category": "Climate-Environmental",
+      "raw_value": 40.0,
+      "normalized_value": -0.6744509018084723,
+      "stress_level": "stable",
+      "weight": 1.0,
+      "weighted_contribution": -0.6744509018084723
+    },
+    {
+      "theme_id": "5.2",
+      "theme_name": "Food System Fragility",
+      "category": "Biological-Health",
+      "raw_value": 100.0,
+      "normalized_value": 1.793753714686856,
+      "stress_level": "watch",
+      "weight": 1.5,
+      "weighted_contribution": 2.690630572030284
+    },
+    {
+      "theme_id": "3.1",
+      "theme_name": "Interstate Conflict",
+      "category": "Geopolitical-Conflict",
+      "raw_value": 87.27,
+      "normalized_value": 0.0,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": 0.0
+    },
+    {
+      "theme_id": "3.3",
+      "theme_name": "Resource Competition",
+      "category": "Geopolitical-Conflict",
+      "raw_value": 25.05,
+      "normalized_value": -0.9624825441591258,
+      "stress_level": "stable",
+      "weight": 1.0,
+      "weighted_contribution": -0.9624825441591258
+    },
+    {
+      "theme_id": "3.4",
+      "theme_name": "Governance Decay",
+      "category": "Geopolitical-Conflict",
+      "raw_value": 50.39,
+      "normalized_value": 0.00686127966441786,
+      "stress_level": "stable",
+      "weight": 1.5,
+      "weighted_contribution": 0.01029191949662679
+    }
+  ],
+  "active_themes": 3,
+  "above_warning": 1,
+  "above_critical": 0,
+  "dominant_category": "Climate-Environmental",
+  "clusters": [],
+  "calculation_timestamp": "2026-02-12T17:01:47.461846"
+}

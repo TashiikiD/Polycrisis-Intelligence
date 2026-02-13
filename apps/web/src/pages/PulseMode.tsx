@@ -2,6 +2,43 @@ import { useEffect, useRef, useState } from 'react';
 import { useWSSI, useThemes } from '../hooks/useWSSI';
 import WSSIOrb from '../components/WSSIOrb';
 
+// Icon mapping for themes and categories
+const categoryIcons: Record<string, string> = {
+  'Economic-Financial': '💰',
+  'Climate-Environmental': '🌍',
+  'Geopolitical-Conflict': '⚔️',
+  'Technological': '🤖',
+  'Biological-Health': '🦠',
+  'Cross-Cutting': '🔗',
+};
+
+const themeIcons: Record<string, string> = {
+  'Sovereign Debt Stress': '💸',
+  'Corporate Debt Distress': '🏢',
+  'Banking System Stress': '🏦',
+  'Real Asset Bubbles/Busts': '🏠',
+  'Tipping Point Proximity': '🌡️',
+  'Extreme Weather Events': '⛈️',
+  'Carbon Cycle Disruption': '🌿',
+  'Ecosystem Collapse': '🌲',
+  'Interstate Conflict': '⚔️',
+  'Intrastate Violence': '🔥',
+  'Resource Competition': '⛽',
+  'Governance Decay': '🏛️',
+  'Cyber Systemic Risk': '💻',
+  'Critical Infra Failure': '⚡',
+  'AI/Compute Concentration': '🧠',
+  'Pandemic/Pathogen Risk': '😷',
+  'Food System Fragility': '🌾',
+  'Cascade Interactions': '🔀',
+  'Correlation Clusters': '📊',
+  'Systemic Resilience': '🛡️',
+};
+
+function getIconForNode(name: string, category: string): string {
+  return themeIcons[name] || categoryIcons[category] || '●';
+}
+
 // Generate 3D node positions for themes arranged in a sphere
 function generateThemeNodes(themes: any[]) {
   const categoryColors: Record<string, string> = {
@@ -44,6 +81,8 @@ export default function PulseMode() {
   const { data: wssi, isLoading: wssiLoading } = useWSSI();
   const { data: themes, isLoading: themesLoading } = useThemes();
   const [use3D, setUse3D] = useState(true);
+  const [zoom2D, setZoom2D] = useState(1);
+  const [pan2D, setPan2D] = useState({ x: 0, y: 0 });
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const isLoading = wssiLoading || themesLoading;
@@ -75,16 +114,25 @@ export default function PulseMode() {
 
     let animationId: number;
     let time = 0;
+    let running2D = true;
 
     const animate = () => {
+      if (!running2D) return;
+      animationId = requestAnimationFrame(animate);
       time += 0.02;
       const width = canvas.offsetWidth;
       const height = canvas.offsetHeight;
-      const centerX = width / 2;
-      const centerY = height / 2;
+      const centerX = width / 2 + pan2D.x;
+      const centerY = height / 2 + pan2D.y;
 
+      ctx.save();
       ctx.fillStyle = '#0a0a0f';
       ctx.fillRect(0, 0, width, height);
+
+      // Apply zoom transform
+      ctx.translate(centerX, centerY);
+      ctx.scale(zoom2D, zoom2D);
+      ctx.translate(-centerX, -centerY);
 
       const score = wssi?.wssi_score || 27.8;
       const baseRadius = 40 + (score / 100) * 40;
@@ -113,36 +161,71 @@ export default function PulseMode() {
 
       const themeCount = themes?.length || 11;
       for (let i = 0; i < themeCount; i++) {
+        const theme = themes?.[i];
         const angle = (i / themeCount) * Math.PI * 2 + time * 0.3;
-        const orbitRadius = 140 + Math.sin(time + i * 0.5) * 10;
+        const orbitRadius = (140 + Math.sin(time + i * 0.5) * 10) * zoom2D;
         const x = centerX + Math.cos(angle) * orbitRadius;
         const y = centerY + Math.sin(angle) * orbitRadius;
 
+        // Draw theme node circle
         ctx.beginPath();
-        ctx.arc(x, y, 6, 0, Math.PI * 2);
-        ctx.fillStyle = '#4a4a5a';
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = theme?.color || '#4a4a5a';
         ctx.fill();
+
+        // Draw icon
+        const icon = getIconForNode(theme?.theme_name || '', theme?.category_name || '');
+        ctx.font = '14px serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(icon, x, y);
       }
+
+      ctx.restore();
 
       ctx.font = 'bold 48px system-ui';
       ctx.fillStyle = '#f0f0f5';
       ctx.textAlign = 'center';
-      ctx.fillText(score.toFixed(1), centerX, centerY + 200);
+      ctx.fillText(score.toFixed(1), width / 2, height / 2 + 200);
 
       ctx.font = '16px system-ui';
       ctx.fillStyle = '#8b8b9a';
-      ctx.fillText('WSSI Score', centerX, centerY + 230);
-
-      animationId = requestAnimationFrame(animate);
+      ctx.fillText('WSSI Score', width / 2, height / 2 + 230);
     };
+
+    // Mouse wheel zoom handler
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      setZoom2D(prev => Math.max(0.5, Math.min(3, prev * delta)));
+    };
+
+    canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Pause animation when tab hidden
+    const onVis2D = () => {
+      if (document.hidden) {
+        running2D = false;
+        cancelAnimationFrame(animationId);
+      } else {
+        if (!running2D) {
+          running2D = true;
+          animate();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', onVis2D);
 
     animate();
 
     return () => {
+      document.removeEventListener('visibilitychange', onVis2D);
+      running2D = false;
       window.removeEventListener('resize', resize);
+      canvas.removeEventListener('wheel', handleWheel);
       cancelAnimationFrame(animationId);
     };
-  }, [wssi, themes, use3D]);
+  }, [wssi, themes, use3D, zoom2D, pan2D]);
 
   if (isLoading) {
     return (

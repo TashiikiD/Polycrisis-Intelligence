@@ -4,19 +4,19 @@ import CrisisNetworkGraph from '../components/CrisisNetworkGraph';
 // Generate mock correlation data between themes
 function generateNetworkData(themes: any[]) {
   const nodes = themes.map(theme => ({
-    id: theme.theme_id,
-    name: theme.theme_name,
-    category: theme.category_name || 'Unknown',
+    id: theme.theme_id || theme.id,
+    name: theme.theme_name || theme.name,
+    category: theme.category_name || theme.category || 'Unknown',
     priority: theme.stress_level === 'critical' ? 'P0' :
               theme.stress_level === 'approaching' ? 'P1' :
               theme.stress_level === 'watch' ? 'P2' : 'P3',
-    value: (theme.normalized_score || 0) / 100,
+    value: ((theme.normalized_score || theme.normalized_value || 0)) / 100,
     stress_level: theme.stress_level,
-    color: theme.category_name === 'Economic-Financial' ? '#ff3864' :
-           theme.category_name === 'Climate-Environmental' ? '#00d4aa' :
-           theme.category_name === 'Geopolitical-Conflict' ? '#ff9f1c' :
-           theme.category_name === 'Technological' ? '#3b82f6' :
-           theme.category_name === 'Biological-Health' ? '#a855f7' : '#6b7280'
+    color: (theme.category_name || theme.category) === 'Economic-Financial' ? '#ff3864' :
+           (theme.category_name || theme.category) === 'Climate-Environmental' ? '#00d4aa' :
+           (theme.category_name || theme.category) === 'Geopolitical-Conflict' ? '#ff9f1c' :
+           (theme.category_name || theme.category) === 'Technological' ? '#3b82f6' :
+           (theme.category_name || theme.category) === 'Biological-Health' ? '#a855f7' : '#6b7280'
   }));
 
   // Generate links based on category relationships

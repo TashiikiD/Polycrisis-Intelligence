@@ -7,10 +7,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation()
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(path + '/')
 
   return (
-    <div className="min-h-screen bg-void text-text-primary">
+    <div className="min-h-screen flex flex-col bg-void text-text-primary">
       <header className="border-b border-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center justify-between h-16">
@@ -57,7 +58,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
 
       <footer className="border-t border-surface mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

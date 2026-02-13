@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fragility Brief | 2026-02-12 09:26</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --danger: #f85149;
+            --warning: #d29922;
+            --success: #3fb950;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .wssi-gauge {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wssi-score {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .wssi-label {
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .wssi-trend {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .trend-up {
+            background: var(--danger);
+            color: white;
+        }
+
+        .trend-down {
+            background: var(--success);
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .badge {
+            background: var(--border);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        .badge-stable { background: var(--success); color: white; }
+        .badge-watch { background: var(--warning); color: black; }
+        .badge-approaching { background: #ff9f43; color: black; }
+        .badge-critical { background: var(--danger); color: white; }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            font-family: monospace;
+            color: var(--accent);
+        }
+
+        .section-title {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 20px 0 10px 0;
+        }
+
+        .dominant-category {
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .data-source {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .new-indicator {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>The Fragility Brief</h1>
+            <div class="meta">Weighted Synchronous Stress Index (WSSI) Dashboard | 2026-02-12 09:26 PST</div>
+        </header>
+
+        <div class="wssi-gauge">
+            <div class="wssi-score">13.7</div>
+            <div class="wssi-label">WSSI Score (0-100)</div>
+            <div class="wssi-trend trend-up">Trend: Up (+1.7 from previous)</div>
+            <div style="margin-top: 15px; color: var(--text-muted);">
+                Raw WSSI: -2.76 | Dominant Category: <span class="dominant-category">Climate-Environmental</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Economic-Financial</span>
+                    <span class="badge">4 Themes</span>
+                </div>
+                <ul>
+                    <li>
+                        <span>Sovereign Debt Stress</span>
+                        <span>
+                            <span class="value">2.70</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>Corporate Debt Distress</span>
+                        <span>
+                            <span class="value">-0.10</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>Banking System Stress</span>
+                        <span>
+                            <span class="value">-0.64</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>Real Asset Bubbles/Busts</span>
+                        <span>
+                            <span class="value">64.53</span>
+                            <span class="badge badge-watch">watch</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Climate-Environmental</span>
+                    <span class="badge">3 Themes</span>
+                </div>
+                <ul>
+                    <li>
+                        <span>Extreme Weather Events</span>
+                        <span>
+                            <span class="value">0.00</span>
+                            <span class="badge badge-approaching">approaching</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>Tipping Point Proximity</span>
+                        <span>
+                            <span class="value">12.38</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li class="new-indicator">
+                        <span>Ecosystem Collapse (Pollinators)</span>
+                        <span>
+                            <span class="value">1.4M</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li class="new-indicator">
+                        <span>Fisheries Sustainability (US/NOAA)</span>
+                        <span>
+                            <span class="value">20.5</span>
+                            <span class="badge badge-stable">stable</span>
+                        </span>
+                    </li>
+                    <li class="new-indicator">
+                        <span>SDG Climate/Biodiversity</span>
+                        <span>
+                            <span class="value">23</span>
+                            <span class="badge badge-stable">active</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">System Status</span>
+                    <span class="badge">Live</span>
+                </div>
+                <ul>
+                    <li>
+                        <span>Active Themes</span>
+                        <span class="value">2</span>
+                    </li>
+                    <li>
+                        <span>Above Warning</span>
+                        <span class="value">1</span>
+                    </li>
+                    <li>
+                        <span>Above Critical</span>
+                        <span class="value">0</span>
+                    </li>
+                    <li>
+                        <span>Last Updated</span>
+                        <span class="value">09:26 PST</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">New Data Sources</span>
+                    <span class="badge">Biodiversity</span>
+                </div>
+                <div style="font-size: 0.9rem; line-height: 1.5;">
+                    <p><strong>GBIF Pollinators</strong></p>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>1.4M occurrence records (2024)</li>
+                        <li>Bees, butterflies, hoverflies</li>
+                    </ul>
+                    
+                    <p><strong>NOAA StockSmart</strong></p>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>91 US stocks assessed</li>
+                        <li>5 overfished (8.3%)</li>
+                    </ul>
+                    
+                    <p><strong>UN SDG Data</strong></p>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>181 observations from 4 goals</li>
+                        <li>Climate, biodiversity, hunger data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-source">
+            <strong>Data Sources:</strong> FRED (economic), NOAA (climate/fisheries), GDACS (disasters), 
+            BIS (financial), NASA GISS (temperature), Scripps (CO2), GBIF (biodiversity), 
+            ICES (European fisheries), and 12+ additional feeds. <br>
+            <strong>Methodology:</strong> WSSI uses MAD-based robust normalization with theme weighting. 
+            See documentation for calculation details.
+        </div>
+    </div>
+</body>
+
+</html>

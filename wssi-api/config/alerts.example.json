@@ -1,0 +1,40 @@
+{
+  "thresholds": {
+    "wssi_critical": 2.0,
+    "wssi_approaching": 1.5,
+    "wssi_watch": 1.0,
+    "theme_approaching": 2.0,
+    "theme_watch": 1.0
+  },
+  "channels": {
+    "email": {
+      "enabled": false,
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "alerts@yourdomain.com",
+      "password": "${EMAIL_PASSWORD}",
+      "to": ["admin@yourdomain.com"]
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "discord": {
+      "enabled": false,
+      "webhook_url": "https://discord.com/api/webhooks/YOUR/WEBHOOK/TOKEN"
+    }
+  },
+  "reporting": {
+    "weekly_report_day": "monday",
+    "weekly_report_time": "09:00",
+    "include_charts": true
+  },
+  "correlation": {
+    "enabled": true,
+    "spike_threshold": 0.7,
+    "lookback_days": 30
+  }
+}

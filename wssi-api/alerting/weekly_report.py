@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""
+WSSI Weekly Report Generator
+Generates and sends weekly WSSI delta reports.
+"""
+
+import json
+import sqlite3
+import smtplib
+import requests
+from datetime import datetime, timedelta
+from pathlib import Path
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from typing import Dict, List
+
+SCRIPT_DIR = Path(__file__).parent
+CONFIG_DIR = SCRIPT_DIR.parent / "config"
+DATA_DIR = SCRIPT_DIR.parent / "data"
+ALERT_DB = DATA_DIR / "alerts.db"
+
+def load_config() -> Dict:
+    """Load alert configuration."""
+    with open(CONFIG_DIR / "alerts.json") as f:
+        return json.load(f)
+
+def load_wssi_data() -> Dict:
+    """Load current WSSI data."""
+    with open(DATA_DIR / "wssi-latest.json") as f:
+        return json.load(f)
+
+def get_biggest_movers(wssi_data: Dict) -> List[Dict]:
+    """Identify themes with largest changes."""
+    # In production, compare with previous week from database
+    # For now, return all approaching/watch themes sorted by value
+    themes = wssi_data.get('theme_signals', [])
+    
+    movers = []
+    for theme in themes:
+        if theme['stress_level'] in ['watch', 'approaching', 'critical']:
+            movers.append({
+                'name': theme['theme_name'],
+                'status': theme['stress_level'],
+                'value': theme['normalized_value'],
+                'category': theme['category']
+            })
+    
+    return sorted(movers, key=lambda x: abs(x['value']), reverse=True)[:5]
+
+def get_alert_summary() -> Dict:
+    """Get alert summary from the past week."""
+    conn = sqlite3.connect(ALERT_DB)
+    cursor = conn.cursor()
+    
+    week_ago = (datetime.utcnow() - timedelta(days=7)).isoformat()
+    
+    cursor.execute('''
+        SELECT severity, COUNT(*) as count 
+        FROM alert_history 
+        WHERE sent_at > ?
+        GROUP BY severity
+    ''', (week_ago,))
+    
+    counts = {row[0]: row[1] for row in cursor.fetchall()}
+    conn.close()
+    
+    return {
+        'critical': counts.get('critical', 0),
+        'approaching': counts.get('approaching', 0),
+        'watch': counts.get('watch', 0),
+        'total': sum(counts.values())
+    }
+
+def generate_report(wssi_data: Dict) -> str:
+    """Generate HTML weekly report."""
+    movers = get_biggest_movers(wssi_data)
+    alerts = get_alert_summary()
+    
+    trend_icon = "↑" if wssi_data.get('trend') == 'up' else "↓" if wssi_data.get('trend') == 'down' else "→"
+    
+    html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {{ font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; }}
+        h1 {{ color: #1a1a2e; border-bottom: 2px solid #00d4aa; padding-bottom: 10px; }}
+        h2 {{ color: #16213e; margin-top: 30px; }}
+        .score {{ font-size: 48px; font-weight: bold; color: {'#ff3864' if abs(wssi_data['wssi_value']) > 1 else '#00d4aa'}; }}
+        .score-label {{ font-size: 14px; color: #666; }}
+        .metric {{ background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0; }}
+        .movers {{ margin: 20px 0; }}
+        .mover {{ padding: 10px; border-left: 4px solid #ddd; margin: 5px 0; }}
+        .mover.critical {{ border-color: #ff3864; }}
+        .mover.approaching {{ border-color: #ff9f1c; }}
+        .mover.watch {{ border-color: #00d4aa; }}
+        .alerts {{ background: #fff3cd; padding: 15px; border-radius: 8px; }}
+        .footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }}
+    </style>
+</head>
+<body>
+    <h1>WSSI Weekly Report</h1>
+    <p>Week of {datetime.utcnow().strftime('%B %d, %Y')}</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <div class="score">{wssi_data['wssi_value']:.2f}</div>
+        <div class="score-label">WSSI Score {trend_icon}</div>
+    </div>
+    
+    <div class="metric">
+        <strong>Stress Score:</strong> {wssi_data['wssi_score']:.1f}/100<br>
+        <strong>Active Themes:</strong> {wssi_data['active_themes']}<br>
+        <strong>Above Warning:</strong> {wssi_data['above_warning']}
+    </div>
+    
+    <h2>📊 Biggest Movers</h2>
+    <div class="movers">
+"""
+    
+    for mover in movers:
+        html += f'''
+        <div class="mover {mover['status']}">
+            <strong>{mover['name']}</strong> ({mover['category']})<br>
+            Status: {mover['status'].upper()} | Value: {mover['value']:+.2f}
+        </div>
+'''
+    
+    if not movers:
+        html += '<p>No significant changes this week. All systems stable.</p>'
+    
+    html += f"""
+    </div>
+    
+    <h2>🚨 Alert Summary</h2>
+    <div class="alerts">
+        <strong>{alerts['total']} alerts</strong> triggered this week:<br>
+        • Critical: {alerts['critical']}<br>
+        • Approaching: {alerts['approaching']}<br>
+        • Watch: {alerts['watch']}
+    </div>
+    
+    <div class="footer">
+        <p>Generated by WSSI Alerting System</p>
+        <p><a href="https://dashboard.polycrisis.io">View Dashboard →</a></p>
+    </div>
+</body>
+</html>
+"""
+    
+    return html
+
+def send_report(report_html: str, config: Dict):
+    """Send weekly report via email."""
+    email_config = config.get('channels', {}).get('email', {})
+    if not email_config.get('enabled'):
+        print("Email not enabled, skipping report")
+        return
+    
+    subject = f"WSSI Weekly Report - {datetime.utcnow().strftime('%B %d, %Y')}"
+    
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = subject
+    msg['From'] = email_config.get('username', 'reports@wssi.io')
+    msg['To'] = ', '.join(email_config.get('to', []))
+    
+    # Plain text version
+    text_body = f"WSSI Weekly Report\n\nView the full report at https://dashboard.polycrisis.io"
+    msg.attach(MIMEText(text_body, 'plain'))
+    msg.attach(MIMEText(report_html, 'html'))
+    
+    try:
+        with smtplib.SMTP(email_config['smtp_host'], email_config['smtp_port']) as server:
+            server.starttls()
+            server.login(email_config['username'], email_config['password'])
+            server.send_message(msg)
+        print(f"Weekly report sent to {len(email_config.get('to', []))} recipients")
+    except Exception as e:
+        print(f"Failed to send report: {e}")
+
+def main():
+    config = load_config()
+    wssi_data = load_wssi_data()
+    
+    report = generate_report(wssi_data)
+    send_report(report, config)
+    
+    # Save report to file
+    reports_dir = DATA_DIR / "reports"
+    reports_dir.mkdir(exist_ok=True)
+    
+    report_file = reports_dir / f"weekly-report-{datetime.utcnow().strftime('%Y-%m-%d')}.html"
+    with open(report_file, 'w') as f:
+        f.write(report)
+    
+    print(f"Report saved to {report_file}")
+
+if __name__ == "__main__":
+    main()

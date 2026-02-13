@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "fetched_at": "2026-02-11T12:26:30.089074",
+    "source": "reliefweb",
+    "params": {
+      "query": null
+    },
+    "status": "error"
+  },
+  "data": [],
+  "error": "Failed to fetch from ReliefWeb"
+}

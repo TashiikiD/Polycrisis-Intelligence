@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSSI Pulse | Polycrisis Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/variables.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--bg-void);
+        }
+
+        /* Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: var(--space-md) var(--space-xl);
+            background: linear-gradient(to bottom, var(--bg-void) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .mode-switch {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            transition: var(--transition-base);
+        }
+
+        .mode-switch:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
+        }
+
+        /* Main Container */
+        .main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 80px var(--space-xl) var(--space-xl);
+        }
+
+        /* Hero Section with Living Orb */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            position: relative;
+        }
+
+        .orb-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #livingOrb {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .orb-data {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .orb-value {
+            font-family: var(--font-mono);
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 0 40px currentColor;
+            transition: color 0.5s ease;
+        }
+
+        .orb-value.negative {
+            color: var(--accent-cyan);
+        }
+
+        .orb-value.positive {
+            color: var(--accent-red);
+        }
+
+        .orb-label {
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: var(--space-md);
+        }
+
+        .orb-status {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-md);
+            display: inline-block;
+        }
+
+        /* Theme Nodes */
+        .theme-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .theme-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.625rem;
+            text-align: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid;
+            background: var(--bg-surface);
+        }
+
+        .theme-node:hover {
+            transform: scale(1.2);
+            z-index: 20;
+        }
+
+        .theme-node-icon {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .theme-node-value {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .theme-node.stable {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan-dim);
+        }
+
+        .theme-node.watch {
+            border-color: var(--accent-amber);
+            box-shadow: 0 0 20px var(--accent-amber-dim);
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        .theme-node.approaching {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 30px var(--accent-red-dim);
+            animation: nodePulse 1s ease-in-out infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { box-shadow: 0 0 20px currentColor; }
+            50% { box-shadow: 0 0 40px currentColor; }
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: fixed;
+            right: -400px;
+            top: 80px;
+            width: 380px;
+            bottom: var(--space-xl);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+            overflow-y: auto;
+        }
+
+        .info-panel.active {
+            right: var(--space-xl);
+        }
+
+        .info-close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .info-close:hover {
+            color: var(--text-primary);
+        }
+
+        .info-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            padding-right: 2rem;
+        }
+
+        .info-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-lg);
+        }
+
+        .info-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .info-metric-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .info-metric-value {
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        /* Correlation Matrix */
+        .correlation-section {
+            margin-top: var(--space-2xl);
+            padding: var(--space-xl);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .correlation-grid {
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            gap: 2px;
+        }
+
+        .correlation-cell {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .correlation-cell:hover {
+            transform: scale(1.5);
+            z-index: 10;
+        }
+
+        /* Flash Points */
+        .flash-points {
+            margin-top: var(--space-xl);
+            padding: var(--space-xl);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .flash-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .flash-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--bg-elevated);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .flash-item.high {
+            border-left-color: var(--accent-red);
+        }
+
+        .flash-themes {
+            font-weight: 600;
+        }
+
+        .flash-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 960px) {
+            .orb-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .orb-value {
+                font-size: 3rem;
+            }
+
+            .theme-node {
+                width: 50px;
+                height: 50px;
+            }
+
+            .info-panel {
+                width: 100%;
+                right: -100%;
+                top: 60px;
+                border-radius: 0;
+            }
+
+            .info-panel.active {
+                right: 0;
+            }
+
+            .correlation-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <header class="header">
+        <div class="brand">
+            <span class="brand-logo">🔮</span>
+            <div class="brand-text">
+                <span class="brand-title">WSSI Pulse</span>
+                <span class="brand-subtitle">Living System Visualization</span>
+            </div>
+        </div>
+        <a href="../brief/index.html" class="mode-switch">
+            📊 Switch to Brief
+        </a>
+    </header>
+
+    <main class="main">
+        <!-- Hero with Living Orb -->
+        <section class="hero">
+            <div class="orb-container">
+                <canvas id="livingOrb" width="400" height="400"></canvas>
+                
+                <div class="orb-data">
+                    <div class="orb-value negative" id="orbValue">--</div>
+                    <div class="orb-label">WSSI</div>
+                    <div class="orb-status" id="orbStatus">--</div>
+                </div>
+
+                <div class="theme-orbit" id="themeOrbit"></div>
+            </div>
+        </section>
+
+        <!-- Info Panel -->
+        <aside class="info-panel" id="infoPanel">
+            <button class="info-close" onclick="closePanel()">×</button>
+            <div class="info-title" id="panelTitle">Select a theme</div>
+            <div class="info-category" id="panelCategory">--</div>
+            
+            <div class="info-metric">
+                <span class="info-metric-label">Raw Value</span>
+                <span class="info-metric-value" id="panelRaw">--</span>
+            </div>
+            
+            <div class="info-metric">
+                <span class="info-metric-label">Normalized</span>
+                <span class="info-metric-value" id="panelNorm">--</span>
+            </div>
+            
+            <div class="info-metric">
+                <span class="info-metric-label">Status</span>
+                <span class="info-metric-value" id="panelStatus">--</span>
+            </div>
+            
+            <div class="info-metric">
+                <span class="info-metric-label">Weight</span>
+                <span class="info-metric-value" id="panelWeight">--</span>
+            </div>
+            
+            <div class="info-metric">
+                <span class="info-metric-label">Contribution</span>
+                <span class="info-metric-value" id="panelContrib">--</span>
+            </div>
+        </aside>
+
+        <!-- Correlation Matrix -->
+        <section class="correlation-section">
+            <h2 class="section-title">🔗 Theme Correlations</h2>
+            <div class="correlation-grid" id="correlationGrid">
+                <!-- Generated by JS -->
+            </div>
+        </section>
+
+        <!-- Flash Points -->
+        <section class="flash-points">
+            <h2 class="section-title">⚡ Flash Points</h2>
+            <div class="flash-list" id="flashList">
+                <!-- Generated by JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let wssiData = null;
+        let orbAnimation = null;
+
+        // Theme icons mapping
+        const themeIcons = {
+            'Sovereign Debt Stress': '💰',
+            'Corporate Debt Distress': '🏭',
+            'Banking System Stress': '🏦',
+            'Real Asset Bubbles/Busts': '🏠',
+            'Tipping Point Proximity': '🌡️',
+            'Extreme Weather Events': '⛈️',
+            'Ecosystem Collapse': '🌿',
+            'Interstate Conflict': '⚔️',
+            'Resource Competition': '⛽',
+            'Governance Decay': '🏛️',
+            'Food System Fragility': '🌾'
+        };
+
+        // Load data
+        async function loadData() {
+            try {
+                const response = await fetch('../../data/wssi-latest.json');
+                wssiData = await response.json();
+                initializePulse();
+            } catch (e) {
+                console.error('Failed to load:', e);
+            }
+        }
+
+        function initializePulse() {
+            updateOrbDisplay();
+            initLivingOrb();
+            renderThemeNodes();
+            renderCorrelationMatrix();
+            renderFlashPoints();
+        }
+
+        function updateOrbDisplay() {
+            const value = wssiData.wssi_value;
+            const valueEl = document.getElementById('orbValue');
+            const statusEl = document.getElementById('orbStatus');
+            
+            valueEl.textContent = value.toFixed(2);
+            valueEl.className = value < 0 ? 'orb-value negative' : 'orb-value positive';
+            
+            // Determine status text
+            let statusText = 'Stable';
+            let statusClass = 'stable';
+            
+            const watchCount = wssiData.theme_signals.filter(s => s.stress_level === 'watch').length;
+            const approachingCount = wssiData.theme_signals.filter(s => s.stress_level === 'approaching').length;
+            
+            if (approachingCount > 0) {
+                statusText = 'Approaching Critical';
+                statusClass = 'approaching';
+            } else if (watchCount > 0) {
+                statusText = 'Watch';
+                statusClass = 'watch';
+            }
+            
+            statusEl.textContent = statusText;
+            statusEl.className = 'orb-status status-' + statusClass;
+        }
+
+        // Living Orb Canvas Animation
+        function initLivingOrb() {
+            const canvas = document.getElementById('livingOrb');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            let time = 0;
+            const particles = [];
+            
+            // Create particles
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    angle: Math.random() * Math.PI * 2,
+                    radius: 80 + Math.random() * 60,
+                    speed: 0.002 + Math.random() * 0.003,
+                    size: 1 + Math.random() * 3,
+                    opacity: 0.3 + Math.random() * 0.5
+                });
+            }
+            
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const value = wssiData.wssi_value;
+                const stressLevel = Math.abs(value);
+                
+                // Color based on stress
+                let hue = 160; // Cyan
+                if (stressLevel > 1) hue = 30; // Amber
+                if (stressLevel > 2) hue = 350; // Red
+                
+                // Draw outer glow
+                const gradient = ctx.createRadialGradient(centerX, centerY, 50, centerX, centerY, 180);
+                gradient.addColorStop(0, `hsla(${hue}, 70%, 50%, 0.3)`);
+                gradient.addColorStop(0.5, `hsla(${hue}, 70%, 40%, 0.1)`);
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw pulsing rings
+                const ringCount = 3;
+                for (let i = 0; i < ringCount; i++) {
+                    const ringPhase = time * 0.001 + (i * Math.PI * 2 / ringCount);
+                    const ringRadius = 100 + Math.sin(ringPhase) * 20;
+                    const ringOpacity = 0.3 + Math.sin(ringPhase) * 0.2;
+                    
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, ringRadius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `hsla(${hue}, 70%, 50%, ${ringOpacity})`;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+                
+                // Draw particles
+                particles.forEach(p => {
+                    p.angle += p.speed;
+                    const x = centerX + Math.cos(p.angle) * p.radius;
+                    const y = centerY + Math.sin(p.angle) * p.radius * 0.8;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${hue}, 70%, 60%, ${p.opacity})`;
+                    ctx.fill();
+                });
+                
+                // Draw center core
+                const corePulse = 1 + Math.sin(time * 0.003) * 0.1;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 60 * corePulse, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${hue}, 70%, 40%, 0.2)`;
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 40 * corePulse, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.3)`;
+                ctx.fill();
+                
+                time += 16;
+                orbAnimation = requestAnimationFrame(draw);
+            }
+            
+            draw();
+        }
+
+        // Render orbiting theme nodes
+        function renderThemeNodes() {
+            const container = document.getElementById('themeOrbit');
+            const radius = 160;
+            
+            wssiData.theme_signals.forEach((signal, index) => {
+                const angle = (index / wssiData.theme_signals.length) * Math.PI * 2 - Math.PI / 2;
+                const x = 50 + (Math.cos(angle) * radius / 400 * 100);
+                const y = 50 + (Math.sin(angle) * radius / 400 * 100);
+                
+                const node = document.createElement('div');
+                node.className = `theme-node ${signal.stress_level}`;
+                node.style.left = `${x}%`;
+                node.style.top = `${y}%`;
+                node.style.transform = 'translate(-50%, -50%)';
+                node.innerHTML = `
+                    <span class="theme-node-icon">${themeIcons[signal.theme_name] || '●'}</span>
+                    <span class="theme-node-value">${signal.normalized_value.toFixed(1)}</span>
+                `;
+                
+                node.addEventListener('click', () => showThemeDetails(signal));
+                container.appendChild(node);
+            });
+        }
+
+        function showThemeDetails(signal) {
+            document.getElementById('panelTitle').textContent = signal.theme_name;
+            document.getElementById('panelCategory').textContent = signal.category;
+            document.getElementById('panelRaw').textContent = signal.raw_value.toFixed(2);
+            document.getElementById('panelNorm').textContent = (signal.normalized_value > 0 ? '+' : '') + signal.normalized_value.toFixed(2);
+            document.getElementById('panelStatus').textContent = signal.stress_level;
+            document.getElementById('panelWeight').textContent = signal.weight + 'x';
+            document.getElementById('panelContrib').textContent = (signal.weighted_contribution > 0 ? '+' : '') + signal.weighted_contribution.toFixed(2);
+            
+            document.getElementById('infoPanel').classList.add('active');
+        }
+
+        function closePanel() {
+            document.getElementById('infoPanel').classList.remove('active');
+        }
+
+        // Correlation matrix (simulated)
+        function renderCorrelationMatrix() {
+            const grid = document.getElementById('correlationGrid');
+            const themes = wssiData.theme_signals;
+            
+            themes.forEach((t1, i) => {
+                themes.forEach((t2, j) => {
+                    const cell = document.createElement('div');
+                    cell.className = 'correlation-cell';
+                    
+                    // Simulate correlation based on category similarity
+                    let correlation = 0;
+                    if (i === j) {
+                        correlation = 1;
+                    } else if (t1.category === t2.category) {
+                        correlation = 0.3 + Math.random() * 0.4;
+                    } else {
+                        correlation = (Math.random() - 0.5) * 0.4;
+                    }
+                    
+                    // Color based on correlation
+                    let hue, sat, light;
+                    if (correlation > 0) {
+                        hue = 160; // Cyan for positive
+                        sat = 70;
+                        light = 30 + correlation * 40;
+                    } else {
+                        hue = 350; // Red for negative
+                        sat = 70;
+                        light = 30 + Math.abs(correlation) * 40;
+                    }
+                    
+                    cell.style.background = `hsla(${hue}, ${sat}%, ${light}%, ${Math.abs(correlation) * 0.8 + 0.2})`;
+                    cell.title = `${t1.theme_name} ↔ ${t2.theme_name}: ${correlation.toFixed(2)}`;
+                    
+                    grid.appendChild(cell);
+                });
+            });
+        }
+
+        // Flash points
+        function renderFlashPoints() {
+            const list = document.getElementById('flashList');
+            const watchSignals = wssiData.theme_signals.filter(s => 
+                s.stress_level === 'watch' || s.stress_level === 'approaching'
+            );
+            
+            if (watchSignals.length === 0) {
+                list.innerHTML = '<div class="flash-item">✓ All systems stable. No flash points detected.</div>';
+                return;
+            }
+            
+            // Find clusters of stressed themes
+            const byCategory = {};
+            watchSignals.forEach(s => {
+                if (!byCategory[s.category]) byCategory[s.category] = [];
+                byCategory[s.category].push(s);
+            });
+            
+            Object.entries(byCategory).forEach(([category, signals]) => {
+                if (signals.length >= 2) {
+                    const div = document.createElement('div');
+                    div.className = 'flash-item high';
+                    div.innerHTML = `
+                        <span>🚨</span>
+                        <div>
+                            <div class="flash-themes">${signals.map(s => s.theme_name).join(' + ')}</div>
+                            <div class="flash-desc">Multiple ${category.toLowerCase()} stresses detected — cascade risk elevated</div>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                }
+            });
+            
+            // Individual watch items
+            watchSignals.forEach(signal => {
+                if (!Object.values(byCategory).some(arr => arr.length >= 2 && arr.includes(signal))) {
+                    const div = document.createElement('div');
+                    div.className = 'flash-item';
+                    div.innerHTML = `
+                        <span>${signal.stress_level === 'approaching' ? '⚠️' : '👁️'}</span>
+                        <div>
+                            <div class="flash-themes">${signal.theme_name}</div>
+                            <div class="flash-desc">Status: ${signal.stress_level} | Normalized: ${signal.normalized_value.toFixed(2)}</div>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                }
+            });
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>

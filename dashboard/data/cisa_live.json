@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "fetched_at": "2026-02-11T12:26:20.329536",
+    "source": "cisa",
+    "params": {},
+    "status": "success"
+  },
+  "data": [
+    {
+      "title": "Yokogawa FAST/TOOLS",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-041-01",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-041-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of these v..."
+    },
+    {
+      "title": "AVEVA PI Data Archive",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-041-03",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-041-03.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "AVEVA PI to CONNECT Agent",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-041-04",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-041-04.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "CISA Adds Six Known Exploited Vulnerabilities to Catalog",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/02/10/cisa-adds-six-known-exploited-vulnerabilities-catalog",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<div class=\"OutlineElement Ltr SCXW169298289 BCX8\">\n<p>CISA has added six new vulnerabilities to its <a href=\"https://www.cisa.gov/known-exploited-vulnerabilities-catalog\"><u>Known Exploited Vulnerabi..."
+    },
+    {
+      "title": "ZOLL ePCR IOS Mobile Application",
+      "link": "https://www.cisa.gov/news-events/ics-medical-advisories/icsma-26-041-01",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsma-26-041-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this v..."
+    },
+    {
+      "title": "Poland Energy Sector Cyber Incident Highlights OT and ICS Security Gaps",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/02/10/poland-energy-sector-cyber-incident-highlights-ot-and-ics-security-gaps",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<div class=\"OutlineElement Ltr SCXW155104668 BCX8\">\n<p><em>The purpose of this Alert is to amplify Poland\u2019s Computer Emergency Response Team (CERT Polska\u2019s) Energy Sector Incident Report published on ..."
+    },
+    {
+      "title": "\u200b\u200bBarriers to Secure OT Communication: Why Johnny Can\u2019t Authenticate\u200b",
+      "link": "https://www.cisa.gov/resources-tools/resources/barriers-secure-ot-communication-why-johnny-cant-authenticate",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p>CISA released the guidance, <em>Barriers to Secure OT Communication: Why Johnny Can\u2019t Authenticate</em>, which highlights the known issues with insecure-by-design legacy industrial protocols and se..."
+    },
+    {
+      "title": "ZLAN Information Technology Co. ZLAN5143D",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-041-02",
+      "pubDate": "Tue, 10 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-041-02.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of these v..."
+    },
+    {
+      "title": "Mitsubishi Electric MELSEC iQ-R Series",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-02",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-02.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Reducing the Attack Surface for End-of-Support Edge Devices",
+      "link": "https://www.cisa.gov/resources-tools/resources/reducing-attack-surface-end-support-edge-devices",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<h2><strong>Introduction</strong></h2>\n<p>The Cybersecurity and Infrastructure Security Agency (CISA), the Federal Bureau of Investigation (FBI), and the U.K.\u2019s National Cyber Security Centre (NCSC) a..."
+    },
+    {
+      "title": "Hitachi Energy FOX61x",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-06",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-06.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Hitachi Energy is aware of a vulne..."
+    },
+    {
+      "title": "o6 Automation GmbH Open62541",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-03",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-03.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "CISA Adds Two Known Exploited Vulnerabilities to Catalog",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/02/05/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<div class=\"OutlineElement Ltr SCXW128239988 BCX8\">\n<p>CISA has added two new vulnerabilities to its <a href=\"https://www.cisa.gov/known-exploited-vulnerabilities-catalog\"><u>Known Exploited Vulnerabi..."
+    },
+    {
+      "title": "Hitachi Energy XMC20",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-05",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-05.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Hitachi Energy is aware of a vulne..."
+    },
+    {
+      "title": "TP-Link Systems Inc. VIGI Series IP Camera",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-01",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Ilevia EVE X1 Server",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-04",
+      "pubDate": "Thu, 05 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-036-04.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of these v..."
+    },
+    {
+      "title": "RISS SRL MOMA Seismic Station",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-034-03",
+      "pubDate": "Tue, 03 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-034-03.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "CISA Adds Four Known Exploited Vulnerabilities to Catalog",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/02/03/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+      "pubDate": "Tue, 03 Feb 26 12:00:00 +0000",
+      "description": "<p>CISA has added&nbsp;four&nbsp;new&nbsp;vulnerabilities&nbsp;to its&nbsp;<a href=\"https://www.cisa.gov/known-exploited-vulnerabilities-catalog\">Known Exploited Vulnerabilities (KEV) Catalog</a>, bas..."
+    },
+    {
+      "title": "Synectix LAN 232 TRIO",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-034-04",
+      "pubDate": "Tue, 03 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-034-04.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Mitsubishi Electric FREQSHIP-mini for Windows",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-034-01",
+      "pubDate": "Tue, 03 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-034-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Avation Light Engine Pro",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-034-02",
+      "pubDate": "Tue, 03 Feb 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-034-02.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Rockwell Automation ArmorStart LT",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-029-02",
+      "pubDate": "Thu, 29 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-029-02.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of these v..."
+    },
+    {
+      "title": "KiloView Encoder Series (Update A)",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-029-01",
+      "pubDate": "Thu, 29 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-029-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "CISA Adds One Known Exploited Vulnerability to Catalog",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/01/29/cisa-adds-one-known-exploited-vulnerability-catalog",
+      "pubDate": "Thu, 29 Jan 26 12:00:00 +0000",
+      "description": "<p>CISA has added one new vulnerability to its <a href=\"https://www.cisa.gov/known-exploited-vulnerabilities-catalog\" data-entity-type=\"node\" data-entity-uuid=\"79453b83-86b9-4e2f-b1ec-abf73c6eb291\" da..."
+    },
+    {
+      "title": "Rockwell Automation ControlLogix",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-029-03",
+      "pubDate": "Thu, 29 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-029-03.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "Fortinet Releases Guidance to Address Ongoing Exploitation of Authentication Bypass Vulnerability CVE-2026-24858",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/01/28/fortinet-releases-guidance-address-ongoing-exploitation-authentication-bypass-vulnerability-cve-2026",
+      "pubDate": "Wed, 28 Jan 26 12:00:00 +0000",
+      "description": "<p>Newly disclosed vulnerability <a href=\"https://www.cve.org/CVERecord?id=CVE-2026-24858\" target=\"_blank\">Common Vulnerabilities and Exposures (CVE)-2026-24858</a> [<a href=\"https://cwe.mitre.org/dat..."
+    },
+    {
+      "title": "Schneider Electric Zigbee Products",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-027-03",
+      "pubDate": "Tue, 27 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-027-03.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Schneider Electric is aware of mul..."
+    },
+    {
+      "title": "CISA Adds One Known Exploited Vulnerability to Catalog",
+      "link": "https://www.cisa.gov/news-events/alerts/2026/01/27/cisa-adds-one-known-exploited-vulnerability-catalog",
+      "pubDate": "Tue, 27 Jan 26 12:00:00 +0000",
+      "description": "<p>CISA has added one new vulnerability to its <a href=\"https://www.cisa.gov/known-exploited-vulnerabilities-catalog\" data-entity-type=\"node\" data-entity-uuid=\"79453b83-86b9-4e2f-b1ec-abf73c6eb291\" da..."
+    },
+    {
+      "title": "Johnson Controls Metasys Products",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-027-04",
+      "pubDate": "Tue, 27 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-027-04.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    },
+    {
+      "title": "iba Systems ibaPDA",
+      "link": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-027-01",
+      "pubDate": "Tue, 27 Jan 26 12:00:00 +0000",
+      "description": "<p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-027-01.json\"><strong>View CSAF</strong></a></p>\n<h2>Summary</h2>\n<p><strong>Successful exploitation of this vu..."
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "fetched_at": "2026-02-11T12:26:40.721671",
+    "source": "uk_fcdo",
+    "params": {
+      "label": "France, France"
+    },
+    "status": "success"
+  },
+  "data": {
+    "country": "France travel advice",
+    "alert_status": [],
+    "summary": "FCDO travel advice for France. Includes safety and security, insurance, entry requirements and legal differences.",
+    "updated_at": "2026-01-19T14:27:06+00:00",
+    "source_url": "https://www.gov.uk/foreign-travel-advice/france"
+  },
+  "error": null
+}

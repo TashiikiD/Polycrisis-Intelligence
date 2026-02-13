@@ -1,0 +1,367 @@
+{
+  "metadata": {
+    "fetched_at": "2026-02-11T12:26:35.497187",
+    "source": "gdacs",
+    "params": {},
+    "status": "success"
+  },
+  "data": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "bbox": [
+          43.46,
+          -19.0,
+          43.46,
+          -19.0
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            43.46,
+            -19.0
+          ]
+        },
+        "properties": {
+          "eventtype": "TC",
+          "eventid": 1001256,
+          "episodeid": 20,
+          "eventname": "GEZANI-26",
+          "glide": "",
+          "name": "Tropical Cyclone GEZANI-26",
+          "description": "Tropical Cyclone GEZANI-26",
+          "htmldescription": "Red Tropical Cyclone GEZANI-26 in Madagascar, Mozambique from: 06 Feb 2026  to: 11 Feb 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/TC.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Red/TC.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid=1001256&episodeid=20",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1001256&episodeid=20&eventtype=TC",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid=1001256"
+          },
+          "alertlevel": "Red",
+          "alertscore": 3,
+          "episodealertlevel": "Orange",
+          "episodealertscore": 2.0,
+          "istemporary": "false",
+          "iscurrent": "true",
+          "country": "Madagascar, Mozambique",
+          "fromdate": "2026-02-06T00:00:00",
+          "todate": "2026-02-11T18:00:00",
+          "datemodified": "2026-02-11T20:26:11",
+          "iso3": "MDG",
+          "source": "RSMC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "countryonland": "",
+          "affectedcountries": [
+            {
+              "iso2": "MG",
+              "iso3": "MDG",
+              "countryname": "Madagascar"
+            },
+            {
+              "iso2": "MZ",
+              "iso3": "MOZ",
+              "countryname": "Mozambique"
+            }
+          ],
+          "severitydata": {
+            "severity": 211.10976,
+            "severitytext": "Moderate Tropical Storm (maximum wind speed of 211 km/h)",
+            "severityunit": "km/h"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          42.026,
+          2.351,
+          42.026,
+          2.351
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            42.026,
+            2.351
+          ]
+        },
+        "properties": {
+          "eventtype": "DR",
+          "eventid": 1017863,
+          "episodeid": 26,
+          "eventname": "East Africa-2025",
+          "glide": "DR-2025-000148-ETH",
+          "name": "Drought in Ethiopia, Kenya, Somalia",
+          "description": "Drought in Ethiopia, Kenya, Somalia",
+          "htmldescription": "Orange Drought in Ethiopia, Kenya, Somalia from: 21 Apr 2025  to: 11 Feb 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=DR&eventid=1017863&episodeid=26",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1017863&episodeid=26&eventtype=DR",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=DR&eventid=1017863"
+          },
+          "alertlevel": "Orange",
+          "alertscore": 2,
+          "episodealertlevel": "Orange",
+          "episodealertscore": 1.5,
+          "istemporary": "false",
+          "iscurrent": "false",
+          "country": "Ethiopia, Kenya, Somalia",
+          "fromdate": "2025-04-21T00:00:00",
+          "todate": "2026-02-11T09:57:36",
+          "datemodified": "2026-02-11T09:57:36",
+          "iso3": "ETH",
+          "source": "GDO",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "ET",
+              "iso3": "ETH",
+              "countryname": "Ethiopia"
+            },
+            {
+              "iso2": "KE",
+              "iso3": "KEN",
+              "countryname": "Kenya"
+            },
+            {
+              "iso2": "SO",
+              "iso3": "SOM",
+              "countryname": "Somalia"
+            }
+          ],
+          "severitydata": {
+            "severity": 788110.0,
+            "severitytext": "Medium impact for agricultural drought in 788110 km2",
+            "severityunit": "km2"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          57.246,
+          37.694,
+          57.246,
+          37.694
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            57.246,
+            37.694
+          ]
+        },
+        "properties": {
+          "eventtype": "DR",
+          "eventid": 1017535,
+          "episodeid": 39,
+          "eventname": "Middle East, Central Asia-2024",
+          "glide": "DR-2024-000232-EGY",
+          "name": "Drought in Afghanistan, China, Islamic Republic of Iran, Kazakhstan, Tajikistan, Turkmenistan, T\u00fcrkiye, Uzbekistan",
+          "description": "Drought in Afghanistan, China, Islamic Republic of Iran, Kazakhstan, Tajikistan, Turkmenistan, T\u00fcrkiye, Uzbekistan",
+          "htmldescription": "Orange Drought in Afghanistan, China, Islamic Republic of Iran, Kazakhstan, Tajikistan, Turkmenistan, T\u00fcrkiye, Uzbekistan from: 21 Oct 2024  to: 11 Feb 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=DR&eventid=1017535&episodeid=39",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1017535&episodeid=39&eventtype=DR",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=DR&eventid=1017535"
+          },
+          "alertlevel": "Orange",
+          "alertscore": 2,
+          "episodealertlevel": "Orange",
+          "episodealertscore": 1.25,
+          "istemporary": "false",
+          "iscurrent": "false",
+          "country": "Afghanistan, China, Islamic Republic of Iran, Kazakhstan, Tajikistan, Turkmenistan, T\u00fcrkiye, Uzbekistan",
+          "fromdate": "2024-10-21T00:00:00",
+          "todate": "2026-02-11T09:57:23",
+          "datemodified": "2026-02-11T12:10:14.497",
+          "iso3": "AFG",
+          "source": "GDO",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "AF",
+              "iso3": "AFG",
+              "countryname": "Afghanistan"
+            },
+            {
+              "iso2": "CN",
+              "iso3": "CHN",
+              "countryname": "China"
+            },
+            {
+              "iso2": "IR",
+              "iso3": "IRN",
+              "countryname": "Islamic Republic of Iran"
+            },
+            {
+              "iso2": "KZ",
+              "iso3": "KAZ",
+              "countryname": "Kazakhstan"
+            },
+            {
+              "iso2": "TJ",
+              "iso3": "TJK",
+              "countryname": "Tajikistan"
+            },
+            {
+              "iso2": "TM",
+              "iso3": "TKM",
+              "countryname": "Turkmenistan"
+            },
+            {
+              "iso2": "TR",
+              "iso3": "TUR",
+              "countryname": "T\u00fcrkiye"
+            },
+            {
+              "iso2": "UZ",
+              "iso3": "UZB",
+              "countryname": "Uzbekistan"
+            }
+          ],
+          "severitydata": {
+            "severity": 211830.0,
+            "severitytext": "Medium impact for agricultural drought in 211830 km2",
+            "severityunit": "km2"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          -50.349,
+          -6.88,
+          -50.349,
+          -6.88
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -50.349,
+            -6.88
+          ]
+        },
+        "properties": {
+          "eventtype": "DR",
+          "eventid": 1016449,
+          "episodeid": 89,
+          "eventname": "South America-2023",
+          "glide": "DR-2023-000204-BRA",
+          "name": "Drought in Brazil",
+          "description": "Drought in Brazil",
+          "htmldescription": "Orange Drought in Brazil from: 21 Sep 2022  to: 11 Feb 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/DR.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=DR&eventid=1016449&episodeid=89",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1016449&episodeid=89&eventtype=DR",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=DR&eventid=1016449"
+          },
+          "alertlevel": "Orange",
+          "alertscore": 2,
+          "episodealertlevel": "Orange",
+          "episodealertscore": 1.25,
+          "istemporary": "false",
+          "iscurrent": "false",
+          "country": "Brazil",
+          "fromdate": "2022-09-21T00:00:00",
+          "todate": "2026-02-11T09:57:17",
+          "datemodified": "2026-02-11T12:10:14.497",
+          "iso3": "BRA",
+          "source": "GDO",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "affectedcountries": [
+            {
+              "iso2": "BR",
+              "iso3": "BRA",
+              "countryname": "Brazil"
+            }
+          ],
+          "severitydata": {
+            "severity": 759509.0,
+            "severitytext": "Medium impact for agricultural drought in 759509 km2",
+            "severityunit": "km2"
+          }
+        }
+      },
+      {
+        "type": "Feature",
+        "bbox": [
+          54.85,
+          -23.41,
+          54.85,
+          -23.41
+        ],
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            54.85,
+            -23.41
+          ]
+        },
+        "properties": {
+          "eventtype": "TC",
+          "eventid": 1001254,
+          "episodeid": 24,
+          "eventname": "FYTIA-26",
+          "glide": "",
+          "name": "Tropical Cyclone FYTIA-26",
+          "description": "Tropical Cyclone FYTIA-26",
+          "htmldescription": "Orange Tropical Cyclone FYTIA-26 in Madagascar from: 29 Jan 2026  to: 04 Feb 2026 .",
+          "icon": "https://www.gdacs.org/images/gdacs_icons/maps/Green/TC.png",
+          "iconoverall": "https://www.gdacs.org/images/gdacs_icons/maps/Orange/TC.png",
+          "url": {
+            "geometry": "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid=1001254&episodeid=24",
+            "report": "https://www.gdacs.org/report.aspx?eventid=1001254&episodeid=24&eventtype=TC",
+            "details": "https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid=1001254"
+          },
+          "alertlevel": "Orange",
+          "alertscore": 2,
+          "episodealertlevel": "Green",
+          "episodealertscore": 1.0,
+          "istemporary": "false",
+          "iscurrent": "false",
+          "country": "Madagascar",
+          "fromdate": "2026-01-29T12:00:00",
+          "todate": "2026-02-04T06:00:00",
+          "datemodified": "2026-02-11T15:18:59.037",
+          "iso3": "MDG",
+          "source": "RSMC",
+          "sourceid": "",
+          "polygonlabel": "Centroid",
+          "Class": "Point_Centroid",
+          "countryonland": "",
+          "affectedcountries": [
+            {
+              "iso2": "MG",
+              "iso3": "MDG",
+              "countryname": "Madagascar"
+            }
+          ],
+          "severitydata": {
+            "severity": 179.443296,
+            "severitytext": "Remnant Low (maximum wind speed of 179 km/h)",
+            "severityunit": "km/h"
+          }
+        }
+      }
+    ],
+    "bbox": null
+  },
+  "error": null
+}

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSSI Brief | Polycrisis Intelligence</title>
+    <link rel="stylesheet" href="../../shared/css/variables.css">
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: var(--space-md) var(--space-xl);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-lg);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .mode-switch {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            transition: var(--transition-base);
+        }
+
+        .mode-switch:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-purple);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-cyan);
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+
+        /* WSSI Score Card */
+        .score-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-xl);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--space-2xl);
+            align-items: center;
+        }
+
+        .score-main {
+            text-align: center;
+        }
+
+        .score-value {
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-value.negative {
+            color: var(--accent-cyan);
+        }
+
+        .score-value.positive {
+            color: var(--accent-red);
+        }
+
+        .score-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: var(--space-sm);
+        }
+
+        .score-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .score-metric {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .score-chart {
+            width: 200px;
+            height: 60px;
+        }
+
+        /* Theme Table */
+        .table-container {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: var(--space-md) var(--space-lg);
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .table-btn {
+            padding: var(--space-xs) var(--space-sm);
+            font-size: 0.75rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .table-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .table-btn.active {
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        thead {
+            background: var(--bg-elevated);
+        }
+
+        th {
+            padding: var(--space-md) var(--space-lg);
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        th:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        th .sort-indicator {
+            margin-left: var(--space-xs);
+            opacity: 0.5;
+        }
+
+        th.sort-asc .sort-indicator::after {
+            content: '▲';
+            opacity: 1;
+        }
+
+        th.sort-desc .sort-indicator::after {
+            content: '▼';
+            opacity: 1;
+        }
+
+        td {
+            padding: var(--space-md) var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .theme-name {
+            font-weight: 500;
+        }
+
+        .theme-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .value-mono {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-stable {
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+        }
+
+        .status-watch {
+            background: var(--accent-amber-dim);
+            color: var(--accent-amber);
+        }
+
+        .status-approaching {
+            background: var(--accent-red-dim);
+            color: var(--accent-red);
+        }
+
+        .status-critical {
+            background: var(--accent-red);
+            color: var(--bg-void);
+        }
+
+        .weight-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Alert Section */
+        .alert-panel {
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .alert-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .alert-empty {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1400px;
+            margin: var(--space-2xl) auto;
+            padding: 0 var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 960px) {
+            .score-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .score-chart {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            table {
+                font-size: 0.75rem;
+            }
+
+            th, td {
+                padding: var(--space-sm);
+            }
+
+            .theme-category {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .score-value {
+                font-size: 2.5rem;
+            }
+
+            .score-row {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            th:nth-child(5),
+            td:nth-child(5) {
+                display: none;
+            }
+        }
+
+        /* Print styles for PDF export */
+        @media print {
+            .header-actions,
+            .table-actions,
+            .mode-switch {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .header,
+            .score-card,
+            .table-container,
+            .alert-panel {
+                background: white;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-logo">📊</span>
+                <div class="brand-text">
+                    <span class="brand-title">WSSI BRIEF</span>
+                    <span class="brand-subtitle">Weighted Synchronous Stress Index</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="../pulse/index.html" class="mode-switch">
+                    🔮 Switch to Pulse
+                </a>
+                <button class="btn" onclick="exportPDF()">
+                    📄 Export PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- WSSI Score Card -->
+        <div class="score-card">
+            <div class="score-main">
+                <div class="score-value negative" id="wssiValue">--</div>
+                <div class="score-label">WSSI Value</div>
+            </div>
+            
+            <div class="score-details">
+                <div class="score-row">
+                    <div class="score-metric">
+                        <span class="metric-value" id="wssiScore">--</span>
+                        <span class="metric-label">Stress Score (0-100)</span>
+                    </div>
+                    <div class="score-metric">
+                        <span class="metric-value" id="wssiDelta">--</span>
+                        <span class="metric-label">Change vs Previous</span>
+                    </div>
+                    <div class="score-metric">
+                        <span class="metric-value" id="activeThemes">--</span>
+                        <span class="metric-label">Active Themes</span>
+                    </div>
+                    <div class="score-metric">
+                        <span class="metric-value" id="aboveWarning">--</span>
+                        <span class="metric-label">Above Warning</span>
+                    </div>
+                </div>
+                <svg class="score-chart" id="trendChart" viewBox="0 0 200 60">
+                    <!-- Trend line will be rendered here -->
+                </svg>
+            </div>
+        </div>
+
+        <!-- Theme Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <span class="table-title">Theme Breakdown</span>
+                <div class="table-actions">
+                    <button class="table-btn active" data-filter="all">All</button>
+                    <button class="table-btn" data-filter="watch">Watch+</button>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th data-sort="name">Theme <span class="sort-indicator">↕</span></th>
+                        <th data-sort="raw">Raw Value <span class="sort-indicator">↕</span></th>
+                        <th data-sort="norm">Normalized <span class="sort-indicator">↕</span></th>
+                        <th data-sort="status">Status <span class="sort-indicator">↕</span></th>
+                        <th data-sort="weight">Weight <span class="sort-indicator">↕</span></th>
+                        <th data-sort="contribution">Contribution <span class="sort-indicator">↕</span></th>
+                    </tr>
+                </thead>
+                <tbody id="themeTable">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Alert Panel -->
+        <div class="alert-panel">
+            <div class="alert-title">
+                ⚠️ Active Alerts
+            </div>
+            <div class="alert-empty" id="alertContent">
+                No active threshold breaches.
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <span>Last updated: <span id="lastUpdate">--</span></span>
+        <span>23 indicators across 11 themes</span>
+    </footer>
+
+    <script>
+        let wssiData = null;
+        let currentSort = { column: 'status', direction: 'desc' };
+
+        // Load WSSI data
+        async function loadData() {
+            try {
+                const response = await fetch('../../data/wssi-latest.json');
+                wssiData = await response.json();
+                renderDashboard();
+            } catch (e) {
+                console.error('Failed to load WSSI:', e);
+                document.getElementById('themeTable').innerHTML = `
+                    <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        Failed to load data. Please try again later.
+                    </td></tr>
+                `;
+            }
+        }
+
+        function renderDashboard() {
+            // Update score card
+            const valueEl = document.getElementById('wssiValue');
+            valueEl.textContent = wssiData.wssi_value.toFixed(2);
+            valueEl.className = wssiData.wssi_value < 0 ? 'score-value negative' : 'score-value positive';
+            
+            document.getElementById('wssiScore').textContent = wssiData.wssi_score.toFixed(1);
+            
+            const deltaEl = document.getElementById('wssiDelta');
+            const delta = wssiData.wssi_delta;
+            deltaEl.textContent = (delta > 0 ? '+' : '') + delta.toFixed(2);
+            deltaEl.style.color = delta > 0 ? 'var(--accent-red)' : 'var(--accent-cyan)';
+            
+            document.getElementById('activeThemes').textContent = wssiData.active_themes;
+            document.getElementById('aboveWarning').textContent = wssiData.above_warning;
+            document.getElementById('lastUpdate').textContent = new Date(wssiData.calculation_timestamp).toLocaleString();
+            
+            // Render trend chart
+            renderTrendChart();
+            
+            // Render table
+            renderTable();
+            
+            // Check for alerts
+            checkAlerts();
+        }
+
+        function renderTrendChart() {
+            const svg = document.getElementById('trendChart');
+            // Simple sparkline - in production, fetch historical data
+            const width = 200;
+            const height = 60;
+            const padding = 5;
+            
+            // Generate synthetic historical trend
+            const points = [];
+            const currentValue = wssiData.wssi_value;
+            for (let i = 0; i < 20; i++) {
+                const x = (i / 19) * (width - 2 * padding) + padding;
+                const variation = Math.sin(i * 0.5) * 0.5 + (Math.random() - 0.5) * 0.3;
+                const y = height / 2 + (variation - currentValue * 0.1) * 10;
+                points.push(`${x},${y}`);
+            }
+            
+            svg.innerHTML = `
+                <polyline fill="none" stroke="${wssiData.wssi_value < 0 ? 'var(--accent-cyan)' : 'var(--accent-red)'}" 
+                    stroke-width="2" points="${points.join(' ')}" opacity="0.7"/>
+                <circle cx="${width - padding}" cy="${height / 2 - currentValue * 5}" r="4" 
+                    fill="${wssiData.wssi_value < 0 ? 'var(--accent-cyan)' : 'var(--accent-red)'}"/>
+            `;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('themeTable');
+            let signals = [...wssiData.theme_signals];
+            
+            // Sort
+            signals.sort((a, b) => {
+                let aVal, bVal;
+                switch (currentSort.column) {
+                    case 'name': aVal = a.theme_name; bVal = b.theme_name; break;
+                    case 'raw': aVal = a.raw_value; bVal = b.raw_value; break;
+                    case 'norm': aVal = a.normalized_value; bVal = b.normalized_value; break;
+                    case 'status': 
+                        const statusOrder = { 'critical': 4, 'approaching': 3, 'watch': 2, 'stable': 1 };
+                        aVal = statusOrder[a.stress_level] || 0;
+                        bVal = statusOrder[b.stress_level] || 0;
+                        break;
+                    case 'weight': aVal = a.weight; bVal = b.weight; break;
+                    case 'contribution': aVal = Math.abs(a.weighted_contribution); bVal = Math.abs(b.weighted_contribution); break;
+                    default: aVal = a.theme_name; bVal = b.theme_name;
+                }
+                
+                if (typeof aVal === 'string') {
+                    return currentSort.direction === 'asc' 
+                        ? aVal.localeCompare(bVal) 
+                        : bVal.localeCompare(aVal);
+                }
+                return currentSort.direction === 'asc' ? aVal - bVal : bVal - aVal;
+            });
+            
+            tbody.innerHTML = signals.map(signal => `
+                <tr data-status="${signal.stress_level}">
+                    <td>
+                        <div class="theme-name">${signal.theme_name}</div>
+                        <div class="theme-category">${signal.category}</div>
+                    </td>
+                    <td class="value-mono">${signal.raw_value.toFixed(2)}</td>
+                    <td class="value-mono" style="color: ${signal.normalized_value > 0 ? 'var(--accent-red)' : 'var(--accent-cyan)'}">
+                        ${signal.normalized_value > 0 ? '+' : ''}${signal.normalized_value.toFixed(2)}
+                    </td>
+                    <td>
+                        <span class="status-badge status-${signal.stress_level}">
+                            ${signal.stress_level === 'approaching' ? '⚠️ ' : signal.stress_level === 'critical' ? '🚨 ' : signal.stress_level === 'watch' ? '👁️ ' : '✓ '}
+                            ${signal.stress_level}
+                        </span>
+                    </td>
+                    <td class="weight-badge">${signal.weight.toFixed(1)}x</td>
+                    <td class="value-mono" style="color: ${signal.weighted_contribution > 0 ? 'var(--accent-red)' : 'var(--accent-cyan)'}">
+                        ${signal.weighted_contribution > 0 ? '+' : ''}${signal.weighted_contribution.toFixed(2)}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function checkAlerts() {
+            const critical = wssiData.theme_signals.filter(s => s.stress_level === 'critical');
+            const approaching = wssiData.theme_signals.filter(s => s.stress_level === 'approaching');
+            
+            const alertContent = document.getElementById('alertContent');
+            
+            if (critical.length === 0 && approaching.length === 0) {
+                alertContent.innerHTML = '✓ No active threshold breaches.';
+                alertContent.className = 'alert-empty';
+                return;
+            }
+            
+            let html = '';
+            if (critical.length > 0) {
+                html += `<div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--accent-red);">🚨 Critical (${critical.length})</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--text-secondary);">
+                        ${critical.map(s => `<li>${s.theme_name}: ${s.normalized_value.toFixed(2)}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }
+            if (approaching.length > 0) {
+                html += `<div>
+                    <strong style="color: var(--accent-amber);">⚠️ Approaching Critical (${approaching.length})</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--text-secondary);">
+                        ${approaching.map(s => `<li>${s.theme_name}: ${s.normalized_value.toFixed(2)}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }
+            
+            alertContent.innerHTML = html;
+            alertContent.className = '';
+        }
+
+        // Table sorting
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => {
+                const column = th.dataset.sort;
+                if (currentSort.column === column) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = column;
+                    currentSort.direction = 'desc';
+                }
+                
+                // Update visual indicators
+                document.querySelectorAll('th').forEach(h => {
+                    h.classList.remove('sort-asc', 'sort-desc');
+                });
+                th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                
+                renderTable();
+            });
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.table-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                const rows = document.querySelectorAll('#themeTable tr');
+                
+                rows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else if (filter === 'watch') {
+                        const status = row.dataset.status;
+                        row.style.display = (status === 'watch' || status === 'approaching' || status === 'critical') ? '' : 'none';
+                    }
+                });
+            });
+        });
+
+        // PDF export
+        function exportPDF() {
+            window.print();
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>

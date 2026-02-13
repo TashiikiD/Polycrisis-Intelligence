@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "fetched_at": "2026-02-11T12:26:36.788383",
+    "source": "env_canada",
+    "params": {},
+    "status": "success"
+  },
+  "data": [
+    {
+      "title": "No alerts in effect, City of Toronto",
+      "summary": "No alerts in effect.",
+      "link": "https://weather.gc.ca/warnings/report_e.html?on61",
+      "updated": "2026-02-09T16:28:23Z"
+    }
+  ],
+  "error": null
+}

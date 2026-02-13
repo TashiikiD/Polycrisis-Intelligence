@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilience Briefing | 2026-02-06 07:55</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --danger: #f85149;
+            --warning: #d29922;
+            --success: #3fb950;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .badge {
+            background: var(--border);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            float: right;
+            font-family: monospace;
+        }
+
+        .high-risk {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .med-risk {
+            color: var(--warning);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const times = document.querySelectorAll('time[datetime]');
+            times.forEach(t => {
+                const dt = new Date(t.getAttribute('datetime'));
+                if (!isNaN(dt)) {
+                    // Localize
+                    const localStr = dt.toLocaleString(undefined, {
+                        year: 'numeric', month: 'short', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+                    });
+                    t.textContent = localStr;
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Daily Resilience Briefing</h1>
+            <div class="meta">Generated: 2026-02-06 07:55 | Sources: 3</div>
+        </header>
+
+        <div class="grid">
+            <!-- Seismic Module -->
+            
+
+            <!-- Humanitarian Module -->
+            
+
+            <!-- Cyber Module -->
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Cybersecurity Alerts</span>
+                    <span class="badge">CISA</span>
+                </div>
+                <ul>
+                    
+                    <li>
+
+                        <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-01" target="_blank">TP-Link Systems Inc. VIGI Series IP Camera</a>
+                        <div class="meta"><time datetime="2026-02-05T12:00:00+00:00">2026-02-05</time></div>
+                    </li>
+                    
+                    <li>
+
+                        <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-02" target="_blank">Mitsubishi Electric MELSEC iQ-R Series</a>
+                        <div class="meta"><time datetime="2026-02-05T12:00:00+00:00">2026-02-05</time></div>
+                    </li>
+                    
+                    <li>
+
+                        <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-06" target="_blank">Hitachi Energy FOX61x</a>
+                        <div class="meta"><time datetime="2026-02-05T12:00:00+00:00">2026-02-05</time></div>
+                    </li>
+                    
+                    <li>
+
+                        <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-036-03" target="_blank">o6 Automation GmbH Open62541</a>
+                        <div class="meta"><time datetime="2026-02-05T12:00:00+00:00">2026-02-05</time></div>
+                    </li>
+                    
+                    <li>
+
+                        <a href="https://www.cisa.gov/news-events/alerts/2026/02/05/cisa-adds-two-known-exploited-vulnerabilities-catalog" target="_blank">CISA Adds Two Known Exploited Vulnerabilities to Catalog</a>
+                        <div class="meta"><time datetime="2026-02-05T12:00:00+00:00">2026-02-05</time></div>
+                    </li>
+                    
+                </ul>
+            </div>
+            
+
+            <!-- Natural Events Module -->
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Natural Hazards</span>
+                    <span class="badge">NASA EONET</span>
+                </div>
+                <ul>
+                    
+                    <li>
+                        
+                        <a href="https://www.metoc.navy.mil/jtwc/products/sh2026.tcw" target="_blank">Tropical Cyclone 20s</a>
+                        <div class="meta">
+                            Severe Storms |
+                            <time datetime="2026-02-06T06:00:00Z">2026-02-06</time>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        
+                        <a href="https://www.metoc.navy.mil/jtwc/products/wp0226.tcw" target="_blank">Tropical Storm Penha</a>
+                        <div class="meta">
+                            Severe Storms |
+                            <time datetime="2026-02-05T00:00:00Z">2026-02-05</time>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+            
+
+            <!-- Weather/Air Module -->
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Environmental Risk</span>
+                    <span class="badge">OpenMeteo</span>
+                </div>
+                
+                
+                <ul>
+                    
+                    <li>
+                        San Francisco Air
+                        <span
+                            class="value med-risk">
+                            76
+                        </span>
+                    </li>
+                    <li>PM2.5 <span class="value">27.1 µg/m³</span></li>
+                    <li>PM10 <span class="value">27.7 µg/m³</span></li>
+                    
+                </ul>
+            </div>
+            
+
+        </div>
+
+        <div class="footer">
+            Generated by BizDev Toolkit | <a href="file:///E:\clawd">View Workdir</a>
+        </div>
+    </div>
+</body>
+
+</html>

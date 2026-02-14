@@ -1,0 +1,164 @@
+{
+  "kind": "cld",
+  "schemaVersion": 1,
+  "id": "food-security-cascade",
+  "title": "Food Security Cascade",
+  "subtitle": "Climate \u2192 Food \u2192 Debt \u2192 Governance linkages",
+  "nodes": [
+    {
+      "id": "5-2",
+      "label": "Food System Fragility",
+      "valueFormatted": "+1.79",
+      "severity": 1.0,
+      "icon": "Wheat",
+      "tooltipTitle": "Food System Fragility (Biological-Health)",
+      "tooltipBody": "Agricultural resilience and food security",
+      "href": "#theme-5.2",
+      "groupIds": [
+        "biological-health"
+      ]
+    },
+    {
+      "id": "2-2",
+      "label": "Extreme Weather Events",
+      "valueFormatted": "-2.42",
+      "severity": 1.0,
+      "icon": "CloudLightning",
+      "tooltipTitle": "Extreme Weather Events (Climate-Environmental)",
+      "tooltipBody": "Frequency and intensity of climate disasters",
+      "href": "#theme-2.2",
+      "groupIds": [
+        "climate-environmental"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "fromId": "2-2",
+      "toId": "5-2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Extreme weather reduces agricultural output",
+      "curvature": 0.2,
+      "strength": 0.7
+    },
+    {
+      "id": "l2",
+      "fromId": "5-2",
+      "toId": "1-1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Food insecurity increases sovereign debt",
+      "curvature": -0.1,
+      "strength": 0.5
+    },
+    {
+      "id": "l3",
+      "fromId": "3-4",
+      "toId": "5-2",
+      "polarity": "balancing",
+      "label": "-",
+      "tooltipBody": "Governance decay undermines food distribution",
+      "curvature": 0.1,
+      "strength": 0.6
+    },
+    {
+      "id": "l4",
+      "fromId": "2-2",
+      "toId": "1-1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Climate disasters strain fiscal resources",
+      "curvature": 0.3,
+      "strength": 0.5
+    }
+  ],
+  "groups": [
+    {
+      "id": "biological-health",
+      "label": "Biological-Health",
+      "type": "Balancing",
+      "color": "#059669",
+      "nodeIds": [
+        "5-2"
+      ]
+    },
+    {
+      "id": "climate-environmental",
+      "label": "Climate-Environmental",
+      "type": "Reinforcing",
+      "color": "#f59e0b",
+      "nodeIds": [
+        "2-2"
+      ]
+    }
+  ],
+  "storyboard": {
+    "title": "Food Security Cascade",
+    "frames": [
+      {
+        "id": "f1",
+        "title": "Initial Shock",
+        "caption": "Extreme weather events impact agricultural regions",
+        "highlightNodes": [
+          "2-2"
+        ],
+        "highlightLinks": [
+          "l1"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f2",
+        "title": "Supply Impact",
+        "caption": "Reduced yields lead to food system stress",
+        "highlightNodes": [
+          "5-2"
+        ],
+        "highlightLinks": [
+          "l1"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f3",
+        "title": "Economic Pressure",
+        "caption": "Food insecurity drives sovereign debt increases",
+        "highlightNodes": [
+          "1-1"
+        ],
+        "highlightLinks": [
+          "l2"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f4",
+        "title": "Systemic Risk",
+        "caption": "Governance challenges compound the crisis",
+        "highlightNodes": [
+          "3-4"
+        ],
+        "highlightLinks": [
+          "l3"
+        ],
+        "dimOthers": true
+      }
+    ]
+  },
+  "theme": {
+    "background": "transparent",
+    "panel": "rgba(255,255,255,0.96)",
+    "border": "rgba(0,0,0,0.18)",
+    "good": "#059669",
+    "warn": "#d97706",
+    "bad": "#dc2626"
+  },
+  "layout": {
+    "width": 900,
+    "height": 600,
+    "linkDistance": 120,
+    "chargeStrength": -400
+  }
+}

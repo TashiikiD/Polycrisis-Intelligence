@@ -1,0 +1,166 @@
+{
+  "kind": "cld",
+  "schemaVersion": 1,
+  "id": "climate-economic-nexus",
+  "title": "Climate-Economic Nexus",
+  "subtitle": "Environmental tipping points and financial stability",
+  "nodes": [
+    {
+      "id": "2-2",
+      "label": "Extreme Weather Events",
+      "valueFormatted": "-2.42",
+      "severity": 1.0,
+      "icon": "CloudLightning",
+      "tooltipTitle": "Extreme Weather Events (Climate-Environmental)",
+      "tooltipBody": "Frequency and intensity of climate disasters",
+      "href": "#theme-2.2",
+      "groupIds": [
+        "climate-environmental"
+      ]
+    },
+    {
+      "id": "1-4",
+      "label": "Real Asset Bubbles/Busts",
+      "valueFormatted": "+1.37",
+      "severity": 1.0,
+      "icon": "TrendingUp",
+      "tooltipTitle": "Real Asset Bubbles/Busts (Economic-Financial)",
+      "tooltipBody": "Housing and commodity price instability",
+      "href": "#theme-1.4",
+      "groupIds": [
+        "economic-financial"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "fromId": "2-1",
+      "toId": "2-2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Tipping points intensify extreme weather",
+      "curvature": 0.1,
+      "strength": 0.8
+    },
+    {
+      "id": "l2",
+      "fromId": "2-2",
+      "toId": "2-4",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Extreme weather accelerates ecosystem collapse",
+      "curvature": 0.2,
+      "strength": 0.7
+    },
+    {
+      "id": "l3",
+      "fromId": "2-4",
+      "toId": "1-4",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Ecosystem degradation impacts real assets",
+      "curvature": 0.0,
+      "strength": 0.6
+    },
+    {
+      "id": "l4",
+      "fromId": "1-4",
+      "toId": "1-1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Asset bubbles strain sovereign balance sheets",
+      "curvature": -0.1,
+      "strength": 0.5
+    },
+    {
+      "id": "l5",
+      "fromId": "2-1",
+      "toId": "1-1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Climate tipping points threaten fiscal stability",
+      "curvature": 0.2,
+      "strength": 0.6
+    }
+  ],
+  "groups": [
+    {
+      "id": "climate-environmental",
+      "label": "Climate-Environmental",
+      "type": "Reinforcing",
+      "color": "#f59e0b",
+      "nodeIds": [
+        "2-2"
+      ]
+    },
+    {
+      "id": "economic-financial",
+      "label": "Economic-Financial",
+      "type": "Balancing",
+      "color": "#059669",
+      "nodeIds": [
+        "1-4"
+      ]
+    }
+  ],
+  "storyboard": {
+    "title": "Climate-Economic Feedback",
+    "frames": [
+      {
+        "id": "f1",
+        "title": "Tipping Point Proximity",
+        "caption": "Climate system approaches irreversible changes",
+        "highlightNodes": [
+          "2-1"
+        ],
+        "highlightLinks": [
+          "l1"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f2",
+        "title": "Weather Intensification",
+        "caption": "More frequent and severe climate events",
+        "highlightNodes": [
+          "2-2"
+        ],
+        "highlightLinks": [
+          "l1",
+          "l2"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f3",
+        "title": "Ecosystem Collapse",
+        "caption": "Biodiversity loss and service degradation",
+        "highlightNodes": [
+          "2-4"
+        ],
+        "highlightLinks": [
+          "l2"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f4",
+        "title": "Asset Impacts",
+        "caption": "Real estate and commodity market volatility",
+        "highlightNodes": [
+          "1-4"
+        ],
+        "highlightLinks": [
+          "l3",
+          "l4"
+        ],
+        "dimOthers": true
+      }
+    ]
+  },
+  "layout": {
+    "width": 1000,
+    "height": 650
+  }
+}

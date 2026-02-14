@@ -1,0 +1,121 @@
+{
+  "kind": "cld",
+  "schemaVersion": 1,
+  "id": "conflict-trade-spillover",
+  "title": "Conflict-Trade Spillover",
+  "subtitle": "Geopolitical tensions and systemic vulnerabilities",
+  "nodes": [],
+  "links": [
+    {
+      "id": "l1",
+      "fromId": "3-1",
+      "toId": "3-3",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Conflict drives resource competition",
+      "curvature": 0.0,
+      "strength": 0.7
+    },
+    {
+      "id": "l2",
+      "fromId": "3-3",
+      "toId": "3-4",
+      "polarity": "balancing",
+      "label": "-",
+      "tooltipBody": "Resource scarcity undermines governance",
+      "curvature": 0.1,
+      "strength": 0.6
+    },
+    {
+      "id": "l3",
+      "fromId": "3-4",
+      "toId": "4-2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Governance gaps create cyber vulnerabilities",
+      "curvature": -0.2,
+      "strength": 0.5
+    },
+    {
+      "id": "l4",
+      "fromId": "4-2",
+      "toId": "3-1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "tooltipBody": "Cyber attacks escalate conflicts",
+      "curvature": 0.3,
+      "strength": 0.6
+    },
+    {
+      "id": "l5",
+      "fromId": "3-1",
+      "toId": "3-4",
+      "polarity": "balancing",
+      "label": "-",
+      "tooltipBody": "War strains institutional capacity",
+      "curvature": 0.1,
+      "strength": 0.5
+    }
+  ],
+  "groups": [],
+  "storyboard": {
+    "title": "Conflict Escalation Dynamics",
+    "frames": [
+      {
+        "id": "f1",
+        "title": "Initial Conflict",
+        "caption": "Interstate tensions rise",
+        "highlightNodes": [
+          "3-1"
+        ],
+        "highlightLinks": [
+          "l1"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f2",
+        "title": "Resource Scramble",
+        "caption": "Strategic resource competition intensifies",
+        "highlightNodes": [
+          "3-3"
+        ],
+        "highlightLinks": [
+          "l1",
+          "l2"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f3",
+        "title": "Institutional Strain",
+        "caption": "Governance capacity degraded",
+        "highlightNodes": [
+          "3-4"
+        ],
+        "highlightLinks": [
+          "l2",
+          "l3"
+        ],
+        "dimOthers": true
+      },
+      {
+        "id": "f4",
+        "title": "Cyber Dimension",
+        "caption": "Digital infrastructure targeted",
+        "highlightNodes": [
+          "4-2"
+        ],
+        "highlightLinks": [
+          "l3",
+          "l4"
+        ],
+        "dimOthers": true
+      }
+    ]
+  },
+  "layout": {
+    "width": 900,
+    "height": 600
+  }
+}

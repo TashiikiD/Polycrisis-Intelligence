@@ -62,6 +62,19 @@
             gap: var(--space-md);
         }
 
+        .header-freshness {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-right: var(--space-md);
+        }
+
+        @media (max-width: 768px) {
+            .header-freshness {
+                display: none;
+            }
+        }
+
         .mode-switch {
             display: flex;
             align-items: center;
@@ -458,6 +471,7 @@
                 </div>
             </div>
             <div class="header-actions">
+                <div class="header-freshness" id="headerFreshness"></div>
                 <a href="../pulse/index.html" class="mode-switch">
                     🔮 Switch to Pulse
                 </a>
@@ -552,7 +566,15 @@
         async function loadData() {
             try {
                 const response = await fetch('../../data/wssi-latest.json');
-                wssiData = await response.json();
+                const base64Text = await response.text();
+                
+                // Decode base64 and parse JSON
+                const decoded = atob(base64Text);
+                const wrapped = JSON.parse(decoded);
+                
+                // Extract actual data (strip refusal string wrapper)
+                wssiData = wrapped.data;
+                
                 renderDashboard();
             } catch (e) {
                 console.error('Failed to load WSSI:', e);
@@ -751,6 +773,27 @@
 
         // Initialize
         loadData();
+    </script>
+    <script src="../../shared/js/freshness.js"></script>
+    <script>
+        // Initialize freshness display after data loads
+        function initFreshness() {
+            if (window.DataFreshness && wssiData) {
+                const timestamp = wssiData.last_updated || wssiData.calculation_timestamp || wssiData.date;
+                if (timestamp) {
+                    DataFreshness.init('#headerFreshness', timestamp, {
+                        showTime: true
+                    });
+                }
+            }
+        }
+        
+        // Hook into existing initializeBrief
+        const originalInitBrief = initializeBrief;
+        initializeBrief = function() {
+            originalInitBrief();
+            initFreshness();
+        };
     </script>
 </body>
 </html>

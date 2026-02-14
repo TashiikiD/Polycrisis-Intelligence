@@ -428,6 +428,7 @@
                 <span class="brand-subtitle">Living System Visualization</span>
             </div>
         </div>
+        <div class="header-freshness" id="headerFreshness"></div>
         <a href="../brief/index.html" class="mode-switch">
             📊 Switch to Brief
         </a>
@@ -521,7 +522,15 @@
         async function loadData() {
             try {
                 const response = await fetch('../../data/wssi-latest.json');
-                wssiData = await response.json();
+                const base64Text = await response.text();
+                
+                // Decode base64 and parse JSON
+                const decoded = atob(base64Text);
+                const wrapped = JSON.parse(decoded);
+                
+                // Extract actual data (strip refusal string wrapper)
+                wssiData = wrapped.data;
+                
                 initializePulse();
             } catch (e) {
                 console.error('Failed to load:', e);
@@ -783,6 +792,27 @@
 
         // Initialize
         loadData();
+    </script>
+    <script src="../../shared/js/freshness.js"></script>
+    <script>
+        // Initialize freshness display after data loads
+        function initFreshness() {
+            if (window.DataFreshness && wssiData) {
+                const timestamp = wssiData.last_updated || wssiData.calculation_timestamp || wssiData.date;
+                if (timestamp) {
+                    DataFreshness.init('#headerFreshness', timestamp, {
+                        showTime: true
+                    });
+                }
+            }
+        }
+        
+        // Hook into existing initializePulse
+        const originalInitPulse = initializePulse;
+        initializePulse = function() {
+            originalInitPulse();
+            initFreshness();
+        };
     </script>
 </body>
 </html>

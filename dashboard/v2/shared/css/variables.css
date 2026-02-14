@@ -23,6 +23,12 @@
   --accent-blue: #2979ff;
   --accent-blue-dim: rgba(41, 121, 255, 0.2);
   
+  /* Freshness colors */
+  --freshness-fresh: #00d4aa;
+  --freshness-recent: #ff9f1c;
+  --freshness-warning: #ff6b35;
+  --freshness-stale: #ff3864;
+  
   /* Borders */
   --border: #2a2a3a;
   --border-subtle: #1f1f2a;
@@ -113,4 +119,74 @@ body {
 ::selection {
   background: var(--accent-cyan-dim);
   color: var(--text-primary);
+}
+
+/* Data Freshness Indicators */
+.freshness-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 0.875rem;
+}
+
+.freshness-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: help;
+}
+
+.freshness-fresh {
+  color: var(--freshness-fresh);
+  background: rgba(0, 212, 170, 0.1);
+}
+
+.freshness-recent {
+  color: var(--freshness-recent);
+  background: rgba(255, 159, 28, 0.1);
+}
+
+.freshness-warning {
+  color: var(--freshness-warning);
+  background: rgba(255, 107, 53, 0.15);
+}
+
+.freshness-stale {
+  color: var(--freshness-stale);
+  background: rgba(255, 56, 100, 0.15);
+}
+
+.date-range {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--text-muted);
+}
+
+.date-range-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.date-range-value {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+/* Header freshness placement */
+.header-freshness {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .header-freshness {
+    display: none;
+  }
 }

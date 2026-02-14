@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -196,14 +196,14 @@
         
         <div class="mode-selector">
             <a href="modes/brief/index.html" class="mode-card">
-                <div class="mode-icon">📊</div>
+                <div class="mode-icon">ðŸ“Š</div>
                 <div class="mode-title">Brief</div>
                 <div class="mode-desc">Clean, tabular view optimized for quick scanning. Sortable data, PDF export, mobile-friendly.</div>
                 <span class="mode-tag">Executive</span>
             </a>
             
-            <a href="modes/pulse/index.html" class="mode-card pulse">
-                <div class="mode-icon">🔮</div>
+            <a href="modes/pulse/index.html" <a href="research/index.html">Research Library</a> class="mode-card pulse">
+                <div class="mode-icon">ðŸ”®</div>
                 <div class="mode-title">Pulse</div>
                 <div class="mode-desc">Living visualization of global stress. Interactive correlations, temporal flows, cascade simulation.</div>
                 <span class="mode-tag">Experimental</span>
@@ -215,35 +215,49 @@
         </div>
     </div>
 
+    <script src="shared/js/fallback-data.js"></script>
+    <script src="shared/js/wssi-api.js"></script>
     <script>
-        // Load WSSI data
+        // Load WSSI data from live API
         async function loadWSSI() {
             try {
-                const response = await fetch('data/wssi-latest.json');
-                const data = await response.json();
-                
+                const response = await window.PolycrisisAPI.getWSSI();
+
                 // Update preview
                 const valueEl = document.getElementById('wssiValue');
                 const scoreEl = document.getElementById('wssiScore');
                 const trendEl = document.getElementById('wssiTrend');
                 const updateEl = document.getElementById('lastUpdate');
-                
-                valueEl.textContent = data.wssi_value.toFixed(2);
-                valueEl.className = data.wssi_value < 0 ? 'wssi-value negative' : 'wssi-value positive';
-                scoreEl.textContent = `${data.wssi_score.toFixed(1)}/100`;
-                
-                const trendIcon = data.trend === 'up' ? '↑' : data.trend === 'down' ? '↓' : '→';
-                const trendText = data.trend === 'up' ? 'Increasing stress' : data.trend === 'down' ? 'Decreasing stress' : 'Stable';
-                trendEl.textContent = `${trendIcon} ${trendText} (${data.wssi_delta > 0 ? '+' : ''}${data.wssi_delta.toFixed(2)})`;
-                
-                updateEl.textContent = new Date(data.calculation_timestamp).toLocaleString();
+
+                if (response.data) {
+                    const score = response.data.overall_score;
+                    valueEl.textContent = score.toFixed(2);
+                    valueEl.className = score < 0 ? 'wssi-value negative' : 'wssi-value positive';
+                    scoreEl.textContent = `${score.toFixed(1)}/100`;
+
+                    // Alert level as trend
+                    const trendText = response.alert_level === 'critical' ? 'Critical stress' :
+                                    response.alert_level === 'high' ? 'High stress' :
+                                    response.alert_level === 'moderate' ? 'Moderate stress' :
+                                    response.alert_level === 'low' ? 'Low stress' : 'Unknown';
+                    trendEl.textContent = trendText;
+
+                    updateEl.textContent = new Date(response.data.calculated_at).toLocaleString();
+                } else {
+                    throw new Error('No WSSI data available');
+                }
             } catch (e) {
                 console.error('Failed to load WSSI:', e);
-                document.getElementById('wssiTrend').textContent = 'Data unavailable';
+                document.getElementById('wssiTrend').textContent = 'Data unavailable (API connection failed)';
             }
         }
-        
+
+        // Load on page load
         loadWSSI();
+
+        // Auto-refresh every 60 seconds
+        setInterval(loadWSSI, 60000);
     </script>
 </body>
 </html>
+

@@ -1,0 +1,87 @@
+[
+  {
+    "id": "paper-1771069674809",
+    "title": "Earth beyond six of nine planetary boundaries",
+    "authors": ["Richardson et al."],
+    "year": 2023,
+    "doi": "10.1126/sciadv.adh2458",
+    "summary": "Quantitative assessment showing Earth has transgressed six of nine planetary boundaries, with climate change and biosphere integrity being core boundaries whose violation risks destabilizing the entire Earth system. Provides updated metrics and safe operating space definitions.",
+    "key_findings": [
+      "Six planetary boundaries now exceeded",
+      "Climate change and biosphere integrity are core boundaries",
+      "Land use change and freshwater use approaching thresholds",
+      "Safe operating space is narrower than previously estimated"
+    ],
+    "visualization_id": "cld-1771069674809",
+    "category": "planetary_boundaries",
+    "added": "2026-02-14T11:47:54.809Z"
+  },
+  {
+    "id": "paper-1771069674813",
+    "title": "Global polycrisis: the causal mechanisms of crisis entanglement",
+    "authors": ["Lawrence et al."],
+    "year": 2024,
+    "doi": "10.3389/fpsyg.2024.1372665",
+    "summary": "Systematic analysis of how crises interact and amplify across domains (environmental, economic, political, social). Identifies six causal mechanisms: common drivers, domino effects, feedback loops, resource competition, governance fragmentation, and perceptual biases.",
+    "key_findings": [
+      "Six distinct causal mechanisms of crisis entanglement",
+      "Feedback loops create non-linear escalation",
+      "Governance fragmentation amplifies systemic risk",
+      "Prevention requires addressing root causes, not symptoms"
+    ],
+    "visualization_id": "cld-1771069674813",
+    "category": "polycrisis_theory",
+    "added": "2026-02-14T11:47:54.813Z"
+  },
+  {
+    "id": "paper-1771069674817",
+    "title": "The polycrisis is here, and system dynamics can help: a call to action",
+    "authors": ["Rodrigues et al."],
+    "year": 2025,
+    "doi": "10.1002/sdr.1745",
+    "summary": "Argues for system dynamics modeling as essential tool for understanding polycrisis interactions. Proposes methodological frameworks for modeling cross-domain feedback loops and intervention leverage points.",
+    "key_findings": [
+      "System dynamics uniquely suited for polycrisis analysis",
+      "Need for cross-domain modeling approaches",
+      "Intervention leverage points can be identified",
+      "Policy coordination critical for effective response"
+    ],
+    "visualization_id": "cld-1771069674817",
+    "category": "methods",
+    "added": "2026-02-14T11:47:54.817Z"
+  },
+  {
+    "id": "paper-1771069674832",
+    "title": "Characterizing the global polycrisis: A systematic review of recent literature",
+    "authors": ["Rakowski et al."],
+    "year": 2025,
+    "doi": "10.1016/j.gloenvcha.2024.103956",
+    "summary": "Comprehensive systematic review of polycrisis literature 2015-2024. Maps conceptual evolution, identifies research gaps, and proposes unified analytical framework for studying interconnected global risks.",
+    "key_findings": [
+      "Conceptual evolution from 'perfect storm' to 'polycrisis'",
+      "Research gaps in quantitative interaction modeling",
+      "Need for integrated assessment frameworks",
+      "Policy implications understudied"
+    ],
+    "visualization_id": "cld-1771069674832",
+    "category": "polycrisis_theory",
+    "added": "2026-02-14T11:47:54.832Z"
+  },
+  {
+    "id": "paper-1771069674843",
+    "title": "Tipping point detection and early warnings in climate, ecological, and human systems",
+    "authors": ["Dakos et al."],
+    "year": 2024,
+    "doi": "10.1038/s41586-024-07856-x",
+    "summary": "Advances in early warning signals for critical transitions across multiple system types. Reviews indicator performance and proposes unified framework for anticipating tipping points before they occur.",
+    "key_findings": [
+      "Critical slowing down precedes most tipping points",
+      "Universal indicators across system types",
+      "Warning times vary by system complexity",
+      "Intervention windows can be predicted"
+    ],
+    "visualization_id": "cld-1771069674843",
+    "category": "tipping_points",
+    "added": "2026-02-14T11:47:54.843Z"
+  }
+]

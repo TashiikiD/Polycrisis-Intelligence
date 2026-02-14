@@ -100,6 +100,87 @@
             color: var(--text-primary);
         }
 
+        /* Research Papers Section */
+        .papers-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .paper-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .paper-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .paper-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .paper-meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+        
+        .paper-summary {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .paper-key-findings {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .paper-key-findings li {
+            margin-bottom: 0.25rem;
+            margin-left: 1rem;
+        }
+        
+        .paper-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            background: var(--bg-void);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         .stats-bar {
             background: var(--bg-surface);
             border: 1px solid var(--border);
@@ -137,17 +218,29 @@
 
         <div class="stats-bar">
             <div class="stat">
+                <div class="stat-value" id="paper-count">0</div>
+                <div class="stat-label">Papers</div>
+            </div>
+            <div class="stat">
                 <div class="stat-value" id="viz-count">0</div>
                 <div class="stat-label">Visualizations</div>
             </div>
-            <div class="stat">
-                <div class="stat-value" id="paper-count">47</div>
-                <div class="stat-label">Papers</div>
+        </div>
+
+        <!-- Research Papers Section -->
+        <div class="papers-section">
+            <h2 class="section-title">📚 Research Papers</h2>
+            <div class="papers-grid" id="papers-grid">
+                <!-- Papers loaded dynamically -->
             </div>
         </div>
 
-        <div class="viz-grid" id="viz-grid">
-            <!-- Visualizations will be loaded dynamically -->
+        <!-- Visualizations Section -->
+        <div class="viz-section">
+            <h2 class="section-title">🔬 Causal Loop Diagrams</h2>
+            <div class="viz-grid" id="viz-grid">
+                <!-- Visualizations loaded dynamically -->
+            </div>
         </div>
 
         <div id="research-feedback" style="margin-top: 3rem; padding: 2rem; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border);">
@@ -158,6 +251,46 @@
     </div>
 
     <script>
+        async function loadPapers() {
+            const grid = document.getElementById('papers-grid');
+            
+            try {
+                const response = await fetch('../data/research/research.json');
+                const papers = await response.json();
+                
+                document.getElementById('paper-count').textContent = papers.length;
+
+                papers.forEach(paper => {
+                    const card = document.createElement('div');
+                    card.className = 'paper-card';
+                    
+                    const findingsHtml = paper.key_findings ? 
+                        `<ul class="paper-key-findings">${paper.key_findings.map(f => `<li>${f}</li>`).join('')}</ul>` : '';
+                    
+                    const vizLink = paper.visualization_id ? 
+                        `<a href="../causal-loops/index.html?id=${paper.visualization_id}" class="btn btn-primary">View CLD</a>` : '';
+
+                    card.innerHTML = `
+                        <div class="paper-title">${paper.title || 'Untitled Paper'}</div>
+                        <div class="paper-meta">
+                            ${paper.authors ? paper.authors.join(', ') : 'Unknown'} • ${paper.year || 'N/A'} • <span class="category-badge">${paper.category || 'research'}</span>
+                        </div>
+                        <div class="paper-summary">${paper.summary || 'No summary available.'}</div>
+                        ${findingsHtml}
+                        <div class="paper-actions">
+                            ${vizLink}
+                            ${paper.doi ? `<a href="https://doi.org/${paper.doi}" target="_blank" class="btn btn-secondary">View Paper</a>` : ''}
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Failed to load papers:', err);
+                grid.innerHTML = '<p style="color: var(--text-muted);">Unable to load research papers. Please try again later.</p>';
+            }
+        }
+
         async function loadVisualizations() {
             const grid = document.getElementById('viz-grid');
             
@@ -166,7 +299,6 @@
                 const visualizations = await response.json();
                 
                 document.getElementById('viz-count').textContent = visualizations.length;
-                document.getElementById('paper-count').textContent = '47';
 
                 visualizations.forEach(viz => {
                     const card = document.createElement('div');
@@ -194,6 +326,7 @@
         }
 
         // Initialize
+        loadPapers();
         loadVisualizations();
     </script>
 <script src="../shared/js/research-feedback.js"></script>

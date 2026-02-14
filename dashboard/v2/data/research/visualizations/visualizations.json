@@ -1,0 +1,47 @@
+﻿[
+    {
+        "id":  "cld-1771069674809",
+        "description":  "Auto-generated from paper synthesis",
+        "nodeCount":  2,
+        "type":  "CLD",
+        "created":  "2026-02-14T11:47:54.809Z",
+        "title":  "Earth beyond six of nine planetary boundaries",
+        "linkCount":  1
+    },
+    {
+        "id":  "cld-1771069674813",
+        "description":  "Auto-generated from paper synthesis",
+        "nodeCount":  7,
+        "type":  "CLD",
+        "created":  "2026-02-14T11:47:54.813Z",
+        "title":  "Global polycrisis: the causal mechanisms of crisis entanglement",
+        "linkCount":  6
+    },
+    {
+        "id":  "cld-1771069674817",
+        "description":  "Auto-generated from paper synthesis",
+        "nodeCount":  2,
+        "type":  "CLD",
+        "created":  "2026-02-14T11:47:54.817Z",
+        "title":  "The polycrisis is here, and system dynamics can help: a call to action",
+        "linkCount":  1
+    },
+    {
+        "id":  "cld-1771069674832",
+        "description":  "Auto-generated from paper synthesis",
+        "nodeCount":  4,
+        "type":  "CLD",
+        "created":  "2026-02-14T11:47:54.832Z",
+        "title":  "Characterizing the global polycrisis: A systematic review of recent literature",
+        "linkCount":  3
+    },
+    {
+        "id":  "cld-1771069674843",
+        "description":  "Auto-generated from paper synthesis",
+        "nodeCount":  2,
+        "type":  "CLD",
+        "created":  "2026-02-14T11:47:54.843Z",
+        "title":  "Tipping point detection and early warnings in climate, ecological, and human systems",
+        "linkCount":  1
+    }
+]

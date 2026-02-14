@@ -1,0 +1,89 @@
+{
+  "id": "cld-1771069674813",
+  "title": "Global polycrisis: the causal mechanisms of crisis entanglement",
+  "description": "Auto-generated from paper synthesis",
+  "created": "2026-02-14T11:47:54.813Z",
+  "nodes": [
+    {
+      "id": "var-0",
+      "name": "systemic risk",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-1",
+      "name": "feedback loop",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-2",
+      "name": "entanglement",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-3",
+      "name": "common stress",
+      "type": "outcome",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-4",
+      "name": "domino effect",
+      "type": "outcome",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-5",
+      "name": "inter-systemic",
+      "type": "outcome",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-6",
+      "name": "climate change",
+      "type": "intermediate",
+      "description": "Key concept from paper analysis"
+    }
+  ],
+  "links": [
+    {
+      "source": "var-0",
+      "target": "var-1",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-1",
+      "target": "var-2",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-2",
+      "target": "var-3",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-3",
+      "target": "var-4",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-4",
+      "target": "var-5",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-5",
+      "target": "var-6",
+      "type": "positive",
+      "strength": "moderate"
+    }
+  ],
+  "feedbackLoops": []
+}

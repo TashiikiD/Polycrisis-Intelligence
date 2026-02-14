@@ -1,0 +1,29 @@
+{
+  "id": "cld-1771069674843",
+  "title": "Tipping point detection and early warnings in climate, ecological, and human systems",
+  "description": "Auto-generated from paper synthesis",
+  "created": "2026-02-14T11:47:54.843Z",
+  "nodes": [
+    {
+      "id": "var-0",
+      "name": "tipping point",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-1",
+      "name": "feedback loop",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    }
+  ],
+  "links": [
+    {
+      "source": "var-0",
+      "target": "var-1",
+      "type": "positive",
+      "strength": "moderate"
+    }
+  ],
+  "feedbackLoops": []
+}

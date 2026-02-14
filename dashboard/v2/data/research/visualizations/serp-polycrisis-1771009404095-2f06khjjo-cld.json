@@ -1,0 +1,29 @@
+{
+  "id": "cld-1771069674817",
+  "title": "The polycrisis is here, and system dynamics can help: a call to action",
+  "description": "Auto-generated from paper synthesis",
+  "created": "2026-02-14T11:47:54.817Z",
+  "nodes": [
+    {
+      "id": "var-0",
+      "name": "feedback loop",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-1",
+      "name": "climate change",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    }
+  ],
+  "links": [
+    {
+      "source": "var-0",
+      "target": "var-1",
+      "type": "positive",
+      "strength": "moderate"
+    }
+  ],
+  "feedbackLoops": []
+}

@@ -1,0 +1,53 @@
+{
+  "id": "cld-1771069674832",
+  "title": "Characterizing the global polycrisis: A systematic review of recent literature",
+  "description": "Auto-generated from paper synthesis",
+  "created": "2026-02-14T11:47:54.832Z",
+  "nodes": [
+    {
+      "id": "var-0",
+      "name": "cascad",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-1",
+      "name": "feedback loop",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-2",
+      "name": "climate change",
+      "type": "driver",
+      "description": "Key concept from paper analysis"
+    },
+    {
+      "id": "var-3",
+      "name": "inequality",
+      "type": "outcome",
+      "description": "Key concept from paper analysis"
+    }
+  ],
+  "links": [
+    {
+      "source": "var-0",
+      "target": "var-1",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-1",
+      "target": "var-2",
+      "type": "positive",
+      "strength": "moderate"
+    },
+    {
+      "source": "var-2",
+      "target": "var-3",
+      "type": "positive",
+      "strength": "moderate"
+    }
+  ],
+  "feedbackLoops": []
+}

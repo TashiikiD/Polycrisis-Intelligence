@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Polycrisis Intelligence</title>
+    <link rel="stylesheet" href="shared/css/variables.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 2px var(--accent-cyan);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-cyan);
+            color: var(--bg-void);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .price {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-check {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-void);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .comparison {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .comparison h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .comparison-table td {
+            font-size: 0.875rem;
+        }
+
+        .comparison-table tr:hover {
+            background: var(--bg-void);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">POLYCRISIS INTELLIGENCE</div>
+            <h1>Simple, Transparent Pricing</h1>
+            <p class="subtitle">Start free, scale as you grow. All plans include access to 12+ data sources and the WSSI synthesis engine.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Tier -->
+            <div class="pricing-card">
+                <div class="tier-name">Free</div>
+                <div class="tier-description">For developers and researchers getting started</div>
+                <div class="price">
+                    <span class="price-amount">$0</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="features">
+                    <li><span class="feature-check">✓</span> 100 API calls/day</li>
+                    <li><span class="feature-check">✓</span> 12+ data sources</li>
+                    <li><span class="feature-check">✓</span> Basic WSSI scores</li>
+                    <li><span class="feature-check">✓</span> CSV exports</li>
+                    <li><span class="feature-check">✓</span> Community support</li>
+                </ul>
+                
+                <a href="/signup?plan=free" class="btn btn-secondary">Get Started Free</a>
+            </div>
+
+            <!-- Developer Tier -->
+            <div class="pricing-card">
+                <div class="tier-name">Developer</div>
+                <div class="tier-description">For startups and indie developers</div>
+                <div class="price">
+                    <span class="price-amount">$49</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="features">
+                    <li><span class="feature-check">✓</span> 1,000 API calls/day</li>
+                    <li><span class="feature-check">✓</span> 12+ data sources</li>
+                    <li><span class="feature-check">✓</span> Advanced WSSI scores</li>
+                    <li><span class="feature-check">✓</span> CSV & JSON exports</li>
+                    <li><span class="feature-check">✓</span> Email support</li>
+                    <li><span class="feature-check">✓</span> Webhook notifications</li>
+                </ul>
+                
+                <a href="/signup?plan=developer" class="btn btn-secondary">Start Developer Trial</a>
+            </div>
+
+            <!-- Pro Tier -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <div class="tier-name">Pro</div>
+                <div class="tier-description">For SMEs and consultancies</div>
+                <div class="price">
+                    <span class="price-amount">$199</span>
+                    <span class="price-period">/month</span>
+                </div>
+                
+                <ul class="features">
+                    <li><span class="feature-check">✓</span> 10,000 API calls/day</li>
+                    <li><span class="feature-check">✓</span> 12+ data sources</li>
+                    <li><span class="feature-check">✓</span> Full WSSI analytics</li>
+                    <li><span class="feature-check">✓</span> All export formats</li>
+                    <li><span class="feature-check">✓</span> Priority support</li>
+                    <li><span class="feature-check">✓</span> Custom webhooks</li>
+                    <li><span class="feature-check">✓</span> Team collaboration</li>
+                </ul>
+                
+                <a href="/signup?plan=pro" class="btn btn-primary">Start Pro Trial</a>
+            </div>
+
+            <!-- Enterprise Tier -->
+            <div class="pricing-card">
+                <div class="tier-name">Enterprise</div>
+                <div class="tier-description">For fintech, governments, and Fortune 500</div>
+                <div class="price">
+                    <span class="price-amount">Custom</span>
+                </div>
+                
+                <ul class="features">
+                    <li><span class="feature-check">✓</span> Unlimited API calls</li>
+                    <li><span class="feature-check">✓</span> Custom data integrations</li>
+                    <li><span class="feature-check">✓</span> Dedicated support</li>
+                    <li><span class="feature-check">✓</span> SLA guarantees</li>
+                    <li><span class="feature-check">✓</span> White-label options</li>
+                    <li><span class="feature-check">✓</span> On-premise deployment</li>
+                </ul>
+                
+                <a href="/contact?plan=enterprise" class="btn btn-secondary">Contact Sales</a>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <h2>Feature Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Free</th>
+                        <th>Developer</th>
+                        <th>Pro</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>API Calls/Day</td>
+                        <td>100</td>
+                        <td>1,000</td>
+                        <td>10,000</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Data Sources</td>
+                        <td>12+</td>
+                        <td>12+</td>
+                        <td>12+</td>
+                        <td>Custom</td>
+                    </tr>
+                    <tr>
+                        <td>WSSI Scores</td>
+                        <td>Basic</td>
+                        <td>Advanced</td>
+                        <td>Full Analytics</td>
+                        <td>Custom</td>
+                    </tr>
+                    <tr>
+                        <td>Export Formats</td>
+                        <td>CSV</td>
+                        <td>CSV, JSON</td>
+                        <td>All Formats</td>
+                        <td>Custom</td>
+                    </tr>
+                    <tr>
+                        <td>Webhooks</td>
+                        <td>—</td>
+                        <td>Basic</td>
+                        <td>Custom</td>
+                        <td>Enterprise</td>
+                    </tr>
+                    <tr>
+                        <td>Support</td>
+                        <td>Community</td>
+                        <td>Email</td>
+                        <td>Priority</td>
+                        <td>Dedicated</td>
+                    </tr>
+                    <tr>
+                        <td>Team Members</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>5</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>SLA</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>99.9%</td>
+                        <td>99.99%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>All plans include access to climate, economic, conflict, governance, and SDG data sources.</p>
+            <p>Questions? <a href="mailto:sales@polycrisis.io">Contact our sales team</a> or <a href="/docs">read the docs</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

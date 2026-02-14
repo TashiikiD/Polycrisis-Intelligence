@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Library | Polycrisis Intelligence</title>
+    <link rel="stylesheet" href="../shared/css/variables.css">
+    <link rel="stylesheet" href="../shared/css/dashboard.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .viz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .viz-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .viz-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .viz-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .viz-meta {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .viz-meta span {
+            background: var(--bg-void);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .viz-preview {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .viz-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-void);
+        }
+
+        .btn-secondary {
+            background: var(--bg-void);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        .stats-bar {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">POLYCRISIS INTELLIGENCE</div>
+            <h1>Research Library</h1>
+            <div class="subtitle">Automated visualizations from research papers</div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="viz-count">0</div>
+                <div class="stat-label">Visualizations</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="paper-count">47</div>
+                <div class="stat-label">Papers</div>
+            </div>
+        </div>
+
+        <div class="viz-grid" id="viz-grid">
+            <!-- Visualizations will be loaded dynamically -->
+        </div>
+
+        <div id="research-feedback" style="margin-top: 3rem; padding: 2rem; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border);">
+          <!-- Feedback widget loads here -->
+        </div>
+
+        <a href="../index.html" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        async function loadVisualizations() {
+            const grid = document.getElementById('viz-grid');
+            
+            try {
+                const response = await fetch('../data/research/visualizations/visualizations.json');
+                const visualizations = await response.json();
+                
+                document.getElementById('viz-count').textContent = visualizations.length;
+                document.getElementById('paper-count').textContent = '47';
+
+                visualizations.forEach(viz => {
+                    const card = document.createElement('div');
+                    card.className = 'viz-card';
+
+                    card.innerHTML = `
+                        <div class="viz-title">${viz.title || 'Untitled Visualization'}</div>
+                        <div class="viz-meta">
+                            <span>${viz.type || 'CLD'}</span>
+                            <span>${viz.nodeCount || 0} nodes</span>
+                            <span>${viz.linkCount || 0} links</span>
+                        </div>
+                        <div class="viz-preview">${viz.description || 'Causal loop diagram generated from research synthesis.'}</div>
+                        <div class="viz-actions">
+                            <a href="../causal-loops/index.html?id=${viz.id}" class="btn btn-primary">View Visualization</a>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Failed to load visualizations:', err);
+                grid.innerHTML = '<p style="color: var(--text-muted);">Unable to load visualizations. Please try again later.</p>';
+            }
+        }
+
+        // Initialize
+        loadVisualizations();
+    </script>
+<script src="../shared/js/research-feedback.js"></script>
+</body>
+</html>

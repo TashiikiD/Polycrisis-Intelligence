@@ -1,0 +1,2529 @@
+{
+  "papers": [
+    {
+      "id": "manual-1771008930557",
+      "source": "manual",
+      "title": "Global Tipping Points in the Earth System",
+      "authors": [
+        "Tim Lenton",
+        "Johan Rockström"
+      ],
+      "journal": "Nature",
+      "year": 2023,
+      "citations": 2450,
+      "abstract": "We review evidence for tipping points in climate, biosphere, and social systems.",
+      "link": "https://doi.org/10.1038/example",
+      "pdf_link": "https://doi.org/10.1038/example",
+      "status": "approved",
+      "added": "2026-02-13T18:55:30.557Z",
+      "score": 245,
+      "scoring_reasons": [
+        "100pts (citations)",
+        "10pts (2 authors)",
+        "+50pts (nature)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ],
+      "approved_at": "2026-02-13T19:26:39.853Z",
+      "fullTextFetched": true,
+      "fullTextSource": "openalex",
+      "fullTextError": null
+    },
+    {
+      "id": "serp-polycrisis-1771009404093-dd3m3bdch",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Global polycrisis: the causal mechanisms of crisis entanglement",
+      "authors": [
+        "M Lawrence",
+        "T Homer-Dixon",
+        "S Janzwood"
+      ],
+      "journal": "M Lawrence, T Homer-Dixon, S Janzwood…",
+      "year": 2024,
+      "citations": 671,
+      "abstract": "… characterize the situation as a ‘polycrisis’. Yet this neologism remains … Drawing on current examples, we show that the polycrisis … The term ‘polycrisis’ appears with growing frequently to …",
+      "link": "https://www.cambridge.org/core/journals/global-sustainability/article/global-polycrisis-the-causalmechanisms-of-crisis-entanglement/06F0F8F3B993A221971151E3CB054B5E",
+      "pdf_link": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/06F0F8F3B993A221971151E3CB054B5E/S2059479824000012a.pdf/global_polycrisis_the_causal_mechanisms_of_crisis_entanglement.pdf",
+      "status": "approved",
+      "added": "2026-02-13T19:03:24.093Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 185,
+      "scoring_reasons": [
+        "60pts (citations)",
+        "15pts (3 authors)",
+        "+10pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T19:27:37.830Z",
+      "fullTextFetched": true,
+      "fullTextSource": "zotero",
+      "fullTextError": null,
+      "zoteroKey": "2E96BB2I",
+      "zoteroSynced": true,
+      "pdfLocalPath": "E:\\D-backup\\Zotero Data\\storage\\UM5G6EII\\Lawrence et al. - 2024 - Global polycrisis the causal mechanisms of crisis entanglement.pdf"
+    },
+    {
+      "id": "serp-polycrisis-1771009404094-bzpq054mn",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "How do crises spread? The polycrisis and crisis transmission",
+      "authors": [
+        "M Brosig"
+      ],
+      "journal": "M Brosig",
+      "year": 2025,
+      "citations": 8,
+      "abstract": "… polycrisis refers to simultaneous and interconnected crises that amplify each other's effects. Understanding how crises spread is crucial for understanding how a polycrisis … The polycrisis …",
+      "link": "https://www.cambridge.org/core/journals/global-sustainability/article/how-do-crises-spread-the-polycrisis-and-crisis-transmission/13A9328F0F520268C61887E821868397",
+      "pdf_link": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/13A9328F0F520268C61887E821868397/S2059479825000146a.pdf/how-do-crises-spread-the-polycrisis-and-crisis-transmission.pdf",
+      "status": "approved",
+      "added": "2026-02-13T19:03:24.094Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+20pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T19:27:38.079Z",
+      "fullTextFetched": true,
+      "fullTextSource": "openalex",
+      "fullTextError": null
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-l3h02bbcl",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Rethinking entrepreneurship in causally entangled crises: A poly-crisis perspective",
+      "authors": [
+        "K Klyver",
+        "JS McMullen"
+      ],
+      "journal": "K Klyver, JS McMullen",
+      "year": 2025,
+      "citations": 22,
+      "abstract": "… Over the last few years, the world has witnessed the emergence of a poly-crisis era in which … In this editorial, we propose a poly-crisis perspective to entrepreneurship and compare it …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0883902624000818",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0883902624000818",
+      "status": "rejected",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 130,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+20pts (recent)",
+        "+100pts (\"poly-crisis\")"
+      ],
+      "domains": [],
+      "rejected_at": "2026-02-13T22:30:19.887Z",
+      "rejection_reason": "Over-inflated score due to polycrisis wording. ",
+      "rejection_details": "",
+      "feedback_tags": [],
+      "reviewed_by": "tashi"
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-dwp5m10vi",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Polycrisis patterns: applying system archetypes to crisis interactions",
+      "authors": [
+        "D Collste",
+        "CI Apetrei",
+        "LB Sweeney",
+        "JL Boucher"
+      ],
+      "journal": "D Collste, CI Apetrei, LB Sweeney, JL Boucher…",
+      "year": 2025,
+      "citations": 6,
+      "abstract": "… to a polycrisis context. To highlight each system archetype’s particularities for a polycrisis context, we suggest a ‘polycrisis pattern’. In Section 4, we discuss the potential of the polycrisis …",
+      "link": "https://www.cambridge.org/core/journals/global-sustainability/article/polycrisis-patterns-applying-system-archetypes-to-crisis-interactions/95925B186BBA3A9675127480B103FCC1",
+      "pdf_link": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/95925B186BBA3A9675127480B103FCC1/S2059479825000213a.pdf/polycrisis_patterns_applying_system_archetypes_to_crisis_interactions.pdf",
+      "status": "approved",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 140,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+20pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T19:27:37.954Z",
+      "fullTextFetched": true,
+      "fullTextSource": "openalex",
+      "fullTextError": null
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-j09ealbz4",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Characterizing the global polycrisis: A systematic review of recent literature",
+      "authors": [
+        "JJ Rakowski",
+        "LN Schaan",
+        "R van Klink"
+      ],
+      "journal": "JJ Rakowski, LN Schaan, R van Klink…",
+      "year": 2025,
+      "citations": 10,
+      "abstract": "… To better understand how various authors understand the polycrisis, we analyzed the definitions and descriptions of the polycrisis, and its synonyms, in the reviewed publications. While …",
+      "link": "https://www.annualreviews.org/content/journals/10.1146/annurev-environ-111523-102238",
+      "pdf_link": "https://www.annualreviews.org/content/journals/10.1146/annurev-environ-111523-102238?crawler=true&mimetype=application/pdf",
+      "status": "approved",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 135,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+20pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T22:20:54.018Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "zotero",
+      "fullTextError": null,
+      "zoteroKey": "C7B84GSP",
+      "zoteroSynced": true,
+      "pdfLocalPath": "E:\\D-backup\\Zotero Data\\storage\\UUVU47PZ\\Rakowski et al. - Characterizing the Global Polycrisis A Systematic Review of Recent Literature.pdf"
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-2f06khjjo",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "The polycrisis is here, and system dynamics can help: a call to action",
+      "authors": [
+        "V Picanço Rodrigues",
+        "M Lawrence"
+      ],
+      "journal": "V Picanço Rodrigues, M Lawrence…",
+      "year": 2025,
+      "citations": 6,
+      "abstract": "… of what scholars today call the polycrisis. At the core of the … Polycrisis thinkers maintain that the polycrisis as a whole is … And polycrisis thinkers emphasize nonlinear dynamics and …",
+      "link": "https://onlinelibrary.wiley.com/share/author/7QJEDSPGW8JUB7WRP2GP?target=10.1002/sdr.1796&trk=public_post_comment-text",
+      "pdf_link": "https://onlinelibrary.wiley.com/share/author/7QJEDSPGW8JUB7WRP2GP?target=10.1002/sdr.1796&trk=public_post_comment-text",
+      "status": "approved",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 130,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+20pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T22:31:31.829Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "zotero",
+      "fullTextError": "No open access or shadow library version found. Manual institutional access required.",
+      "pdfLocalPath": "E:\\D-backup\\Zotero Data\\storage\\PDW8YMA6\\Picanço Rodrigues et al. - 2025 - The polycrisis is here, and system dynamics can help a call to action.pdf",
+      "fullTextFetchedAt": "2026-02-13T23:13:20.074Z",
+      "zoteroKey": "Y287Q42E",
+      "zoteroSynced": true
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-2vyp2h6wn",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Polycrisis in the Anthropocene: an invitation to contributions and debates",
+      "authors": [
+        "M Lawrence"
+      ],
+      "journal": "M Lawrence",
+      "year": 2024,
+      "citations": 34,
+      "abstract": "… the polycrisis concept: Are we in a polycrisis, at risk of a polycrisis, or neither? Is the present … explores three key debates around the polycrisis concept: Are we in a polycrisis, at risk of a …",
+      "link": "https://www.cambridge.org/core/journals/global-sustainability/article/polycrisis-in-the-anthropocene-an-invitation-to-contributions-and-debates/E2BDC2DF88259F9A59A364E6C581F41C",
+      "pdf_link": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E2BDC2DF88259F9A59A364E6C581F41C/S2059479824000024a.pdf/div-class-title-polycrisis-in-the-anthropocene-an-invitation-to-contributions-and-debates-div.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 115,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+10pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-8o5642elh",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "The paradox of polycrisis: Capitalism, history, and the present",
+      "authors": [
+        "M Penner"
+      ],
+      "journal": "M Penner",
+      "year": 2023,
+      "citations": 25,
+      "abstract": "… This interactive quality gives the polycrisis its specificity as a … Both critics and adherents of the polycrisis idea are using it to … Polycrisis thus opens our eyes to complexity and interaction …",
+      "link": "https://utppublishing.com/doi/abs/10.3138/jh-2022-0022",
+      "pdf_link": "https://utppublishing.com/doi/abs/10.3138/jh-2022-0022",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-04zqbw93v",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "A crisis of crisis management: The polycrisis, the organization of pessimism, and the defensive turn",
+      "authors": [
+        "B Seyd"
+      ],
+      "journal": "B Seyd",
+      "year": 2025,
+      "citations": 8,
+      "abstract": "… polycrisis just like Benjamin’s angel—as a starting rather than an end point. Taking up on Benjamin’s notion that pessimism can and will be organized, I attempt to unpack the polycrisis’ …",
+      "link": "https://journals.sagepub.com/doi/abs/10.1177/13684310251336133",
+      "pdf_link": "https://journals.sagepub.com/doi/pdf/10.1177/13684310251336133",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+20pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-polycrisis-1771009404095-udby4ybcz",
+      "source": "serpapi",
+      "query_name": "polycrisis",
+      "title": "Positive pathways through polycrisis",
+      "authors": [
+        "M Lawrence",
+        "M Shipman"
+      ],
+      "journal": "M Lawrence, M Shipman",
+      "year": 2024,
+      "citations": 7,
+      "abstract": "The emerging field of polycrisis analysis offers novel insights on the complex and systemic nature of the world’s intersecting problems. Its findings are generally bleak. The more we …",
+      "link": "https://cascadeinstitute.org/wp-content/uploads/2024/06/Positive-Pathways-Report-June-27-2024.pdf",
+      "pdf_link": "https://cascadeinstitute.org/wp-content/uploads/2024/06/Positive-Pathways-Report-June-27-2024.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:24.095Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 120,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+10pts (recent)",
+        "+100pts (\"polycrisis\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-tipping_points-1771009405843-l2ndlamk2",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Climate tipping point interactions and cascades: a review",
+      "authors": [
+        "N Wunderling",
+        "AS von der Heydt"
+      ],
+      "journal": "N Wunderling, AS von der Heydt…",
+      "year": 2024,
+      "citations": 148,
+      "abstract": "… as any climate subsystem that shows threshold behavior (at its so-called tipping point) beyond … This means that, at the tipping point, a small shift in the background climate can trigger a …",
+      "link": "https://esd.copernicus.org/articles/15/41/2024/esd-15-41-2024.html",
+      "pdf_link": "https://esd.copernicus.org/articles/15/41/2024/esd-15-41-2024.html",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 115,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "10pts (2 authors)",
+        "+10pts (recent)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-4emqckg4o",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "When will the Amazon hit a tipping point?",
+      "authors": [
+        "I Amigo"
+      ],
+      "journal": "I Amigo",
+      "year": 2020,
+      "citations": 155,
+      "abstract": "… The jury's out on that,\" says Peter Cox, a climate researcher at the University of Exeter, UK, who was one of the first to study an Amazon tipping point in detail in the 2000s. \"I don't think …",
+      "link": "https://go.gale.com/ps/i.do?id=GALE%7CA626943608&sid=googleScholar&v=2.1&it=r&linkaccess=abs&issn=00280836&p=AONE&sw=w",
+      "pdf_link": "https://go.gale.com/ps/i.do?id=GALE%7CA626943608&sid=googleScholar&v=2.1&it=r&linkaccess=abs&issn=00280836&p=AONE&sw=w",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "5pts (1 authors)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-fw87fs4e6",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Overshooting tipping point thresholds in a changing climate",
+      "authors": [
+        "PDL Ritchie",
+        "JJ Clarke",
+        "PM Cox",
+        "C Huntingford"
+      ],
+      "journal": "PDL Ritchie, JJ Clarke, PM Cox, C Huntingford",
+      "year": 2021,
+      "citations": 247,
+      "abstract": "… -onset tipping point, and hypothetical examples include Amazon … ice sheet loss 25 and the collapse of the Atlantic Meridional Overturning Circulation (AMOC) 26 . Passing a tipping point …",
+      "link": "https://www.nature.com/articles/s41586-021-03263-2",
+      "pdf_link": "https://nora.nerc.ac.uk/id/eprint/530416/1/N530416PP.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "20pts (4 authors)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-ayjz5rcwg",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Can we avert an Amazon tipping point? The economic and environmental costs",
+      "authors": [
+        "O Banerjee",
+        "M Cicowiez",
+        "MN Macedo"
+      ],
+      "journal": "O Banerjee, M Cicowiez, MN Macedo…",
+      "year": 2022,
+      "citations": 31,
+      "abstract": "… feedbacks between climate and continued deforestation could lead to an irreversible situation that is the focus of this paper: a tipping point beyond which large areas of the Amazon no …",
+      "link": "https://iopscience.iop.org/article/10.1088/1748-9326/aca3b8/meta",
+      "pdf_link": "https://iopscience.iop.org/article/10.1088/1748-9326/aca3b8/pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-kt1hfjd4n",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Close to a tipping point? The Amazon and the challenge of sustainable development under growing climate pressures",
+      "authors": [
+        "JC Pereira",
+        "E Viola"
+      ],
+      "journal": "JC Pereira, E Viola",
+      "year": 2020,
+      "citations": 29,
+      "abstract": "… in the Amazon, arguing that global efforts to mitigate climate … the growing climate pressures jeopardising the Amazon’s … ; and the failure of the Amazon Cooperation Treaty Organization (…",
+      "link": "https://www.cambridge.org/core/journals/journal-of-latin-american-studies/article/close-to-a-tipping-point-the-amazon-and-the-challenge-of-sustainable-development-under-growing-climate-pressures/6F578D686A8B69448E7334E8F93EB2AF",
+      "pdf_link": "https://www.cambridge.org/core/journals/journal-of-latin-american-studies/article/close-to-a-tipping-point-the-amazon-and-the-challenge-of-sustainable-development-under-growing-climate-pressures/6F578D686A8B69448E7334E8F93EB2AF",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-kqrdmdoet",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "No respite from permafrost-thaw impacts in the absence of a global tipping point",
+      "authors": [
+        "J Nitzbon",
+        "T Schneider von Deimling",
+        "M Aliyeva"
+      ],
+      "journal": "J Nitzbon, T Schneider von Deimling, M Aliyeva…",
+      "year": 2024,
+      "citations": 55,
+      "abstract": "… response of Arctic permafrost to climate warming remains quasilinear. We argue that in the absence of a global tipping point there is no safety margin within which permafrost loss would …",
+      "link": "https://www.nature.com/articles/s41558-024-02011-4",
+      "pdf_link": "https://eartharxiv.org/repository/object/5986/download/11669/",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+10pts (recent)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-hqsd16su5",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Tipping point detection and early warnings in climate, ecological, and human systems",
+      "authors": [
+        "V Dakos",
+        "CA Boulton",
+        "JE Buxton"
+      ],
+      "journal": "V Dakos, CA Boulton, JE Buxton…",
+      "year": 2024,
+      "citations": 59,
+      "abstract": "… system is approaching a tipping point. Such approaches have … indicative of an approaching tipping point. Although the idea … spread from ecology and climate to many other disciplines. …",
+      "link": "https://esd.copernicus.org/articles/15/1117/2024/esd-15-1117-2024.html",
+      "pdf_link": "https://esd.copernicus.org/articles/15/1117/2024/esd-15-1117-2024.html",
+      "status": "approved",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 140,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+10pts (recent)",
+        "+85pts (\"tipping point\")",
+        "+30pts (cross-domain: climate, ecology)"
+      ],
+      "domains": [
+        "climate",
+        "ecology"
+      ],
+      "approved_at": "2026-02-13T22:20:47.932Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "zotero",
+      "fullTextError": "No open access or shadow library version found. Manual institutional access required.",
+      "pdfLocalPath": "E:\\D-backup\\Zotero Data\\storage\\ANPR6SAL\\Dakos et al. - 2024 - Tipping point detection and early warnings in climate, ecological, and human systems.pdf",
+      "fullTextFetchedAt": "2026-02-13T23:14:56.106Z",
+      "zoteroKey": "JUNMFJTM",
+      "zoteroSynced": true
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-7p6pjj8kp",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "High probability of triggering climate tipping points under current policies modestly amplified by Amazon dieback and permafrost thaw",
+      "authors": [
+        "J Deutloff",
+        "H Held",
+        "TM Lenton"
+      ],
+      "journal": "J Deutloff, H Held, TM Lenton",
+      "year": 2025,
+      "citations": 19,
+      "abstract": "… three carbon TEs with up to 250 Gt C (Table 1), the impact of tipping elements within the carbon cycle will be less severe than found in this study if PFTP does not include a tipping point. …",
+      "link": "https://esd.copernicus.org/articles/16/565/2025/",
+      "pdf_link": "https://esd.copernicus.org/articles/16/565/2025/esd-16-565-2025.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 120,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+20pts (recent)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-e6kryjo5p",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "The Tipping Points Modelling Intercomparison Project (TIPMIP): Assessing tipping point risks in the Earth system",
+      "authors": [
+        "R Winkelmann",
+        "D Dennis"
+      ],
+      "journal": "R Winkelmann, D Dennis…",
+      "year": 2025,
+      "citations": 6,
+      "abstract": "… points, such as ice sheet instability or ecosystem loss from tropical forests, transition to high … no such systematic approach to study tipping point risks in a standardized way across …",
+      "link": "https://publications.pik-potsdam.de/pubman/faces/ViewItemFullPage.jsp?itemId=item_32434_13&view=ACTIONS",
+      "pdf_link": "https://publications.pik-potsdam.de/pubman/item/item_32434_13/component/file_32435/egusphere-2025-1899.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 115,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+20pts (recent)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-tipping_points-1771009405844-9uyauywr8",
+      "source": "serpapi",
+      "query_name": "tipping_points",
+      "title": "Economic impacts of tipping points in the climate system",
+      "authors": [
+        "S Dietz",
+        "J Rising",
+        "T Stoerk",
+        "G Wagner"
+      ],
+      "journal": "S Dietz, J Rising, T Stoerk, G Wagner",
+      "year": 2021,
+      "citations": 290,
+      "abstract": "… tipping point … tipping point modules replicated in this study, spanning eight tipping points, which are broadly divided into 1) positive carbon-cycle and temperature feedbacks, 2) ice sheet …",
+      "link": "https://www.pnas.org/doi/abs/10.1073/pnas.2103081118",
+      "pdf_link": "https://www.pnas.org/doi/pdf/10.1073/pnas.2103081118",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:25.844Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "20pts (4 authors)",
+        "+85pts (\"tipping point\")"
+      ],
+      "domains": [
+        "climate"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-qz6zy0wjm",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "On the origin of systemic risk",
+      "authors": [
+        "M Montagna",
+        "G Torri",
+        "G Covi"
+      ],
+      "journal": "M Montagna, G Torri, G Covi",
+      "year": 2020,
+      "citations": 44,
+      "abstract": "… To capture this endogenous feature of our economic and financial system and its systemic risk implications, we model the initial triggers of systemic events introducing stochastic …",
+      "link": "https://www.econstor.eu/handle/10419/229116",
+      "pdf_link": "https://www.econstor.eu/bitstream/10419/229116/1/ecb-wp2502.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": [
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-a6w7n0ljw",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Measuring systemic risk and contagion in the European financial network",
+      "authors": [
+        "L Tafakori",
+        "A Pourkhanali",
+        "R Rastelli"
+      ],
+      "journal": "L Tafakori, A Pourkhanali, R Rastelli",
+      "year": 2022,
+      "citations": 21,
+      "abstract": "… default dependence and systemic risk in a financial network that evolves … financial crises. We propose a new statistical model that permits a latent space visualisation of the financial …",
+      "link": "https://link.springer.com/article/10.1007/s00181-021-02135-y",
+      "pdf_link": "https://arxiv.org/pdf/1911.11488",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": [
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-eisvia7hq",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Systemic risk and financial contagion across top global energy companies",
+      "authors": [
+        "F Wu",
+        "D Zhang",
+        "Q Ji"
+      ],
+      "journal": "F Wu, D Zhang, Q Ji",
+      "year": 2021,
+      "citations": 104,
+      "abstract": "This study seeks to explore the firm-level interconnections in the fast changing and integrating global energy market. We investigate the risk connectedness using a Value-at-Risk (VaR) …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0140988321001262",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0140988321001262",
+      "status": "approved",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 135,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")",
+        "+30pts (cross-domain: finance, energy)"
+      ],
+      "domains": [
+        "finance",
+        "energy"
+      ],
+      "approved_at": "2026-02-13T22:21:43.782Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "openalex",
+      "fullTextError": null
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-fsrzh0fwq",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Systemic risk in financial networks: A survey",
+      "authors": [
+        "MO Jackson",
+        "A Pernoud"
+      ],
+      "journal": "MO Jackson, A Pernoud",
+      "year": 2021,
+      "citations": 249,
+      "abstract": "… between financial networks and systemic risk. We present a taxonomy of different types of systemic risk, differentiating between direct externalities between financial organizations (eg, …",
+      "link": "https://www.annualreviews.org/content/journals/10.1146/annurev-economics-083120-111540",
+      "pdf_link": "https://arxiv.org/pdf/2012.12702",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "10pts (2 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": [
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-c63zuma1f",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Concentrated commonalities and systemic risk in China's banking system: a contagion network approach",
+      "authors": [
+        "Q Shi",
+        "X Sun",
+        "Y Jiang"
+      ],
+      "journal": "Q Shi, X Sun, Y Jiang",
+      "year": 2022,
+      "citations": 33,
+      "abstract": "… role in generating systemic risk, amplified non-linearly by multi-rounds of contagion; (4) a … structural perspective to investigate the systemic risk, and a macroprudential instrument to …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S1057521922002113",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S1057521922002113",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-systemic_risk-1771009406734-wgbh44qrv",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Non-financial corporations and systemic risk",
+      "authors": [
+        "M Dungey",
+        "T Flavin",
+        "T O'Connor",
+        "M Wosser"
+      ],
+      "journal": "M Dungey, T Flavin, T O'Connor, M Wosser",
+      "year": 2022,
+      "citations": 73,
+      "abstract": "… -financial firms. We compute two firm-specific measures of systemic risk for 1145 non-financial … Systemic risk measures exhibit substantial variation across firms and over time. The firm's …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0929119921002510",
+      "pdf_link": "https://mural.maynoothuniversity.ie/17212/1/1-s2.0-S0929119921002510-main.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.734Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": [
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406735-99qktn9ki",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Systemic risk: The impact of COVID-19",
+      "authors": [
+        "MS Rizwan",
+        "G Ahmad",
+        "D Ashraf"
+      ],
+      "journal": "MS Rizwan, G Ahmad, D Ashraf",
+      "year": 2020,
+      "citations": 396,
+      "abstract": "… the systemic risk in the banking sectors of eight of the most COVID-19 affected countries. We find a significant increase in systemic risk … of policy responses in containing systemic risk. …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S154461232030684X",
+      "pdf_link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7334938/pdf/main.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.735Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "30pts (citations)",
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-systemic_risk-1771009406735-ijd8jesvy",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Measuring systemic risk in the global banking sector: A cross-quantilogram network approach",
+      "authors": [
+        "E Baumöhl",
+        "E Bouri",
+        "SJH Shahzad",
+        "T Výrost"
+      ],
+      "journal": "E Baumöhl, E Bouri, SJH Shahzad, T Výrost",
+      "year": 2022,
+      "citations": 50,
+      "abstract": "… We propose a new systemic risk index based on the … banking system and identification of the specific contribution of each individual bank. Using this design, the proposed systemic risk …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0264999322000219",
+      "pdf_link": "https://www.econstor.eu/bitstream/10419/249340/1/Systemic_Risk_Banks.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.735Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-systemic_risk-1771009406735-qdwn00o1n",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "Quantification of systemic risk from overlapping portfolios in the financial system",
+      "authors": [
+        "S Poledna",
+        "S Martínez-Jaramillo",
+        "F Caccioli"
+      ],
+      "journal": "S Poledna, S Martínez-Jaramillo, F Caccioli…",
+      "year": 2021,
+      "citations": 131,
+      "abstract": "… when financial institutions invest in common assets and is referred to as overlapping portfolios. In this work we quantify systemic risk from indirect interconnections between financial …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S1572308920301108",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S1572308920301108",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.735Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "15pts (3 authors)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": [
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-systemic_risk-1771009406735-ls6tsrwyn",
+      "source": "serpapi",
+      "query_name": "systemic_risk",
+      "title": "The determinants of systemic risk contagion",
+      "authors": [
+        "BS Atasoy",
+        "İ Özkan",
+        "L Erden"
+      ],
+      "journal": "BS Atasoy, İ Özkan, L Erden",
+      "year": 2024,
+      "citations": 26,
+      "abstract": "… -based contagion metric and investigates the drivers of systemic risk contagion, employing … Our findings indicate that contagion during the 2004–2021 period is largely driven by credit …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S026499932300408X",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S026499932300408X",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:26.735Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+10pts (recent)",
+        "+80pts (\"systemic risk\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-food_systems-1771009408041-4csruinvi",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Food system resilience: concepts, issues, and challenges",
+      "authors": [
+        "M Zurek",
+        "J Ingram",
+        "A Sanderson Bellamy"
+      ],
+      "journal": "M Zurek, J Ingram, A Sanderson Bellamy…",
+      "year": 2022,
+      "citations": 209,
+      "abstract": "… We draw on food system and resilience concepts and review resilience framings of different … We present four questions to frame food system resilience (Resilience of what? Resilience …",
+      "link": "https://www.annualreviews.org/content/journals/10.1146/annurev-environ-112320-050744",
+      "pdf_link": "https://www.annualreviews.org/content/journals/10.1146/annurev-environ-112320-050744?crawler=true&mimetype=application/pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "15pts (3 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-69tktkpdk",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Food system resilience and COVID-19–Lessons from the Asian experience",
+      "authors": [
+        "S Fan",
+        "P Teng",
+        "P Chew",
+        "G Smith",
+        "L Copeland"
+      ],
+      "journal": "S Fan, P Teng, P Chew, G Smith, L Copeland",
+      "year": 2021,
+      "citations": 275,
+      "abstract": "… The agri-food system may be considered as an instrument of … This paper discusses food system resilience, focusing on … -19 pandemic on the food system in ASEAN countries and China …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S2211912421000110",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S2211912421000110",
+      "status": "rejected",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 145,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "25pts (5 authors)",
+        "+70pts (\"food system\")",
+        "+30pts (cross-domain: food, health)"
+      ],
+      "domains": [
+        "food",
+        "health"
+      ],
+      "rejected_at": "2026-02-13T22:16:11.258Z",
+      "rejection_reason": "5 years old. People don't want to read covid related things. ",
+      "rejection_details": "",
+      "feedback_tags": [],
+      "reviewed_by": "tashi"
+    },
+    {
+      "id": "serp-food_systems-1771009408041-2tvdje1r1",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Food system resilience measurement: principles, framework and caveats",
+      "authors": [
+        "C Béné",
+        "TR Frankenberger",
+        "S Nelson",
+        "MA Constas"
+      ],
+      "journal": "C Béné, TR Frankenberger, S Nelson, MA Constas…",
+      "year": 2023,
+      "citations": 66,
+      "abstract": "… that the overall resilience of food system results from … food system; (ii) the assessment of the resilience of these actors and that of the food system, and (iii) the outcomes of this resilience, …",
+      "link": "https://link.springer.com/article/10.1007/s12571-023-01407-y",
+      "pdf_link": "https://link.springer.com/content/pdf/10.1007/s12571-023-01407-y.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-6ti1nvirp",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "The role of resilience in food system studies in low-and middle-income countries",
+      "authors": [
+        "MA Meyer"
+      ],
+      "journal": "MA Meyer",
+      "year": 2020,
+      "citations": 87,
+      "abstract": "… identify research gaps on food system resilience for low- … resilience of food systems beyond primary production. Studies should quantitatively model the impact between the food system …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S2211912420300092",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S2211912420300092",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 75,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-figr6kt5h",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "A systematic review of the evolution of food system resilience assessment",
+      "authors": [
+        "KC Ujjwal",
+        "H Campbell-Ross",
+        "C Godde",
+        "R Friedman"
+      ],
+      "journal": "KC Ujjwal, H Campbell-Ross, C Godde, R Friedman…",
+      "year": 2024,
+      "citations": 28,
+      "abstract": "… These shocks provide insights into food system resilience and its relevance to climate change. To improve resilience, continuous monitoring of all aspects of the food system is crucial. …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S2211912424000063",
+      "pdf_link": "https://www.sciencedirect.com/science/article/am/pii/S2211912424000063",
+      "status": "approved",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 130,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+10pts (recent)",
+        "+70pts (\"food system\")",
+        "+30pts (cross-domain: climate, food)"
+      ],
+      "domains": [
+        "climate",
+        "food"
+      ],
+      "approved_at": "2026-02-13T22:33:22.778Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "openalex",
+      "fullTextError": null
+    },
+    {
+      "id": "serp-food_systems-1771009408041-omkzbxrcx",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Food system resilience thinking: from digital to integral",
+      "authors": [
+        "ME Brassesco",
+        "M Pintado"
+      ],
+      "journal": "ME Brassesco, M Pintado…",
+      "year": 2022,
+      "citations": 37,
+      "abstract": "… The food system needs a profound transformation to avoid ecosystem destabilization and a … food system change is global resilience thinking. To reach an integrated food system, we …",
+      "link": "https://scijournals.onlinelibrary.wiley.com/doi/abs/10.1002/jsfa.11533",
+      "pdf_link": "https://ciencia.ucp.pt/files/92138817/38354749.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+70pts (\"food system\")",
+        "+30pts (cross-domain: food, ecology)"
+      ],
+      "domains": [
+        "food",
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-vcxj7rrws",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Further concepts and approaches for enhancing food system resilience",
+      "authors": [
+        "J Ingram",
+        "W Bellotti",
+        "M Brklacich",
+        "T Achterbosch"
+      ],
+      "journal": "J Ingram, W Bellotti, M Brklacich, T Achterbosch…",
+      "year": 2023,
+      "citations": 20,
+      "abstract": "… The cornerstones to enhance food system resilience can be considered as three … of the food system actors to adapt their activities to resist disruptions to desired food system outcomes; …",
+      "link": "https://www.nature.com/articles/s43016-023-00762-5",
+      "pdf_link": "https://ora.ox.ac.uk/objects/uuid:ce6702d6-c80c-4c3c-8e40-4a473f8081a3/files/rdz010r76r",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-odvddr4h9",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "Interplay of trade and food system resilience: Gains on supply diversity over time at the cost of trade independency",
+      "authors": [
+        "M Kummu",
+        "P Kinnunen",
+        "E Lehikoinen",
+        "M Porkka"
+      ],
+      "journal": "M Kummu, P Kinnunen, E Lehikoinen, M Porkka…",
+      "year": 2020,
+      "citations": 236,
+      "abstract": "… food system over the past decades. Using national scale indicators, we assess two of the resilience … of import partners indicates a potential vulnerability to disruptions in linked food …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S2211912420300134",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S2211912420300134",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "20pts (4 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-yb9tc7dah",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "The elements of resilience in the food system and means to enhance the stability of the food supply",
+      "authors": [
+        "K Rimhanen",
+        "J Aakkula",
+        "K Aro",
+        "P Rikkonen"
+      ],
+      "journal": "K Rimhanen, J Aakkula, K Aro, P Rikkonen",
+      "year": 2023,
+      "citations": 40,
+      "abstract": "… This article presents a food system resilience framework to … Our study identified four key elements of resilience: system thinking … to enhance resilience in the Finnish food system included …",
+      "link": "https://link.springer.com/article/10.1007/s10669-022-09889-5",
+      "pdf_link": "https://link.springer.com/content/pdf/10.1007/s10669-022-09889-5.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+70pts (\"food system\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-food_systems-1771009408041-0s6th7crj",
+      "source": "serpapi",
+      "query_name": "food_systems",
+      "title": "The impact of the COVID-19 pandemic on global food system resilience",
+      "authors": [
+        "O Kubatko",
+        "R Merritt",
+        "S Duane"
+      ],
+      "journal": "O Kubatko, R Merritt, S Duane…",
+      "year": 2023,
+      "citations": 170,
+      "abstract": "… food system resilience globally. The study found that COVID-19 has disrupted global food systems through a combination of factors, including trade restrictions, supply chain … resilience …",
+      "link": "http://mer-journal.sumy.ua/index.php/journal/article/view/144",
+      "pdf_link": "http://mer-journal.sumy.ua/index.php/journal/article/download/144/131",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:28.041Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 125,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "15pts (3 authors)",
+        "+70pts (\"food system\")",
+        "+30pts (cross-domain: food, health)"
+      ],
+      "domains": [
+        "food",
+        "health"
+      ]
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-wjkb4jz8j",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Cascading failure in multiple critical infrastructure interdependent networks of syncretic railway system",
+      "authors": [
+        "S Liu",
+        "C Yin",
+        "D Chen",
+        "H Lv"
+      ],
+      "journal": "S Liu, C Yin, D Chen, H Lv…",
+      "year": 2021,
+      "citations": 77,
+      "abstract": "… critical infrastructure interdependent networks (CIINs) of the SRN. To this end, we designed a cascading failure … , and we examined the cascading failure in both the syncretic and single …",
+      "link": "https://ieeexplore.ieee.org/abstract/document/9358001/",
+      "pdf_link": "https://www.researchgate.net/profile/Su-Liu-14/publication/349458162_Cascading_Failure_in_Multiple_Critical_Infrastructure_Interdependent_Networks_of_Syncretic_Railway_System/links/62d91cff44f38f6825a03b33/Cascading-Failure-in-Multiple-Critical-Infrastructure-Interdependent-Networks-of-Syncretic-Railway-System.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-binyv9sf2",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "An edge load cascading failure model and vulnerability analysis of coupled critical infrastructure networks: Considering functional and geographical interdependency",
+      "authors": [
+        "J Wang",
+        "Y Huang"
+      ],
+      "journal": "J Wang, Y Huang",
+      "year": 2025,
+      "citations": 6,
+      "abstract": "… The general focus is on analyzing infrastructure networks from … This paper proposes a new cascading failure model based … vulnerability of interdependent infrastructure networks from a …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0951832025009196",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0951832025009196",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+20pts (recent)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-z4z3pmr7n",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Cascading failure modeling and resilience analysis of coupled centralized supply chain networks under hybrid loads",
+      "authors": [
+        "Z Zeng",
+        "N Wang",
+        "D Xu",
+        "R Chen"
+      ],
+      "journal": "Z Zeng, N Wang, D Xu, R Chen",
+      "year": 2025,
+      "citations": 4,
+      "abstract": "… a cascading failure and resilience analysis framework for centralized supply chain networks. … These improvements enhance the model’s ability to represent supply chain complexity and …",
+      "link": "https://www.mdpi.com/2079-8954/13/9/729",
+      "pdf_link": "https://www.mdpi.com/2079-8954/13/9/729",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 120,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+20pts (recent)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-tk01ry8cj",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Modeling cascading failure of interdependent critical infrastructure systems using HLA-based co-simulation",
+      "authors": [
+        "F Wang",
+        "JJ Magoua",
+        "N Li"
+      ],
+      "journal": "F Wang, JJ Magoua, N Li",
+      "year": 2022,
+      "citations": 34,
+      "abstract": "… Cascading failure modeling in interdependent critical infrastructure systems (CISs) is an … However, despite the increasing volume of studies that examine cascading failure across …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0926580521004593",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0926580521004593",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-tzrg49h00",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Modeling supply chain viability and adaptation against underload cascading failure during the COVID-19 pandemic",
+      "authors": [
+        "H Liu",
+        "Y Han",
+        "A Zhu"
+      ],
+      "journal": "H Liu, Y Han, A Zhu",
+      "year": 2022,
+      "citations": 48,
+      "abstract": "… cascading failure in such an intertwined supply network (ISN) is different from those in supply chain … Cascading failure is a critically systematic breakdown in complex networks [25, 26]. …",
+      "link": "https://link.springer.com/article/10.1007/S11071-022-07741-8",
+      "pdf_link": "https://link.springer.com/content/pdf/10.1007/s11071-022-07741-8.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": [
+        "health"
+      ]
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-7bj1nbw4k",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Modelling Underload Cascading Failure and Mitigation Strategy of Supply Chain Complex Network in COVID‐19",
+      "authors": [
+        "H Liu",
+        "Y Han",
+        "J Ni",
+        "A Zhu"
+      ],
+      "journal": "H Liu, Y Han, J Ni, A Zhu",
+      "year": 2022,
+      "citations": 16,
+      "abstract": "… We adopt Wang′s underload cascading failure model in supply chain networks [19]. More specifically, we adapted the model from three aspects: firm underload failure, firm capacity …",
+      "link": "https://onlinelibrary.wiley.com/doi/abs/10.1155/2022/3965720",
+      "pdf_link": "https://onlinelibrary.wiley.com/doi/pdf/10.1155/2022/3965720",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-9fsjetdjk",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Cascading failure resilience analysis and recovery of automotive manufacturing supply chain networks considering enterprise roles",
+      "authors": [
+        "X Fu",
+        "X Xu",
+        "W Li"
+      ],
+      "journal": "X Fu, X Xu, W Li",
+      "year": 2024,
+      "citations": 33,
+      "abstract": "… cascading failure model for the automotive manufacturing supply chain network to explore its cascading failure … enhance the network’s cascading failure resilience. Experimental results …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0378437123010336",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0378437123010336",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+10pts (recent)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-jvflyqtnb",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Agri-food supply chain network disruption propagation and recovery based on cascading failure",
+      "authors": [
+        "Z Li",
+        "P Zhao",
+        "X Han"
+      ],
+      "journal": "Z Li, P Zhao, X Han",
+      "year": 2022,
+      "citations": 46,
+      "abstract": "… Firstly, we construct the agri-food supply chain networks and the weak tie … food supply chain network is analyzed. This research provides decision-making reference against supply chain …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0378437121008712",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0378437121008712",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-j6fqhib5k",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Exploring cascading failures in supply chain risk management: A systematic review, 2013-2024",
+      "authors": [
+        "X Zhu",
+        "J Zhu",
+        "D Regan",
+        "Z Wen"
+      ],
+      "journal": "X Zhu, J Zhu, D Regan, Z Wen",
+      "year": 2026,
+      "citations": 4,
+      "abstract": "… Supply chain risk management has become increasingly … on cascading failures in supply chain networks. A total of 92 … , and timeliness of data in supply chain networks. Higher-order …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S2666449625000684",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S2666449625000684",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 120,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+20pts (recent)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-cascading_failure-1771009409800-t8jyb1r65",
+      "source": "serpapi",
+      "query_name": "cascading_failure",
+      "title": "Temporal modeling and resilience analysis of supply chain networks under cascading failures",
+      "authors": [
+        "J Shi",
+        "Z Tang",
+        "XX Zhan",
+        "C Liu"
+      ],
+      "journal": "J Shi, Z Tang, XX Zhan, C Liu",
+      "year": 2025,
+      "citations": 2,
+      "abstract": "… of Supply Chain Networks (SCNs) are often overlooked. To bridge this gap, we propose a Temporal Supply Chain … recovery, we develop a cascading failure model driven by underload …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0951832025009639",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0951832025009639",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:29.800Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 120,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+20pts (recent)",
+        "+80pts (\"cascading failure\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-369sapvrk",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Earth beyond six of nine planetary boundaries",
+      "authors": [
+        "K Richardson",
+        "W Steffen",
+        "W Lucht",
+        "J Bendtsen"
+      ],
+      "journal": "K Richardson, W Steffen, W Lucht, J Bendtsen…",
+      "year": 2023,
+      "citations": 3808,
+      "abstract": "… Recent studies (13, 14, 21, 22) have shown that additional or more extensive transgression of one planetary boundary can change risk gradients for other boundaries. For example, …",
+      "link": "https://www.science.org/doi/abs/10.1126/sciadv.adh2458",
+      "pdf_link": "https://www.science.org/doi/pdf/10.1126/sciadv.adh2458?src=getftr&utm_source=wiley&getft_integrator=wiley",
+      "status": "approved",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 195,
+      "scoring_reasons": [
+        "100pts (citations)",
+        "20pts (4 authors)",
+        "+75pts (\"planetary boundary\")"
+      ],
+      "domains": [],
+      "approved_at": "2026-02-13T22:15:39.307Z",
+      "feedback_tags": [],
+      "reviewed_by": "tashi",
+      "fullTextFetched": true,
+      "fullTextSource": "zotero",
+      "fullTextError": null,
+      "zoteroKey": "3PJ365UQ",
+      "zoteroSynced": true,
+      "pdfLocalPath": "E:\\D-backup\\Zotero Data\\storage\\J6N574FF\\Richardson et al_2023_Earth beyond six of nine planetary boundaries.pdf"
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-62pd2qdn1",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Understanding the transgression of global and regional freshwater planetary boundaries",
+      "authors": [
+        "AV Pastor",
+        "H Biemans",
+        "W Franssen"
+      ],
+      "journal": "AV Pastor, H Biemans, W Franssen…",
+      "year": 2022,
+      "citations": 16,
+      "abstract": "… In this study, we used the Variable Monthly Flow (VMF) method to calculate the transgression of freshwater planetary boundaries: (1) natural deficits in which flow does not meet EFRs …",
+      "link": "https://royalsocietypublishing.org/doi/abs/10.1098/rsta.2021.0294",
+      "pdf_link": "https://royalsocietypublishing.org/doi/pdf/10.1098/rsta.2021.0294",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-n1xnv2wsi",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Disparate history of transgressing planetary boundaries for nutrients",
+      "authors": [
+        "V Sandström",
+        "J Kaseva",
+        "M Porkka",
+        "M Kuisma"
+      ],
+      "journal": "V Sandström, J Kaseva, M Porkka, M Kuisma…",
+      "year": 2023,
+      "citations": 35,
+      "abstract": "… of the planetary boundaries occurred in 1970 … transgression and sub-Saharan Africa and Oceania had the greatest deficit relative to their fair shares. The main driver for transgression …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S0959378022001662",
+      "pdf_link": "https://www.sciencedirect.com/science/article/pii/S0959378022001662",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-qhv0q79wc",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Staying within the planets safe operating space? Law and the planetary boundaries",
+      "authors": [
+        "LJ Kotzé",
+        "D French"
+      ],
+      "journal": "LJ Kotzé, D French",
+      "year": 2021,
+      "citations": 13,
+      "abstract": "… update of the planetary boundaries framework, given … transgression of planetary boundaries, this message involves deeper issues of equity and causation which planetary boundaries …",
+      "link": "https://www.elgaronline.com/edcollchap/edcoll/9781789902730/9781789902730.00007.xml",
+      "pdf_link": "https://www.elgaronline.com/edcollchap/edcoll/9781789902730/9781789902730.00007.xml",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 85,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-4bzft317p",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Undisclosed transgressions? Lacking acknowledgements of large agrifood firms on their impacts on the planetary boundaries",
+      "authors": [
+        "N Witt",
+        "M Graversgaard",
+        "MH Thorsøe"
+      ],
+      "journal": "N Witt, M Graversgaard, MH Thorsøe",
+      "year": 2025,
+      "citations": 0,
+      "abstract": "… Agriculture significantly contributes to the transgression of several planetary boundaries. … For example, biogeochemical flows, the most transgressed planetary boundary with agriculture …",
+      "link": "https://ecologyandsociety.org/vol30/iss4/art8/",
+      "pdf_link": "https://ecologyandsociety.org/vol30/iss4/art8/",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 110,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+20pts (recent)",
+        "+75pts (\"planetary boundary\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-5ja5sucg6",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "About “From Planetary Boundaries to Planetary Politics”",
+      "authors": [
+        "C Friis",
+        "A Lind"
+      ],
+      "journal": "C Friis, A Lind",
+      "year": 2024,
+      "citations": 1,
+      "abstract": "… how transgressing one boundary affects the transgression of … effects on other planetary boundaries including land system … interactions shape the planetary boundaries. We begin with …",
+      "link": "https://concito.dk/files/media/document/PB4_Interactions%20between%20boundaries_final_2.pdf",
+      "pdf_link": "https://concito.dk/files/media/document/PB4_Interactions%20between%20boundaries_final_2.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 95,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+10pts (recent)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-7k93ywox4",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Chemistry must respond to the crisis of transgression of planetary boundaries",
+      "authors": [
+        "SA Matlin",
+        "SE Cornell",
+        "A Krief",
+        "H Hopf",
+        "G Mehta"
+      ],
+      "journal": "SA Matlin, SE Cornell, A Krief, H Hopf, G Mehta",
+      "year": 2022,
+      "citations": 50,
+      "abstract": "… However, the latest alarm call, signalled by transgression of planetary boundaries and … That the transgression of planetary boundaries is, in many cases, intimately connected with …",
+      "link": "https://pubs.rsc.org/en/content/articlehtml/2022/sc/d2sc03603g",
+      "pdf_link": "https://pubs.rsc.org/zh-hans/content/articlepdf/2022/sc/d2sc03603g",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "25pts (5 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-xffc2xcv4",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Planetary Boundaries guide humanity's future on Earth",
+      "authors": [
+        "J Rockström",
+        "JF Donges",
+        "I Fetzer",
+        "MA Martin"
+      ],
+      "journal": "J Rockström, JF Donges, I Fetzer, MA Martin…",
+      "year": 2024,
+      "citations": 141,
+      "abstract": "… -occurring planetary boundaries on … transgression of planetary boundaries, and orange rings important political goals and targets in the years 2030, 2050 and 2100. Planetary Boundary …",
+      "link": "https://www.nature.com/articles/s43017-024-00597-z",
+      "pdf_link": "https://www.furstenbergmaritime.com/s/Planetary-Boundaries-guide-humanitys-future-on-Earth.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 115,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "20pts (4 authors)",
+        "+10pts (recent)",
+        "+75pts (\"planetary boundary\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-4qw9lkco9",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Planetary boundaries",
+      "authors": [
+        "J Rockström",
+        "A Beringer",
+        "B Crona"
+      ],
+      "journal": "J Rockström, A Beringer, B Crona…",
+      "year": 2020,
+      "citations": 3,
+      "abstract": "… risk at a global scale–the Planetary Boundaries Framework. We will explore how economies and businesses can develop within planetary boundaries in order to reduce risks of …",
+      "link": "https://books.google.com/books?hl=en&lr=&id=M276DwAAQBAJ&oi=fnd&pg=PT92&dq=%22planetary+boundary%22+OR+%22planetary+boundaries%22+AND+(transgression+OR+breach)&ots=6xsVGdZFVN&sig=KFbzBmVJp_TfnKgfiV1I4DaSXqw",
+      "pdf_link": "https://books.google.com/books?hl=en&lr=&id=M276DwAAQBAJ&oi=fnd&pg=PT92&dq=%22planetary+boundary%22+OR+%22planetary+boundaries%22+AND+(transgression+OR+breach)&ots=6xsVGdZFVN&sig=KFbzBmVJp_TfnKgfiV1I4DaSXqw",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": []
+    },
+    {
+      "id": "serp-planetary_boundaries-1771009411098-17hipwh5p",
+      "source": "serpapi",
+      "query_name": "planetary_boundaries",
+      "title": "Global food trade alleviates transgressions of planetary boundaries at the national scale",
+      "authors": [
+        "X Liao",
+        "A Liu",
+        "L Chai"
+      ],
+      "journal": "X Liao, A Liu, L Chai",
+      "year": 2023,
+      "citations": 9,
+      "abstract": "… on planetary boundaries 21 attempting to quantify how human consumption in one place incurs transgression of local planetary boundaries … of transgression of planetary boundaries …",
+      "link": "https://www.cell.com/iscience/fulltext/S2589-0042(23)01871-0",
+      "pdf_link": "https://www.cell.com/iscience/pdf/S2589-0042(23)01871-0.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:31.098Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+75pts (\"planetary boundaries\")"
+      ],
+      "domains": [
+        "food"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-kxqu4aonm",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Climate risks and financial stability",
+      "authors": [
+        "S Battiston",
+        "Y Dafermos",
+        "I Monasterolo"
+      ],
+      "journal": "S Battiston, Y Dafermos, I Monasterolo",
+      "year": 2021,
+      "citations": 731,
+      "abstract": "… that climate change poses to financial stability. Indeed, the characteristics of climate risks (ie, … challenge traditional approaches to macroeconomic and financial risk analysis. Embedding …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S1572308921000267",
+      "pdf_link": "https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=3748495",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 115,
+      "scoring_reasons": [
+        "70pts (citations)",
+        "15pts (3 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-dnojwj0ht",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Financial stability and climate change",
+      "authors": [
+        "N Fabris"
+      ],
+      "journal": "N Fabris",
+      "year": 2020,
+      "citations": 109,
+      "abstract": "… The paper reaches a conclusion that climate … , climate change is a source of financial risk and thus a part of the mandate of central banks and supervisors in preserving financial stability. …",
+      "link": "https://sciendo.com/pdf/10.2478/jcbtp-2020-0034",
+      "pdf_link": "https://sciendo.com/pdf/10.2478/jcbtp-2020-0034",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 45,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "5pts (1 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-dbl8rihy4",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Climate change and financial stability",
+      "authors": [
+        "C Brunetti",
+        "B Dennis",
+        "D Gates",
+        "D Hancock",
+        "D Ignell"
+      ],
+      "journal": "C Brunetti, B Dennis, D Gates, D Hancock, D Ignell…",
+      "year": 2021,
+      "citations": 211,
+      "abstract": "… climate-related risks. Second, although we believe that climate change increases financial stability … to incorporate these risks fully into financial stability monitoring, including substantial …",
+      "link": "https://www.federalreserve.gov/econres/notes/feds-notes/climate-change-and-financial-stability-20210319.html?utm_campaign=ms&utm_medium=newsletter&utm_source=morning_brew",
+      "pdf_link": "https://www.federalreserve.gov/econres/notes/feds-notes/climate-change-and-financial-stability-20210319.html?utm_campaign=ms&utm_medium=newsletter&utm_source=morning_brew",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 75,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "25pts (5 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-sd783rhdb",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Financial stability, stranded assets and the low‐carbon transition–A critical review of the theoretical and applied literatures",
+      "authors": [
+        "L Daumas"
+      ],
+      "journal": "L Daumas",
+      "year": 2024,
+      "citations": 123,
+      "abstract": "… about the effect of such strain on financial stability. This literature on “financial transition risk” has highlighted that the conjunction of climate policy, technological change and shifts in …",
+      "link": "https://onlinelibrary.wiley.com/doi/abs/10.1111/joes.12551",
+      "pdf_link": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/joes.12551",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 55,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "5pts (1 authors)",
+        "+10pts (recent)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-ife3v438c",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Climate-related financial stability risks for the United States: methods and applications",
+      "authors": [
+        "C Brunetti",
+        "J Caramichael",
+        "M Crosignani",
+        "B Dennis"
+      ],
+      "journal": "C Brunetti, J Caramichael, M Crosignani, B Dennis…",
+      "year": 2022,
+      "citations": 22,
+      "abstract": "… associated with climate change. This paper specifically reviews the current literature on climate-related financial stability risks (CRFSRs): risks that may result from climate change that …",
+      "link": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4160286",
+      "pdf_link": "https://papers.ssrn.com/sol3/Delivery.cfm?abstractid=4160286",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 50,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-mligx1pam",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Financial stability role on climate risks, and climate change mitigation: implications for green economic recovery",
+      "authors": [
+        "L Sun",
+        "S Fang",
+        "S Iqbal",
+        "AR Bilal"
+      ],
+      "journal": "L Sun, S Fang, S Iqbal, AR Bilal",
+      "year": 2022,
+      "citations": 163,
+      "abstract": "… might be used to effectively finance for the mitigation of climate change and climate risks, it is … impact of financial stability on climate risk in order to effectively manage climate mitigation …",
+      "link": "https://link.springer.com/article/10.1007/S11356-021-17439-W",
+      "pdf_link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8755898/pdf/11356_2021_Article_17439.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 60,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "20pts (4 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-jiu2vxmzf",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Geopolitical and climate risks threaten financial stability and energy transitions",
+      "authors": [
+        "FM Hoffart",
+        "P D'Orazio",
+        "C Kemfert"
+      ],
+      "journal": "FM Hoffart, P D'Orazio, C Kemfert",
+      "year": 2022,
+      "citations": 21,
+      "abstract": "… at securing financial stability and reacting to the energy crisis put climate mitigation and … that delay climate mitigation cannot safeguard financial stability, and that climate mitigation is …",
+      "link": "https://www.researchgate.net/profile/Franziska-Hoffart/publication/366989990_Geopolitical_and_climate_risks_threaten_financial_stability_and_energy_transitions/links/63bd683f03aad5368e7d8feb/Geopolitical-and-climate-risks-threaten-financial-stability-and-energy-transitions.pdf",
+      "pdf_link": "https://www.researchgate.net/profile/Franziska-Hoffart/publication/366989990_Geopolitical_and_climate_risks_threaten_financial_stability_and_energy_transitions/links/63bd683f03aad5368e7d8feb/Geopolitical-and-climate-risks-threaten-financial-stability-and-energy-transitions.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+55pts (\"energy transition\")",
+        "+30pts (cross-domain: climate, finance, energy, geopolitical)"
+      ],
+      "domains": [
+        "climate",
+        "finance",
+        "energy",
+        "geopolitical"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-jxm4osolf",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Risks on global financial stability induced by climate change: the case of flood risks",
+      "authors": [
+        "A Mandel",
+        "T Tiggeloven",
+        "D Lincke",
+        "E Koks",
+        "P Ward"
+      ],
+      "journal": "A Mandel, T Tiggeloven, D Lincke, E Koks, P Ward…",
+      "year": 2021,
+      "citations": 103,
+      "abstract": "… sources of climate-induced risks for the global financial system. Third, we use financial risk metrics to track the evolution of risk for a range of climate scenarios. We find that a high-end …",
+      "link": "https://link.springer.com/article/10.1007/s10584-021-03092-2",
+      "pdf_link": "https://research.vu.nl/files/152372944/Mandel2021_Article_RisksOnGlobalFinancialStabilityInducedByClimateChange_TheCaseOfFloodRisks.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 65,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "25pts (5 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-3jwds0dch",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Navigating financial stability through the dual challenges of climate change and pandemics",
+      "authors": [
+        "P D'Orazio"
+      ],
+      "journal": "P D'Orazio",
+      "year": 2023,
+      "citations": 31,
+      "abstract": "… to ensure financial stability in the wake … financial stability against climate risks and future pandemics. Before the COVID-19 pandemic, financial institutions had started integrating climate …",
+      "link": "https://www.sciencedirect.com/science/article/pii/S1877343523001331",
+      "pdf_link": "https://drive.google.com/file/d/1FP7Ol2wG_zE8l2CIcF2J5jYgvINEK2WT/view",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 35,
+      "scoring_reasons": [
+        "5pts (1 authors)",
+        "+30pts (cross-domain: climate, finance, health)"
+      ],
+      "domains": [
+        "climate",
+        "finance",
+        "health"
+      ]
+    },
+    {
+      "id": "serp-climate_finance-1771009412614-wx38ktrlq",
+      "source": "serpapi",
+      "query_name": "climate_finance",
+      "title": "Central banks, financial stability and policy coordination in the age of climate uncertainty: A three-layered analytical and operational framework",
+      "authors": [
+        "R Svartzman",
+        "P Bolton",
+        "M Despres"
+      ],
+      "journal": "R Svartzman, P Bolton, M Despres…",
+      "year": 2021,
+      "citations": 201,
+      "abstract": "… climate-economy models in a context of radical uncertainty, we argue that future climate … not suffice from the perspective of financial stability: climate-related risks will remain largely …",
+      "link": "https://www.tandfonline.com/doi/abs/10.1080/14693062.2020.1862743",
+      "pdf_link": "https://www.tandfonline.com/doi/abs/10.1080/14693062.2020.1862743",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:32.614Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 65,
+      "scoring_reasons": [
+        "20pts (citations)",
+        "15pts (3 authors)",
+        "+30pts (cross-domain: climate, finance)"
+      ],
+      "domains": [
+        "climate",
+        "finance"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-g4tq3zrqd",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Revealing regime shifts and their impact on social-ecological systems: a case study on Iran",
+      "authors": [
+        "M Rahimi",
+        "K Ahmadaali",
+        "AM Goli"
+      ],
+      "journal": "M Rahimi, K Ahmadaali, AM Goli",
+      "year": 2023,
+      "citations": 5,
+      "abstract": "… To develop the questionnaire, we extensively reviewed existing literature on regime shift theory and included 15 potential regime shifts (Table 1), which were then examined in the local …",
+      "link": "https://link.springer.com/article/10.1007/s41101-023-00231-x",
+      "pdf_link": "https://link.springer.com/article/10.1007/s41101-023-00231-x",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 1
+      },
+      "score": 85,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-88enskfz6",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Adaptation of Tourism Transformation in Rural Areas under the Background of Regime Shift: A Social–Ecological Systems Framework",
+      "authors": [
+        "J Chen",
+        "W Chen",
+        "F Wang",
+        "M Deng"
+      ],
+      "journal": "J Chen, W Chen, F Wang, M Deng",
+      "year": 2024,
+      "citations": 9,
+      "abstract": "… a new social–ecological system. This paper defines the new social–ecological system as a … The premise of regime shift is to cross the threshold of the ecosystem or social system and …",
+      "link": "https://www.mdpi.com/2079-8954/12/8/289",
+      "pdf_link": "https://www.mdpi.com/2079-8954/12/8/289",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 2
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+10pts (recent)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-gy5p4gc6s",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "A regime shift in the Southeast Greenland marine ecosystem",
+      "authors": [
+        "MP Heide‐Jørgensen",
+        "P Chambault"
+      ],
+      "journal": "MP Heide‐Jørgensen, P Chambault…",
+      "year": 2023,
+      "citations": 63,
+      "abstract": "… 2003 leading to a regime shift in oceanographic and ecological … in the region, and the regime shift is also obvious in the volume of … cascading effects on the ecosystem in SEG that are …",
+      "link": "https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.16494",
+      "pdf_link": "https://onlinelibrary.wiley.com/doi/pdf/10.1111/gcb.16494",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 3
+      },
+      "score": 80,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-7hpf4ov18",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Resilience, adaptability, and regime shifts thinking: A perspective of dryland socio-ecology system",
+      "authors": [
+        "P Yu",
+        "Z Qiuying",
+        "C Yuanzhan",
+        "XU Ning"
+      ],
+      "journal": "P Yu, Z Qiuying, C Yuanzhan, XU Ning…",
+      "year": 2021,
+      "citations": 7,
+      "abstract": "… to set a threshold criteria to measure the regime shift. It should be noted that two indicators … or not a regime shift has taken place through interactions within the socio-ecological system …",
+      "link": "https://bioone.org/journals/journal-of-resources-and-ecology/volume-12/issue-3/j.issn.1674-764x.2021.03.007/Resilience-Adaptability-and-Regime-Shifts-Thinking--A-Perspective-of/10.5814/j.issn.1674-764x.2021.03.007.short",
+      "pdf_link": "https://bioone.org/journals/journal-of-resources-and-ecology/volume-12/issue-3/j.issn.1674-764x.2021.03.007/Resilience-Adaptability-and-Regime-Shifts-Thinking--A-Perspective-of/10.5814/j.issn.1674-764x.2021.03.007.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 4
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-u0whwl1pt",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "A spatial regime shift from predator to prey dominance in a large coastal ecosystem",
+      "authors": [
+        "JS Eklöf",
+        "G Sundblad",
+        "M Erlandsson",
+        "S Donadi"
+      ],
+      "journal": "JS Eklöf, G Sundblad, M Erlandsson, S Donadi…",
+      "year": 2020,
+      "citations": 121,
+      "abstract": "… - to prey-dominated marine ecosystem regime that has gradually … this coastal ecosystem facilitated a spatial regime shift from … 1: Spatial regime shift and bimodality in the coastal Baltic …",
+      "link": "https://www.nature.com/articles/s42003-020-01180-0",
+      "pdf_link": "https://www.nature.com/articles/s42003-020-01180-0.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 5
+      },
+      "score": 100,
+      "scoring_reasons": [
+        "10pts (citations)",
+        "20pts (4 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-gog17edd1",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "How to manage regime shifts: insights from a dryland social–ecological system",
+      "authors": [
+        "M Rahimi",
+        "M Ghorbani",
+        "K Ahmadaali"
+      ],
+      "journal": "M Rahimi, M Ghorbani, K Ahmadaali",
+      "year": 2025,
+      "citations": 3,
+      "abstract": "… Using a social-ecological regime shift approach to understand the transition from livestock to game farming in the Eastern Cape, South Africa. Land, 9(open in a new window)(4(open in …",
+      "link": "https://www.tandfonline.com/doi/abs/10.1080/07900627.2024.2421960",
+      "pdf_link": "https://www.tandfonline.com/doi/abs/10.1080/07900627.2024.2421960",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 6
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+20pts (recent)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-08scddsbk",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Understanding regime shifts in social-ecological systems using data on direct ecosystem service use",
+      "authors": [
+        "P Censkowsky",
+        "IM Otto"
+      ],
+      "journal": "P Censkowsky, IM Otto",
+      "year": 2021,
+      "citations": 6,
+      "abstract": "… mark a regime shift. We focus our analysis on the household use of ecosystem services which … systems - and depending on the type of use - may indicate the occurence of a regime shift. …",
+      "link": "https://www.frontiersin.org/articles/10.3389/fenvs.2021.695348/full",
+      "pdf_link": "https://www.frontiersin.org/journals/environmental-science/articles/10.3389/fenvs.2021.695348/pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 7
+      },
+      "score": 80,
+      "scoring_reasons": [
+        "10pts (2 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-ae5455i5s",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Exploring the influence of regime shifts on ecosystem services in Iran's Zayandeh-Rud river basin",
+      "authors": [
+        "M Rahimi",
+        "M Ghorbani",
+        "K Ahmadaali"
+      ],
+      "journal": "M Rahimi, M Ghorbani, K Ahmadaali",
+      "year": 2025,
+      "citations": 8,
+      "abstract": "… Additionally, investigation of the impact of river water flow quality regime shift on ecosystem services indicated that this shift had a moderate effect on biodiversity and environmental …",
+      "link": "https://www.tandfonline.com/doi/abs/10.1080/15715124.2024.2325156",
+      "pdf_link": "https://www.tandfonline.com/doi/abs/10.1080/15715124.2024.2325156",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 8
+      },
+      "score": 105,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+20pts (recent)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-rgbl60ign",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Trajectory of a coastal social-ecological system: analyzing co-evolution and regime shifts in the Thau lagoon (Mediterranean Sea, France), 1970–2018",
+      "authors": [
+        "V Derolez",
+        "R Mongruel",
+        "H Rey-Valette"
+      ],
+      "journal": "V Derolez, R Mongruel, H Rey-Valette…",
+      "year": 2023,
+      "citations": 10,
+      "abstract": "… , we did not consider it as a regime shift. … ecosystem functioning during the oligotrophication process: a eutrophic period (1970–1992), a transition phase (1993–2003) and a regime shift …",
+      "link": "https://link.springer.com/article/10.1007/s10113-023-02061-y",
+      "pdf_link": "https://archimer.ifremer.fr/doc/00835/94696/102158.pdf",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 9
+      },
+      "score": 85,
+      "scoring_reasons": [
+        "15pts (3 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    },
+    {
+      "id": "serp-regime_shifts-1771009418992-2pyepdasl",
+      "source": "serpapi",
+      "query_name": "regime_shifts",
+      "title": "Using a social-ecological regime shift approach to understand the transition from livestock to game farming in the Eastern Cape, South Africa",
+      "authors": [
+        "T Achieng",
+        "K Maciejewski",
+        "M Dyer",
+        "R Biggs"
+      ],
+      "journal": "T Achieng, K Maciejewski, M Dyer, R Biggs",
+      "year": 2020,
+      "citations": 28,
+      "abstract": "… Regime shifts and their impacts on ecosystem services tend to … This paper applies a social-ecological regime shift … , none have applied a regime shift approach to understand the …",
+      "link": "https://www.mdpi.com/2073-445X/9/4/97",
+      "pdf_link": "https://www.mdpi.com/2073-445X/9/4/97",
+      "status": "pending_review",
+      "added": "2026-02-13T19:03:38.992Z",
+      "serpapi_raw": {
+        "position": 10
+      },
+      "score": 90,
+      "scoring_reasons": [
+        "20pts (4 authors)",
+        "+70pts (\"regime shift\")"
+      ],
+      "domains": [
+        "ecology"
+      ]
+    }
+  ],
+  "lastUpdated": "2026-02-14T06:53:20.016Z"
+}

@@ -1,0 +1,274 @@
+{
+  "kind": "cld",
+  "id": "CLD9-Governance-Social-Resilience",
+  "title": "Governance Decay and Social Resilience Collapse",
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "governance_quality",
+      "label": "Governance Quality",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 100
+      }
+    },
+    {
+      "id": "institutional_capacity",
+      "label": "Institutional Capacity",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 150
+      }
+    },
+    {
+      "id": "crisis_response",
+      "label": "Crisis Response Effectiveness",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 300
+      }
+    },
+    {
+      "id": "public_trust",
+      "label": "Public Trust in Institutions",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 400
+      }
+    },
+    {
+      "id": "social_cohesion",
+      "label": "Social Cohesion",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 300
+      }
+    },
+    {
+      "id": "civil_unrest",
+      "label": "Civil Unrest Level",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 150
+      }
+    },
+    {
+      "id": "policy_implementation",
+      "label": "Policy Implementation",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 400,
+        "y": 50
+      }
+    },
+    {
+      "id": "regulatory_quality",
+      "label": "Regulatory Quality",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 550,
+        "y": 50
+      }
+    },
+    {
+      "id": "corruption",
+      "label": "Corruption Level",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 50
+      }
+    },
+    {
+      "id": "economic_outcome",
+      "label": "Economic Outcomes",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 250,
+        "y": 250
+      }
+    },
+    {
+      "id": "information_integrity",
+      "label": "Information Integrity",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 50,
+        "y": 400
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "governance_quality",
+      "toId": "institutional_capacity"
+    },
+    {
+      "id": "l2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "institutional_capacity",
+      "toId": "crisis_response"
+    },
+    {
+      "id": "l3",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "crisis_response",
+      "toId": "public_trust"
+    },
+    {
+      "id": "l4",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "public_trust",
+      "toId": "social_cohesion"
+    },
+    {
+      "id": "l5",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "social_cohesion",
+      "toId": "civil_unrest"
+    },
+    {
+      "id": "l6",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "civil_unrest",
+      "toId": "governance_quality"
+    },
+    {
+      "id": "l7",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "governance_quality",
+      "toId": "policy_implementation"
+    },
+    {
+      "id": "l8",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "policy_implementation",
+      "toId": "economic_outcome"
+    },
+    {
+      "id": "l9",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "economic_outcome",
+      "toId": "public_trust"
+    },
+    {
+      "id": "l10",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "corruption",
+      "toId": "governance_quality"
+    },
+    {
+      "id": "l11",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "corruption",
+      "toId": "economic_outcome"
+    },
+    {
+      "id": "l12",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "regulatory_quality",
+      "toId": "economic_outcome"
+    },
+    {
+      "id": "l13",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "governance_quality",
+      "toId": "regulatory_quality"
+    },
+    {
+      "id": "l14",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "information_integrity",
+      "toId": "public_trust"
+    },
+    {
+      "id": "l15",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "civil_unrest",
+      "toId": "information_integrity"
+    }
+  ],
+  "meta": {
+    "tags": [
+      "governance",
+      "social",
+      "institutions",
+      "wssi",
+      "resilience"
+    ]
+  },
+  "subtitle": "Shows how governance quality affects crisis response capacity, and how cascading failures can overwhelm institutional buffers, creating reinforcing social instability loops.",
+  "groups": [
+    {
+      "id": "R1",
+      "label": "Crisis Response Trust",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "governance_quality",
+        "crisis_response",
+        "public_trust",
+        "social_cohesion",
+        "civil_unrest",
+        "governance_quality"
+      ]
+    },
+    {
+      "id": "R2",
+      "label": "Governance Decay Spiral",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "corruption",
+        "governance_quality",
+        "economic_outcome",
+        "public_trust",
+        "social_cohesion"
+      ]
+    },
+    {
+      "id": "B1",
+      "label": "Democratic Accountability",
+      "type": "Balancing",
+      "nodeIds": [
+        "public_trust",
+        "governance_quality",
+        "policy_implementation",
+        "economic_outcome",
+        "public_trust"
+      ]
+    }
+  ]
+}

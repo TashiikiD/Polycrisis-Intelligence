@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Map | The Fragility Brief</title>
+    <meta name="description" content="Interactive visualization of 20 interconnected global risk themes. Explore cascade pathways, feedback loops, and systemic connections.">
+    <meta property="og:title" content="Systems Map — The Fragility Brief">
+    <meta property="og:description" content="Interactive visualization of 20 interconnected global risk themes.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="/assets/js/nav.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="section-header" style="padding-top: 20px;">
+                <h1>Polycrisis Systems Map</h1>
+                <p>20 themes, 6 categories, 40+ connections. Click nodes to explore. Hover edges to see relationships. Scroll to zoom. Drag to rearrange.</p>
+            </div>
+
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <!-- Map Container -->
+                <div id="systems-map" style="flex: 1; min-width: 0; position: relative;"></div>
+
+                <!-- Detail Panel (hidden by default) -->
+                <div id="node-detail" class="card" style="display: none; width: 320px; max-height: 680px; overflow-y: auto; flex-shrink: 0;">
+                    <p class="text-muted">Click a node to see details.</p>
+                </div>
+            </div>
+
+            <div class="section" style="padding-top: 30px;">
+                <div class="grid">
+                    <div class="card">
+                        <h3 class="mb-2">How to Read This Map</h3>
+                        <ul class="clean-list">
+                            <li><strong>Node size</strong> reflects connection count &mdash; larger nodes are more interconnected</li>
+                            <li><strong>Node color</strong> indicates category (economic, climate, geopolitical, technological, biological, cross-cutting)</li>
+                            <li><strong>Edge thickness</strong> indicates connection strength (1-5 scale based on evidence)</li>
+                            <li><strong>Arrows</strong> show directionality &mdash; how risk propagates</li>
+                            <li><strong>Red edges</strong> are amplifying connections &mdash; they make things worse</li>
+                            <li><strong>Dashed edges</strong> are dampening (blue) or contingent (gray)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 class="mb-2">What This Map Shows</h3>
+                        <p class="text-muted">
+                            This map visualizes the interconnections between 20 operational risk themes tracked by The Fragility Brief.
+                            Each connection is backed by evidence &mdash; historical cases, academic literature, or expert assessment &mdash;
+                            and weighted on a 1-5 scale for strength.
+                        </p>
+                        <p class="text-muted">
+                            The map is not a prediction. It shows <em>pathways</em> through which risk can propagate, helping you think
+                            in systems rather than silos.
+                        </p>
+                        <a href="/newsletter/" class="btn btn-outline btn-sm mt-2">Get weekly analysis of these connections</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/assets/js/systems-map.js"></script>
+</body>
+</html>

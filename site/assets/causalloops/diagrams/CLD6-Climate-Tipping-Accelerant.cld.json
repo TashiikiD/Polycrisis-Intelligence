@@ -1,0 +1,212 @@
+{
+  "kind": "cld",
+  "id": "CLD6-Climate-Tipping-Accelerant",
+  "title": "Climate Tipping Point Accelerant",
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "global_temp",
+      "label": "Global Temperature",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 50
+      }
+    },
+    {
+      "id": "arctic_ice",
+      "label": "Arctic Sea Ice",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 100
+      }
+    },
+    {
+      "id": "albedo",
+      "label": "Surface Albedo",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 200
+      }
+    },
+    {
+      "id": "permafrost",
+      "label": "Permafrost Stability",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 300
+      }
+    },
+    {
+      "id": "methane",
+      "label": "Methane Release",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 250
+      }
+    },
+    {
+      "id": "ghg_concentration",
+      "label": "GHG Concentration",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 100
+      }
+    },
+    {
+      "id": "ocean_heat",
+      "label": "Ocean Heat Content",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 450,
+        "y": 350
+      }
+    },
+    {
+      "id": "extreme_weather",
+      "label": "Extreme Weather",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 150,
+        "y": 400
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "global_temp",
+      "toId": "arctic_ice"
+    },
+    {
+      "id": "l2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "arctic_ice",
+      "toId": "albedo"
+    },
+    {
+      "id": "l3",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "albedo",
+      "toId": "global_temp"
+    },
+    {
+      "id": "l4",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "global_temp",
+      "toId": "permafrost"
+    },
+    {
+      "id": "l5",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "permafrost",
+      "toId": "methane"
+    },
+    {
+      "id": "l6",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "methane",
+      "toId": "ghg_concentration"
+    },
+    {
+      "id": "l7",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "ghg_concentration",
+      "toId": "global_temp"
+    },
+    {
+      "id": "l8",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "global_temp",
+      "toId": "ocean_heat"
+    },
+    {
+      "id": "l9",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "ocean_heat",
+      "toId": "global_temp"
+    },
+    {
+      "id": "l10",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "global_temp",
+      "toId": "extreme_weather"
+    },
+    {
+      "id": "l11",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "extreme_weather",
+      "toId": "permafrost"
+    }
+  ],
+  "meta": {
+    "tags": [
+      "climate",
+      "environmental",
+      "wssi",
+      "tipping-point",
+      "feedback"
+    ]
+  },
+  "subtitle": "Reinforcing loop showing how climate tipping points create self-amplifying warming through feedback mechanisms like permafrost melt and ice-albedo loss.",
+  "groups": [
+    {
+      "id": "R1",
+      "label": "Ice-Albedo Feedback",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "global_temp",
+        "arctic_ice",
+        "albedo",
+        "global_temp"
+      ]
+    },
+    {
+      "id": "R2",
+      "label": "Permafrost-Methane Feedback",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "global_temp",
+        "permafrost",
+        "methane",
+        "ghg_concentration",
+        "global_temp"
+      ]
+    },
+    {
+      "id": "R3",
+      "label": "Ocean Heat Amplification",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "global_temp",
+        "ocean_heat",
+        "global_temp"
+      ]
+    }
+  ]
+}

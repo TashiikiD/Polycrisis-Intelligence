@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems View | Causal Loop Diagrams | The Fragility Brief</title>
+    <meta name="description" content="Interactive causal loop diagrams showing feedback dynamics in the polycrisis. Explore economic, climate, supply chain, and governance system interactions.">
+    <meta property="og:title" content="Systems View — Causal Loop Diagrams">
+    <meta property="og:description" content="Interactive feedback dynamics of the polycrisis">
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="/assets/js/nav.js"></script>
+    <script src="/assets/js/causalloops.js"></script>
+    <style>
+        .systems-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .systems-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+        
+        .systems-header h1 {
+            margin-bottom: 10px;
+        }
+        
+        .systems-intro {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+        
+        /* Diagram selector tabs */
+        .diagram-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+        
+        .diagram-tab {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+        
+        .diagram-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .diagram-tab.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        
+        /* Main diagram area */
+        .diagram-viewer {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .diagram-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .diagram-title {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .diagram-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .diagram-controls button {
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        .diagram-controls button:hover {
+            border-color: var(--accent);
+        }
+        
+        #cld-container {
+            width: 100%;
+            height: 600px;
+            background: var(--bg);
+        }
+        
+        /* Info panel */
+        .info-panel {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .info-card h3 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        .info-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .legend-line {
+            width: 30px;
+            height: 3px;
+        }
+        
+        .legend-line.positive {
+            background: #3fb950;
+        }
+        
+        .legend-line.negative {
+            background: #f85149;
+        }
+        
+        /* Node details panel */
+        #node-details {
+            min-height: 200px;
+        }
+        
+        #node-details .placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        #node-details .node-name {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        #node-details .node-value {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        #node-details .node-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* WSSI Connection banner */
+        .wssi-banner {
+            background: linear-gradient(135deg, rgba(88,166,255,0.1), rgba(63,185,80,0.05));
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .wssi-banner h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            .info-panel {
+                grid-template-columns: 1fr;
+            }
+            
+            #cld-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="systems-container">
+            <div class="systems-header">
+                <h1>Systems View</h1>
+                <p class="systems-intro">
+                    Causal Loop Diagrams (CLDs) visualize the feedback dynamics driving the polycrisis. 
+                    Each diagram shows how variables interact—reinforcing loops amplify change, 
+                    while balancing loops create stability or resistance.
+                </p>
+            </div>
+            
+            <!-- Diagram Selector -->
+            <div class="diagram-tabs" id="diagram-tabs">
+                <div class="diagram-tab active" data-diagram="CLD5-Economic-Stress-Feedback">
+                    Economic Stress
+                </div>
+                <div class="diagram-tab" data-diagram="CLD6-Climate-Tipping-Accelerant">
+                    Climate Tipping
+                </div>
+                <div class="diagram-tab" data-diagram="CLD7-Supply-Chain-Cascade">
+                    Supply Chain
+                </div>
+                <div class="diagram-tab" data-diagram="CLD8-Water-Energy-Food-Nexus">
+                    W-E-F Nexus
+                </div>
+                <div class="diagram-tab" data-diagram="CLD9-Governance-Social-Resilience">
+                    Governance
+                </div>
+            </div>
+            
+            <!-- Diagram Viewer -->
+            <div class="diagram-viewer">
+                <div class="diagram-toolbar">
+                    <span class="diagram-title" id="current-diagram-title">Economic Stress Feedback Loop</span>
+                    <div class="diagram-controls">
+                        <button onclick="renderer.zoomIn()">Zoom In</button>
+                        <button onclick="renderer.zoomOut()">Zoom Out</button>
+                        <button onclick="renderer.resetView()">Reset</button>
+                    </div>
+                </div>
+                <div id="cld-container"></div>
+            </div>
+            
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <div class="info-card">
+                    <h3>About This Diagram</h3>
+                    <p id="diagram-description">
+                        Loading diagram description...
+                    </p>
+                    
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-line positive"></div>
+                            <span>Reinforcing (+) — amplifies change</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-line negative"></div>
+                            <span>Balancing (−) — resists change</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card" id="node-details">
+                    <h3>Node Details</h3>
+                    <p class="placeholder">Click on a node to see details</p>
+                </div>
+            </div>
+            
+            <!-- WSSI Connection -->
+            <div class="wssi-banner">
+                <h3>🔗 Connected to WSSI</h3>
+                <p>
+                    These causal loops feed into the <strong>Weighted Synchronous Stress Index (WSSI)</strong> — 
+                    our composite metric for polycrisis intensity. As these feedback loops strengthen, 
+                    systemic risk increases.
+                </p>
+                <a href="/dashboard/" class="btn btn-primary" style="margin-top: 10px;">View Live Dashboard</a>
+            </div>
+            
+            <!-- Back to Dashboard -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="/dashboard/" class="btn">← Back to Dashboard</a>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Diagram metadata
+        const diagrams = {
+            'CLD5-Economic-Stress-Feedback': {
+                title: 'Economic Stress Feedback Loop',
+                description: 'Shows how sovereign debt stress, interest rates, investment, and banking instability create cascading feedback effects. Two reinforcing loops drive the system toward crisis: the Debt-Investment Spiral (R1) and Asset-Banking Feedback (R2).'
+            },
+            'CLD6-Climate-Tipping-Accelerant': {
+                title: 'Climate Tipping Accelerant',
+                description: 'Illustrates how climate tipping points create accelerating feedback. As temperatures rise, permafrost thaw releases methane, ice-albedo feedback reduces reflectivity, and forest dieback reduces carbon uptake—each amplifying the others.'
+            },
+            'CLD7-Supply-Chain-Cascade': {
+                title: 'Supply Chain Cascade',
+                description: 'Maps the fragility of global supply chains under stress. Resource scarcity, logistics disruptions, and inventory dynamics create cascading failures that propagate across sectors and geographies.'
+            },
+            'CLD8-Water-Energy-Food-Nexus': {
+                title: 'Water-Energy-Food Nexus',
+                description: 'Shows the critical interdependencies between water availability, energy production, and food systems. Stress in any one domain cascades to the others, creating systemic vulnerability in human security.'
+            },
+            'CLD9-Governance-Social-Resilience': {
+                title: 'Governance & Social Resilience',
+                description: 'Models how institutional capacity, social cohesion, and public trust interact under crisis conditions. Governance failures can trigger social fragmentation, while resilient institutions can absorb and adapt to shocks.'
+            }
+        };
+        
+        let renderer;
+        let currentDiagram = 'CLD5-Economic-Stress-Feedback';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initRenderer();
+            loadDiagram(currentDiagram);
+            setupTabs();
+        });
+        
+        function initRenderer() {
+            renderer = new CausalLoopRenderer('cld-container', {
+                width: document.getElementById('cld-container').clientWidth,
+                height: 600,
+                theme: 'dark',
+                interactive: true
+            });
+            
+            // Listen for node selection
+            document.getElementById('cld-container').addEventListener('nodeSelect', (e) => {
+                showNodeDetails(e.detail);
+            });
+        }
+        
+        async function loadDiagram(diagramId) {
+            currentDiagram = diagramId;
+            const meta = diagrams[diagramId];
+            
+            // Update title and description
+            document.getElementById('current-diagram-title').textContent = meta.title;
+            document.getElementById('diagram-description').textContent = meta.description;
+            
+            // Clear node details
+            document.getElementById('node-details').innerHTML = `
+                <h3>Node Details</h3>
+                <p class="placeholder">Click on a node to see details</p>
+            `;
+            
+            // Load CLD data
+            try {
+                const url = `/assets/causalloops/diagrams/${diagramId}.cld.json`;
+                await renderer.loadFromURL(url);
+            } catch (error) {
+                console.error('Failed to load diagram:', error);
+                document.getElementById('cld-container').innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #f85149;">
+                        <p>Failed to load diagram.</p>
+                        <p style="font-size: 0.9rem; color: #8b949e;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.diagram-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Load selected diagram
+                    const diagramId = tab.dataset.diagram;
+                    loadDiagram(diagramId);
+                });
+            });
+        }
+        
+        function showNodeDetails(node) {
+            const details = document.getElementById('node-details');
+            
+            let severityText = '';
+            if (node.severity !== undefined) {
+                const severityLevel = node.severity < 0.3 ? 'Low' : 
+                                    node.severity < 0.6 ? 'Moderate' : 
+                                    node.severity < 0.8 ? 'High' : 'Critical';
+                severityText = `<span class="node-value">Risk: ${severityLevel}</span>`;
+            }
+            
+            details.innerHTML = `
+                <h3>Node Details</h3>
+                <div class="node-name">${node.label || node.id}</div>
+                ${severityText}
+                <p class="node-description">
+                    ${node.description || 'Part of the feedback dynamics in this causal loop diagram. Click and drag the diagram to explore connections.'}
+                </p>
+            `;
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (renderer) {
+                const container = document.getElementById('cld-container');
+                renderer.options.width = container.clientWidth;
+                renderer.container.style.width = container.clientWidth + 'px';
+                renderer.svg.setAttribute('viewBox', `0 0 ${renderer.options.width} ${renderer.options.height}`);
+            }
+        });
+    </script>
+</body>
+</html>

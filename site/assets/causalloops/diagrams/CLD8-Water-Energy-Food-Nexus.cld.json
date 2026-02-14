@@ -1,0 +1,258 @@
+{
+  "kind": "cld",
+  "id": "CLD8-Water-Energy-Food-Nexus",
+  "title": "Water-Energy-Food Security Nexus",
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "water_stress",
+      "label": "Water Stress Index",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 100
+      }
+    },
+    {
+      "id": "groundwater",
+      "label": "Groundwater Levels",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 150
+      }
+    },
+    {
+      "id": "agricultural_output",
+      "label": "Agricultural Output",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 400,
+        "y": 300
+      }
+    },
+    {
+      "id": "food_prices",
+      "label": "Food Prices",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 200,
+        "y": 350
+      }
+    },
+    {
+      "id": "energy_demand",
+      "label": "Energy Demand",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 200
+      }
+    },
+    {
+      "id": "energy_production",
+      "label": "Energy Production",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 50
+      }
+    },
+    {
+      "id": "water_for_energy",
+      "label": "Water for Energy",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 250,
+        "y": 50
+      }
+    },
+    {
+      "id": "energy_for_water",
+      "label": "Energy for Water",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 450,
+        "y": 50
+      }
+    },
+    {
+      "id": "irrigation",
+      "label": "Irrigation Capacity",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 550,
+        "y": 250
+      }
+    },
+    {
+      "id": "food_security",
+      "label": "Food Security Index",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 450
+      }
+    },
+    {
+      "id": "social_stability",
+      "label": "Social Stability",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 400
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "water_stress",
+      "toId": "groundwater"
+    },
+    {
+      "id": "l2",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "groundwater",
+      "toId": "irrigation"
+    },
+    {
+      "id": "l3",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "irrigation",
+      "toId": "agricultural_output"
+    },
+    {
+      "id": "l4",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "agricultural_output",
+      "toId": "food_prices"
+    },
+    {
+      "id": "l5",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "food_prices",
+      "toId": "food_security"
+    },
+    {
+      "id": "l6",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "food_security",
+      "toId": "social_stability"
+    },
+    {
+      "id": "l7",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "water_stress",
+      "toId": "water_for_energy"
+    },
+    {
+      "id": "l8",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "water_for_energy",
+      "toId": "energy_production"
+    },
+    {
+      "id": "l9",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "energy_production",
+      "toId": "energy_for_water"
+    },
+    {
+      "id": "l10",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "energy_for_water",
+      "toId": "groundwater"
+    },
+    {
+      "id": "l11",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "energy_demand",
+      "toId": "energy_production"
+    },
+    {
+      "id": "l12",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "food_prices",
+      "toId": "social_stability"
+    },
+    {
+      "id": "l13",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "social_stability",
+      "toId": "agricultural_output"
+    }
+  ],
+  "meta": {
+    "tags": [
+      "water",
+      "energy",
+      "food",
+      "wssi",
+      "nexus",
+      "resources"
+    ]
+  },
+  "subtitle": "Interconnected system showing how water scarcity, energy constraints, and food production create reinforcing stress patterns across the resource nexus.",
+  "groups": [
+    {
+      "id": "R1",
+      "label": "Water-Energy Feedback",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "water_stress",
+        "water_for_energy",
+        "energy_production",
+        "energy_for_water",
+        "groundwater",
+        "water_stress"
+      ]
+    },
+    {
+      "id": "R2",
+      "label": "Food-Social Instability",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "agricultural_output",
+        "food_prices",
+        "social_stability",
+        "agricultural_output"
+      ]
+    },
+    {
+      "id": "B1",
+      "label": "Water Conservation Response",
+      "type": "Balancing",
+      "nodeIds": [
+        "water_stress",
+        "irrigation",
+        "agricultural_output"
+      ]
+    }
+  ]
+}

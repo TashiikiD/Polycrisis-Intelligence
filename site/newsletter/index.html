@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter | The Fragility Brief</title>
+    <meta name="description" content="Weekly polycrisis intelligence. Free roundups and paid deep dives on interconnected global risks.">
+    <meta property="og:title" content="Newsletter — The Fragility Brief">
+    <meta property="og:description" content="Weekly polycrisis intelligence. Free roundups and paid deep dives.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="/assets/js/nav.js"></script>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h1>The Fragility Brief Newsletter</h1>
+                    <p>Weekly systems-level intelligence on interconnected global risks. Free roundup every week, deep dives for subscribers.</p>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <a href="https://fragilitybriefing.substack.com" class="btn btn-primary" target="_blank" rel="noopener">Subscribe on Substack</a>
+                    <p class="text-muted mt-2" style="font-size: 0.85rem;">Free weekly roundup. Paid deep dives $15/mo.</p>
+                </div>
+            </div>
+
+            <!-- What You Get -->
+            <div class="section">
+                <h2 class="mb-3">What you get</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Weekly Roundup</span>
+                            <span class="badge badge-success">FREE</span>
+                        </div>
+                        <p class="text-muted">500-800 words covering 3-5 key developments. Each issue includes:</p>
+                        <ul class="clean-list">
+                            <li><strong>The Pattern</strong> &mdash; What systemic dynamic connects this week's events</li>
+                            <li><strong>Signal Stories</strong> &mdash; What happened, why it matters, threshold status</li>
+                            <li><strong>The Thread</strong> &mdash; How this week's signals connect to the bigger picture</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Deep Dive</span>
+                            <span class="badge" style="background: rgba(88,166,255,0.15); color: var(--accent);">PAID</span>
+                        </div>
+                        <p class="text-muted">1,500-2,500 words on the week's highest-signal development. Each issue includes:</p>
+                        <ul class="clean-list">
+                            <li><strong>Executive Summary</strong> &mdash; Key finding and confidence level</li>
+                            <li><strong>Cascade Mapping</strong> &mdash; How this event propagates through connected systems</li>
+                            <li><strong>Historical Analogues</strong> &mdash; What similar past events tell us</li>
+                            <li><strong>Threshold Assessment</strong> &mdash; Where indicators stand vs. critical levels</li>
+                            <li><strong>Stakeholder Implications</strong> &mdash; What this means for different roles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Archive -->
+            <div class="section">
+                <h2 class="mb-3">Archive</h2>
+                <div id="archive-list">
+                    <p class="text-muted">Newsletter issues will appear here as they are published.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const res = await fetch('/newsletter/data/archive.json');
+                const data = await res.json();
+                const container = document.getElementById('archive-list');
+
+                if (!data.issues || data.issues.length === 0) return;
+
+                container.innerHTML = '';
+                const list = document.createElement('div');
+
+                data.issues.forEach(function(issue) {
+                    const card = document.createElement('div');
+                    card.className = 'card mb-2';
+                    card.style.display = 'flex';
+                    card.style.justifyContent = 'space-between';
+                    card.style.alignItems = 'center';
+                    card.style.flexWrap = 'wrap';
+                    card.style.gap = '8px';
+
+                    const tierBadge = issue.tier === 'free'
+                        ? '<span class="badge badge-success">FREE</span>'
+                        : '<span class="badge" style="background:rgba(88,166,255,0.15);color:var(--accent);">PAID</span>';
+
+                    card.innerHTML = [
+                        '<div>',
+                        '  <a href="' + issue.url + '" target="_blank" rel="noopener" style="font-weight:600;">' + issue.title + '</a>',
+                        '  <div class="text-muted" style="font-size:0.85rem;">' + issue.date + '</div>',
+                        '</div>',
+                        tierBadge
+                    ].join('');
+
+                    list.appendChild(card);
+                });
+
+                container.appendChild(list);
+            } catch (e) {
+                // Silently fail — archive.json may not exist yet
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Dashboard | The Fragility Brief</title>
+    <meta name="description" content="Live risk monitoring dashboard. Seismic, humanitarian, cyber, climate, and geopolitical data from 12+ sources.">
+    <meta property="og:title" content="Live Dashboard — The Fragility Brief">
+    <meta property="og:description" content="Daily risk monitoring from 12+ authoritative sources.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="/assets/js/nav.js"></script>
+    <style>
+        /* Dashboard-specific overrides (from original daily_brief.html) */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .dashboard-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .dashboard-card .card-title {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .dashboard-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dashboard-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .dashboard-card li:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            float: right;
+            font-family: var(--font-mono);
+        }
+
+        /* Subscribe CTA banner */
+        .subscribe-banner {
+            background: linear-gradient(135deg, rgba(88,166,255,0.1), rgba(63,185,80,0.05));
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const times = document.querySelectorAll('time[datetime]');
+            times.forEach(t => {
+                const dt = new Date(t.getAttribute('datetime'));
+                if (!isNaN(dt)) {
+                    const localStr = dt.toLocaleString(undefined, {
+                        year: 'numeric', month: 'short', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+                    });
+                    t.textContent = localStr;
+                }
+            });
+        });
+
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // API Proxy — keys are stored server-side in Cloudflare Worker
+        const API_PROXY = 'https://fragility-brief-api-proxy.workers.dev';
+
+        async function fetchAirQuality(lat, lon, label) {
+            try {
+                const aqRes = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,pm10,pm2_5`);
+                const aqData = await aqRes.json();
+                const current = aqData.current;
+
+                document.getElementById('aq-label').textContent = label;
+                const valSpan = document.getElementById('aq-value');
+                valSpan.textContent = `US AQI: ${current.us_aqi}`;
+                valSpan.className = `value ${current.us_aqi > 100 ? 'high-risk' : (current.us_aqi > 50 ? 'med-risk' : '')}`;
+
+                document.getElementById('pm25-val').textContent = `${current.pm2_5} µg/m³`;
+                document.getElementById('pm10-val').textContent = `${current.pm10} µg/m³`;
+
+                document.getElementById('cityResults').style.display = 'none';
+            } catch (e) { console.error(e); }
+        }
+
+        async function handleInput() {
+            const city = document.getElementById('cityInput').value;
+            if (city.length < 3) {
+                document.getElementById('cityResults').style.display = 'none';
+                return;
+            }
+            const list = document.getElementById('cityResults');
+            try {
+                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=5&language=en&format=json`);
+                const geoData = await geoRes.json();
+                list.innerHTML = '';
+                if (!geoData.results) { list.style.display = 'none'; return; }
+                list.style.display = 'block';
+                geoData.results.forEach(res => {
+                    const li = document.createElement('li');
+                    li.style.padding = '8px';
+                    li.style.cursor = 'pointer';
+                    li.style.borderBottom = '1px solid #30363d';
+                    li.innerHTML = `${res.name}, ${res.country} <span style="font-size:0.8em; color:#8b949e">(${res.latitude.toFixed(2)}, ${res.longitude.toFixed(2)})</span>`;
+                    li.onclick = () => {
+                        fetchAirQuality(res.latitude, res.longitude, `${res.name}, ${res.country}`);
+                        list.style.display = 'none';
+                        document.getElementById('cityInput').value = res.name;
+                    };
+                    li.onmouseover = () => li.style.background = '#21262d';
+                    li.onmouseout = () => li.style.background = 'transparent';
+                    list.appendChild(li);
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        const debouncedSearch = debounce(handleInput, 300);
+    </script>
+</head>
+<body>
+    <main>
+        <div class="dashboard-container container">
+            <div class="dashboard-header">
+                <h1>The Fragility Brief &mdash; Daily Dashboard</h1>
+                <div class="meta text-muted">Generated: 2026-02-13 06:49 | Sources: 8 | <a href="/about/">About our methodology</a></div>
+            </div>
+
+            <!-- Subscribe Banner -->
+            <div class="subscribe-banner">
+                <strong>Want context for these numbers?</strong>
+                <span class="text-muted">&mdash; The weekly brief adds cascade analysis, historical analogues, and threshold assessments.</span>
+                <a href="https://fragilitybriefing.substack.com" class="btn btn-primary btn-sm" style="margin-left: 12px;" target="_blank" rel="noopener">Subscribe</a>
+            </div>
+
+            <!-- Systems View Banner -->
+            <div class="subscribe-banner" style="background: linear-gradient(135deg, rgba(163,113,247,0.1), rgba(88,166,255,0.05));">
+                <strong>🌐 Explore the Feedback Dynamics</strong>
+                <span class="text-muted">&mdash; Interactive causal loop diagrams showing how crises amplify each other.</span>
+                <a href="/systems/" class="btn btn-primary btn-sm" style="margin-left: 12px;">View Systems Map</a>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Seismic Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Seismic Activity</span>
+                        <span class="badge">USGS</span>
+                    </div>
+                    <ul>
+                        
+                        <li>
+                            <span class="med-risk">
+                                M5.5
+                            </span>
+                            97 km SE of Katsuren-haebaru, Japan
+                            <div class="meta text-muted"><time datetime="2026-02-12T21:48:13.290000+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <span class="med-risk">
+                                M5.5
+                            </span>
+                            79 km NE of Khuzdar, Pakistan
+                            <div class="meta text-muted"><time datetime="2026-02-13T06:30:22.360000+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <span class="med-risk">
+                                M5.4
+                            </span>
+                            157 km SSE of Kuril’sk, Russia
+                            <div class="meta text-muted"><time datetime="2026-02-12T16:45:00.527000+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <span class="med-risk">
+                                M5
+                            </span>
+                            159 km SSE of Kuril’sk, Russia
+                            <div class="meta text-muted"><time datetime="2026-02-12T21:32:08.993000+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <span class="med-risk">
+                                M5
+                            </span>
+                            85 km NE of Hihifo, Tonga
+                            <div class="meta text-muted"><time datetime="2026-02-13T00:41:28.911000+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- Humanitarian Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Humanitarian Alerts</span>
+                        <span class="badge">UN ReliefWeb</span>
+                    </div>
+                    <ul>
+                        
+                        <li>No active disasters found.</li>
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- Cyber Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Cybersecurity Alerts</span>
+                        <span class="badge">CISA</span>
+                    </div>
+                    <ul>
+                        
+                        <li>
+                            <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-043-01" target="_blank" rel="noopener">Siemens SINEC NMS</a>
+                            <div class="meta text-muted"><time datetime="2026-02-12T12:00:00+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <a href="https://www.cisa.gov/news-events/alerts/2026/02/12/cisa-adds-four-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA Adds Four Known Exploited Vulnerabilities to Catalog</a>
+                            <div class="meta text-muted"><time datetime="2026-02-12T12:00:00+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-043-07" target="_blank" rel="noopener">Siemens Siveillance Video Management Servers</a>
+                            <div class="meta text-muted"><time datetime="2026-02-12T12:00:00+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-043-05" target="_blank" rel="noopener">Siemens Solid Edge</a>
+                            <div class="meta text-muted"><time datetime="2026-02-12T12:00:00+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                        <li>
+                            <a href="https://www.cisa.gov/news-events/ics-advisories/icsa-26-043-02" target="_blank" rel="noopener">Siemens Polarion</a>
+                            <div class="meta text-muted"><time datetime="2026-02-12T12:00:00+00:00">2026-02-12</time></div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- Natural Events Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Natural Hazards</span>
+                        <span class="badge">NASA EONET</span>
+                    </div>
+                    <ul>
+                        
+                        <li>
+                            
+                            <a href="https://irwin.doi.gov/observer/incidents/46081a4f-7fe0-483b-8c65-76984a0011e9" target="_blank" rel="noopener">Rx Polk 1121 Prescribed Fire, Polk, Texas</a>
+                            <div class="meta text-muted">
+                                Wildfires |
+                                <time datetime="2026-02-12T10:35:00Z">2026-02-12</time>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            
+                            <a href="https://irwin.doi.gov/observer/incidents/5407cb5b-d2cf-4c19-affd-210cefee267e" target="_blank" rel="noopener">Rx Polk 1087 Prescribed Fire, Polk, Texas</a>
+                            <div class="meta text-muted">
+                                Wildfires |
+                                <time datetime="2026-02-12T10:32:00Z">2026-02-12</time>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            
+                            <a href="https://irwin.doi.gov/observer/incidents/0d3c9ef0-3065-4336-bc44-8c2e8a566575" target="_blank" rel="noopener">RX Throckmorton 1127 Prescribed Fire, Throckmorton, Texas</a>
+                            <div class="meta text-muted">
+                                Wildfires |
+                                <time datetime="2026-02-12T10:07:00Z">2026-02-12</time>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            
+                            <a href="https://irwin.doi.gov/observer/incidents/c098a8aa-bac5-4b94-b0c6-4f2386f828b0" target="_blank" rel="noopener">Berryman CCC Blocks B C RX Prescribed Fire, Washington, Missouri</a>
+                            <div class="meta text-muted">
+                                Wildfires |
+                                <time datetime="2026-02-12T08:41:00Z">2026-02-12</time>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            
+                            <a href="https://irwin.doi.gov/observer/incidents/0d22ddf3-4c36-44f0-a95e-caa01ce378d3" target="_blank" rel="noopener">640 Wildfire, Polk, Florida</a>
+                            <div class="meta text-muted">
+                                Wildfires |
+                                <time datetime="2026-02-11T17:20:00Z">2026-02-11</time>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- Global Disasters Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Global Disasters</span>
+                        <span class="badge">GDACS</span>
+                    </div>
+                    <ul>
+                        
+                        
+                        
+                        <li>
+                            <span class="high-risk">
+                                TC
+                            </span>
+                            <a href="https://www.gdacs.org/report.aspx?eventid=1001256&episodeid=27&eventtype=TC" target="_blank" rel="noopener">GEZANI-26</a> (Madagascar, Mozambique)
+                            <div class="meta text-muted">
+                                Red Alert | Score: 3 |
+                                <time datetime="2026-02-06T00:00:00">2026-02-06</time>
+                            </div>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <span class="med-risk">
+                                DR
+                            </span>
+                            <a href="https://www.gdacs.org/report.aspx?eventid=1017863&episodeid=26&eventtype=DR" target="_blank" rel="noopener">East Africa-2025</a> (Ethiopia, Kenya, Somalia)
+                            <div class="meta text-muted">
+                                Orange Alert | Score: 2 |
+                                <time datetime="2025-04-21T00:00:00">2025-04-21</time>
+                            </div>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <span class="med-risk">
+                                DR
+                            </span>
+                            <a href="https://www.gdacs.org/report.aspx?eventid=1017535&episodeid=39&eventtype=DR" target="_blank" rel="noopener">Middle East, Central Asia-2024</a> (Afghanistan, China, Islamic Republic of Iran, Kazakhstan, Tajikistan, Turkmenistan, Türkiye, Uzbekistan)
+                            <div class="meta text-muted">
+                                Orange Alert | Score: 2 |
+                                <time datetime="2024-10-21T00:00:00">2024-10-21</time>
+                            </div>
+                        </li>
+                        
+                        
+                        
+                        
+                        <li>
+                            <span class="med-risk">
+                                DR
+                            </span>
+                            <a href="https://www.gdacs.org/report.aspx?eventid=1016449&episodeid=89&eventtype=DR" target="_blank" rel="noopener">South America-2023</a> (Brazil)
+                            <div class="meta text-muted">
+                                Orange Alert | Score: 2 |
+                                <time datetime="2022-09-21T00:00:00">2022-09-21</time>
+                            </div>
+                        </li>
+                        
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- Weather/Air Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Environmental Risk</span>
+                        <span class="badge">OpenMeteo</span>
+                    </div>
+                    <div style="padding: 10px 15px 0 15px; position: relative;">
+                        <div style="display: flex; gap: 5px;">
+                            <input type="text" id="cityInput" placeholder="Enter city (e.g. Paris)..."
+                                style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9;"
+                                onkeydown="if(event.key==='Enter') updateLocation()" oninput="debouncedSearch()">
+                            <button id="locBtn" onclick="updateLocation()"
+                                style="padding: 4px 8px; border-radius: 4px; border: 1px solid #30363d; background: #21262d; color: #58a6ff; cursor: pointer;">Go</button>
+                        </div>
+                        <ul id="cityResults"
+                            style="display:none; position: absolute; top: 100%; left: 15px; right: 15px; margin-top: 5px; z-index: 1000; padding: 0; list-style: none; border: 1px solid #30363d; border-radius: 4px; background: #161b22; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+                        </ul>
+                    </div>
+                    
+                    
+                    <ul>
+                        
+                        <li>
+                            <span id="aq-label">Toronto, Ontario (Auto)</span>
+                            <span id="aq-value" class="value ">
+                                US AQI: 46
+                            </span>
+                        </li>
+                        <li>PM2.5 <span class="value" id="pm25-val">15.4 µg/m³</span></li>
+                        <li>PM10 <span class="value" id="pm10-val">16.1 µg/m³</span></li>
+                        
+                    </ul>
+                </div>
+                
+
+                <!-- UK FCDO Module -->
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Travel Advice (UK)</span>
+                        <span class="badge">FCDO</span>
+                    </div>
+                    <div style="padding: 0 15px;">
+                        <h4>France travel advice</h4>
+                        <p class="text-muted" style="font-size: 0.9em;">
+                            FCDO travel advice for France. Includes safety and security, insurance, entry requirements and legal differences.
+                        </p>
+                        <div class="meta text-muted">Updated: 2026-01-19</div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="subscribe-banner" style="margin-top: 40px;">
+                <p><strong>This dashboard updates daily.</strong> For weekly analysis connecting these signals into a systems-level picture:</p>
+                <a href="https://fragilitybriefing.substack.com" class="btn btn-primary" target="_blank" rel="noopener">Subscribe to The Fragility Brief</a>
+                <span class="text-muted" style="margin-left: 8px;">Free weekly roundup | $15/mo for deep dives</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function updateLocation() {
+            const city = document.getElementById('cityInput').value;
+            if (!city) return;
+            try {
+                const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`;
+                const geoRes = await fetch(geoUrl);
+                const geoData = await geoRes.json();
+                if (!geoData.results || geoData.results.length === 0) { alert("City not found"); return; }
+                const loc = geoData.results[0];
+                document.getElementById('aq-label').innerText = `${loc.name}, ${loc.country || ''}`;
+                const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${loc.latitude}&longitude=${loc.longitude}&current=us_aqi,pm10,pm2_5`;
+                const aqRes = await fetch(aqUrl);
+                const aqData = await aqRes.json();
+                const curr = aqData.current;
+                const aqiEl = document.getElementById('aq-value');
+                aqiEl.innerText = `US AQI: ${curr.us_aqi}`;
+                aqiEl.className = "value " + (curr.us_aqi > 100 ? "high-risk" : (curr.us_aqi > 50 ? "med-risk" : ""));
+                document.getElementById('pm25-val').innerText = `${curr.pm2_5} ${aqData.current_units.pm2_5}`;
+                document.getElementById('pm10-val').innerText = `${curr.pm10} ${aqData.current_units.pm10}`;
+            } catch (err) { console.error(err); alert("Error updating weather."); }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+{
+  "kind": "cld",
+  "id": "CLD7-Supply-Chain-Cascade",
+  "title": "Global Supply Chain Cascade Failure",
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "disruption_event",
+      "label": "Supply Disruption Event",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 300,
+        "y": 50
+      }
+    },
+    {
+      "id": "inventory",
+      "label": "Inventory Buffers",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 100
+      }
+    },
+    {
+      "id": "shortages",
+      "label": "Component Shortages",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 500,
+        "y": 200
+      }
+    },
+    {
+      "id": "production",
+      "label": "Manufacturing Output",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 350,
+        "y": 300
+      }
+    },
+    {
+      "id": "transport_cost",
+      "label": "Transportation Costs",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 150,
+        "y": 250
+      }
+    },
+    {
+      "id": "final_goods",
+      "label": "Final Goods Availability",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 200,
+        "y": 400
+      }
+    },
+    {
+      "id": "consumer_prices",
+      "label": "Consumer Prices",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 400,
+        "y": 450
+      }
+    },
+    {
+      "id": "demand_destruction",
+      "label": "Demand Destruction",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 550,
+        "y": 400
+      }
+    },
+    {
+      "id": "supplier_viability",
+      "label": "Supplier Financial Viability",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 150
+      }
+    },
+    {
+      "id": "consolidation",
+      "label": "Market Consolidation",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 50,
+        "y": 300
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "disruption_event",
+      "toId": "inventory"
+    },
+    {
+      "id": "l2",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "inventory",
+      "toId": "shortages"
+    },
+    {
+      "id": "l3",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "shortages",
+      "toId": "production"
+    },
+    {
+      "id": "l4",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "production",
+      "toId": "final_goods"
+    },
+    {
+      "id": "l5",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "final_goods",
+      "toId": "consumer_prices"
+    },
+    {
+      "id": "l6",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "consumer_prices",
+      "toId": "demand_destruction"
+    },
+    {
+      "id": "l7",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "demand_destruction",
+      "toId": "production"
+    },
+    {
+      "id": "l8",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "disruption_event",
+      "toId": "transport_cost"
+    },
+    {
+      "id": "l9",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "transport_cost",
+      "toId": "consumer_prices"
+    },
+    {
+      "id": "l10",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "shortages",
+      "toId": "supplier_viability"
+    },
+    {
+      "id": "l11",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "supplier_viability",
+      "toId": "consolidation"
+    },
+    {
+      "id": "l12",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "consolidation",
+      "toId": "shortages"
+    },
+    {
+      "id": "l13",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "consolidation",
+      "toId": "consumer_prices"
+    }
+  ],
+  "meta": {
+    "tags": [
+      "supply-chain",
+      "economic",
+      "wssi",
+      "industrial",
+      "cascade"
+    ]
+  },
+  "subtitle": "Multi-loop diagram showing how supply chain disruptions propagate through just-in-time systems, creating reinforcing shortages and price spirals across multiple sectors.",
+  "groups": [
+    {
+      "id": "R1",
+      "label": "Shortage-Price Spiral",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "shortages",
+        "production",
+        "final_goods",
+        "consumer_prices",
+        "demand_destruction",
+        "production"
+      ]
+    },
+    {
+      "id": "R2",
+      "label": "Supplier Consolidation Loop",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "shortages",
+        "supplier_viability",
+        "consolidation",
+        "shortages"
+      ]
+    },
+    {
+      "id": "B1",
+      "label": "Demand Destruction Balance",
+      "type": "Balancing",
+      "nodeIds": [
+        "consumer_prices",
+        "demand_destruction",
+        "production",
+        "final_goods",
+        "consumer_prices"
+      ]
+    }
+  ]
+}

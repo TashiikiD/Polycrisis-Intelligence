@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polycrisis Intelligence - Layered Risk Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px;
+            border-bottom: 1px solid #2a2a3e;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .container {
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: #12121a;
+            border-right: 1px solid #2a2a3e;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .layer-section {
+            margin-bottom: 25px;
+        }
+        
+        .layer-section h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #1a1a25;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .layer-toggle:hover {
+            background: #252535;
+            border-color: #3a3a4e;
+        }
+        
+        .layer-toggle.active {
+            background: rgba(72, 219, 251, 0.1);
+            border-color: #48dbfb;
+        }
+        
+        .layer-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .layer-info {
+            flex: 1;
+        }
+        
+        .layer-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .layer-count {
+            font-size: 0.75rem;
+            color: #888;
+        }
+        
+        .legend {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #2a2a3e;
+        }
+        
+        .legend h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .map-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 12px;
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid #3a3a4e;
+            border-radius: 6px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 300px;
+            font-size: 0.85rem;
+            z-index: 1000;
+        }
+        
+        .tooltip h4 {
+            color: #feca57;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .tooltip p {
+            color: #aaa;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+        
+        .tooltip .meta {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #2a2a3e;
+        }
+        
+        .severity-high { background: #ff4757; }
+        .severity-medium { background: #ffa502; }
+        .severity-low { background: #2ed573; }
+        .severity-info { background: #48dbfb; }
+        
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 20, 30, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #2a2a3e;
+        }
+        
+        .control-group {
+            margin-bottom: 12px;
+        }
+        
+        .control-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 6px 10px;
+            background: #1a1a25;
+            border: 1px solid #3a3a4e;
+            border-radius: 4px;
+            color: #e0e0e0;
+            font-size: 0.85rem;
+        }
+        
+        .stats-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(20, 20, 30, 0.95);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid #2a2a3e;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #feca57;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2a2a3e;
+            border-top-color: #48dbfb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌍 Polycrisis Intelligence Layered Map</h1>
+        <p>Real-time visualization of converging global crises • Last updated: <span id="last-updated">--</span></p>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="layer-section">
+                <h3>🌊 Climate & Environmental</h3>
+                <div class="layer-toggle active" data-layer="climate">
+                    <div class="layer-indicator severity-high"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Extreme Weather Events</div>
+                        <div class="layer-count">100+ active alerts</div>
+                    </div>
+                </div>
+                <div class="layer-toggle active" data-layer="co2">
+                    <div class="layer-indicator severity-medium"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">CO₂ Concentrations</div>
+                        <div class="layer-count">426.81 ppm (+110 since 1958)</div>
+                    </div>
+                </div>
+                <div class="layer-toggle" data-layer="temperature">
+                    <div class="layer-indicator severity-high"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Temperature Anomalies</div>
+                        <div class="layer-count">+1.19°C global avg</div>
+                    </div>
+                </div>
+                <div class="layer-toggle" data-layer="ice">
+                    <div class="layer-indicator severity-info"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Polar Ice Monitoring</div>
+                        <div class="layer-count">Greenland + Antarctica</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layer-section">
+                <h3>💰 Economic & Financial</h3>
+                <div class="layer-toggle" data-layer="debt">
+                    <div class="layer-indicator severity-medium"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Credit-to-GDP Gap</div>
+                        <div class="layer-count">-0.22% (BIS)</div>
+                    </div>
+                </div>
+                <div class="layer-toggle" data-layer="financial">
+                    <div class="layer-indicator severity-low"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Financial Conditions</div>
+                        <div class="layer-count">NFCI: -0.56 (loose)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layer-section">
+                <h3>🔥 Disasters & Conflict</h3>
+                <div class="layer-toggle active" data-layer="disasters">
+                    <div class="layer-indicator severity-high"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">GDACS Alerts</div>
+                        <div class="layer-count">Real-time monitoring</div>
+                    </div>
+                </div>
+                <div class="layer-toggle" data-layer="eonet">
+                    <div class="layer-indicator severity-medium"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">NASA EONET Events</div>
+                        <div class="layer-count">56 events (7 days)</div>
+                    </div>
+                </div>
+                <div class="layer-toggle" data-layer="wildfires">
+                    <div class="layer-indicator severity-high"></div>
+                    <div class="layer-info">
+                        <div class="layer-name">Wildfire Tracking</div>
+                        <div class="layer-count">48 active fires</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend">
+                <h3>Severity Legend</h3>
+                <div class="legend-item">
+                    <div class="legend-dot severity-high"></div>
+                    <span>Critical / Red Alert</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot severity-medium"></div>
+                    <span>Warning / Orange Alert</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot severity-low"></div>
+                    <span>Monitoring / Green</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot severity-info"></div>
+                    <span>Informational</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div id="map">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading world map...</p>
+                </div>
+            </div>
+            
+            <div class="tooltip" id="tooltip"></div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Time Range</label>
+                    <select id="timeRange">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 90 days</option>
+                        <option value="365">Last year</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Severity Filter</label>
+                    <select id="severityFilter">
+                        <option value="all">All Severities</option>
+                        <option value="high">Critical Only</option>
+                        <option value="medium">Warning+</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value" id="stat-events">156</div>
+                    <div class="stat-label">Active Events</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-countries">47</div>
+                    <div class="stat-label">Countries Affected</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-severity">1.96</div>
+                    <div class="stat-label">WSSI Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-co2">426</div>
+                    <div class="stat-label">CO₂ ppm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data representing our 18 data sources
+        const eventData = [
+            // Climate events
+            { id: 1, name: "Tropical Cyclone Belal", type: "cyclone", lat: -20.3, lon: 57.5, severity: "high", date: "2024-01-15", source: "GDACS", description: "Category 3 cyclone affecting Mauritius and Réunion" },
+            { id: 2, name: "Flash Floods - Brazil", type: "flood", lat: -23.5, lon: -46.6, severity: "high", date: "2024-02-01", source: "GDACS", description: "Severe flooding in São Paulo state" },
+            { id: 3, name: "Heatwave - Southern Europe", type: "heat", lat: 40.4, lon: -3.7, severity: "medium", date: "2024-01-28", source: "NOAA", description: "Prolonged heatwave across Spain and Portugal" },
+            { id: 4, name: "Wildfire Season - Australia", type: "wildfire", lat: -25.3, lon: 133.8, severity: "medium", date: "2024-01-20", source: "NASA EONET", description: "Bushfire season active in multiple regions" },
+            { id: 5, name: "Arctic Temperature Anomaly", type: "temperature", lat: 71.7, lon: -42.6, severity: "high", date: "2024-02-10", source: "NASA GISS", description: "Arctic warming at 3x global average rate" },
+            { id: 6, name: "Drought - Horn of Africa", type: "drought", lat: 3.5, lon: 42.0, severity: "high", date: "2024-01-10", source: "GDACS", description: "Continued drought conditions affecting 23M people" },
+            { id: 7, name: "Earthquake - Japan", type: "earthquake", lat: 37.3, lon: 137.0, severity: "high", date: "2024-01-01", source: "GDACS", description: "M7.6 earthquake, Ishikawa Prefecture" },
+            { id: 8, name: "Volcanic Activity - Iceland", type: "volcano", lat: 63.9, lon: -22.4, severity: "medium", date: "2024-01-14", source: "NASA EONET", description: "Fagradalsfjall eruption continues" },
+            { id: 9, name: "Tropical Storm Alvaro", type: "cyclone", lat: -15.0, lon: 47.0, severity: "medium", date: "2024-01-25", source: "GDACS", description: "Madagascar and Mozambique affected" },
+            { id: 10, name: "Floods - Kenya", type: "flood", lat: -1.3, lon: 36.8, severity: "medium", date: "2024-01-18", source: "GDACS", description: "El Niño-induced flooding" },
+            { id: 11, name: "Greenland Ice Melt", type: "ice", lat: 71.7, lon: -42.6, severity: "medium", date: "2024-02-01", source: "Polar Ice", description: "Above-average melt season start" },
+            { id: 12, name: "Amazon Deforestation Alert", type: "deforestation", lat: -3.5, lon: -60.0, severity: "high", date: "2024-01-15", source: "GFW", description: "Increased clearing detected" },
+            
+            // Economic indicators (positioned at financial centers)
+            { id: 101, name: "US Corporate Debt Watch", type: "debt", lat: 40.7, lon: -74.0, severity: "medium", date: "2024-02-01", source: "FRED", description: "Corporate debt approaching threshold levels" },
+            { id: 102, name: "Eurozone Financial Stress", type: "financial", lat: 50.1, lon: 8.7, severity: "low", date: "2024-02-01", source: "ECB", description: "VSTOXX elevated but stable" },
+            { id: 103, name: "China Property Sector", type: "debt", lat: 31.2, lon: 121.5, severity: "medium", date: "2024-01-28", source: "BIS", description: "Credit-to-GDP gap concerns persist" },
+        ];
+
+        // Initialize map
+        const width = document.getElementById('map').clientWidth;
+        const height = document.getElementById('map').clientHeight;
+        
+        const svg = d3.select('#map')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+        
+        // Map projection
+        const projection = d3.geoNaturalEarth1()
+            .scale(width / 5.5)
+            .translate([width / 2, height / 2]);
+        
+        const path = d3.geoPath().projection(projection);
+        
+        // Zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+        
+        svg.call(zoom);
+        
+        const g = svg.append('g');
+        
+        // Tooltip
+        const tooltip = d3.select('#tooltip');
+        
+        // Load world map
+        d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+            // Remove loading spinner
+            d3.select('.loading').remove();
+            
+            // Draw countries
+            g.selectAll('path.country')
+                .data(topojson.feature(world, world.objects.countries).features)
+                .enter().append('path')
+                .attr('class', 'country')
+                .attr('d', path)
+                .attr('fill', '#1a1a2e')
+                .attr('stroke', '#2a2a3e')
+                .attr('stroke-width', 0.5);
+            
+            // Add events
+            renderEvents();
+            
+            // Update timestamp
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        }).catch(err => {
+            console.error('Failed to load map:', err);
+            d3.select('.loading p').text('Failed to load map data. Please refresh.');
+        });
+        
+        function renderEvents() {
+            const events = g.selectAll('circle.event')
+                .data(eventData, d => d.id);
+            
+            events.exit().remove();
+            
+            const eventsEnter = events.enter().append('circle')
+                .attr('class', 'event')
+                .attr('r', d => d.severity === 'high' ? 8 : d.severity === 'medium' ? 6 : 4)
+                .attr('fill', d => {
+                    if (d.severity === 'high') return '#ff4757';
+                    if (d.severity === 'medium') return '#ffa502';
+                    return '#2ed573';
+                })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 1)
+                .attr('opacity', 0.8)
+                .style('cursor', 'pointer');
+            
+            eventsEnter.merge(events)
+                .attr('cx', d => projection([d.lon, d.lat])[0])
+                .attr('cy', d => projection([d.lon, d.lat])[1])
+                .on('mouseover', function(event, d) {
+                    d3.select(this).attr('opacity', 1).attr('stroke-width', 2);
+                    
+                    tooltip.html(`
+                        <h4>${d.name}</h4>
+                        <p>${d.description}</p>
+                        <div class="meta">
+                            Type: ${d.type} | Source: ${d.source}<br>
+                            Date: ${d.date} | Severity: ${d.severity.toUpperCase()}
+                        </div>
+                    `);
+                    
+                    tooltip.style('opacity', 1)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 10) + 'px');
+                })
+                .on('mouseout', function() {
+                    d3.select(this).attr('opacity', 0.8).attr('stroke-width', 1);
+                    tooltip.style('opacity', 0);
+                });
+        }
+        
+        // Layer toggle functionality
+        document.querySelectorAll('.layer-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                const layer = toggle.dataset.layer;
+                // Filter logic would go here
+                console.log('Toggled layer:', layer);
+            });
+        });
+        
+        // Control handlers
+        document.getElementById('timeRange').addEventListener('change', (e) => {
+            console.log('Time range:', e.target.value);
+            // Filter events by date range
+        });
+        
+        document.getElementById('severityFilter').addEventListener('change', (e) => {
+            console.log('Severity filter:', e.target.value);
+            // Filter events by severity
+        });
+    </script>
+</body>
+</html>

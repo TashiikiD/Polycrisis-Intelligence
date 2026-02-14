@@ -1,0 +1,246 @@
+{
+  "categories": [
+    { "id": "economic-financial", "label": "Economic-Financial", "color": "#E74C3C" },
+    { "id": "climate-environmental", "label": "Climate-Environmental", "color": "#2ECC71" },
+    { "id": "geopolitical-conflict", "label": "Geopolitical-Conflict", "color": "#F39C12" },
+    { "id": "technological", "label": "Technological", "color": "#3498DB" },
+    { "id": "biological-health", "label": "Biological-Health", "color": "#9B59B6" },
+    { "id": "cross-cutting", "label": "Cross-Cutting", "color": "#95A5A6" }
+  ],
+  "nodes": [
+    {
+      "id": "1.1",
+      "label": "Sovereign Debt",
+      "fullLabel": "Sovereign Debt Stress",
+      "category": "economic-financial",
+      "description": "National/subnational inability to service debt obligations; currency-crisis correlation",
+      "indicators": ["Debt-to-GDP ratio", "Foreign reserves", "CDS spreads", "Currency depreciation", "Yield curve inversion"],
+      "analogues": "1997 Asian Crisis, 2001 Argentina, 2012 Eurozone, 2022 Sri Lanka"
+    },
+    {
+      "id": "1.2",
+      "label": "Corporate Debt",
+      "fullLabel": "Corporate Debt Distress",
+      "category": "economic-financial",
+      "description": "Private sector rollover risk, default waves, credit market freezing",
+      "indicators": ["High-yield spreads", "Default rate", "Refinancing volume", "Covenant-lite share", "Distressed ratio"],
+      "analogues": "1990 Drexel, 2001-02 telecom, 2008-09 GFC, 2015-16 energy"
+    },
+    {
+      "id": "1.3",
+      "label": "Banking Stress",
+      "fullLabel": "Banking System Stress",
+      "category": "economic-financial",
+      "description": "Solvency/liquidity crises; credit crunch; depositor flight",
+      "indicators": ["Tier 1 capital ratio", "NPL ratio", "Loan-to-deposit ratio", "Depositor flight", "Interbank spreads"],
+      "analogues": "1997 Asian banking, 2008 GFC, 2023 US regional banks"
+    },
+    {
+      "id": "1.4",
+      "label": "Asset Bubbles",
+      "fullLabel": "Real Asset Bubbles/Busts",
+      "category": "economic-financial",
+      "description": "Commercial/residential real estate; commodity supercycles; overvaluation corrections",
+      "indicators": ["Price-to-income ratio", "Cap rate compression", "Vacancy rates", "Construction starts", "Commodity speculation"],
+      "analogues": "1989-92 S&L crisis, 1990 Japan, 2006-12 US housing, 2014-16 commodities"
+    },
+    {
+      "id": "2.1",
+      "label": "Tipping Points",
+      "fullLabel": "Tipping Point Proximity",
+      "category": "climate-environmental",
+      "description": "Approach to irreversible Earth system thresholds (ice sheets, permafrost, monsoons, etc.)",
+      "indicators": ["Greenland mass balance", "Antarctic ice shelf stability", "Permafrost temperature", "Amazon deforestation", "AMOC strength", "Coral bleaching"],
+      "analogues": "Paleoclimate records (Eemian, Pliocene); no modern analogues"
+    },
+    {
+      "id": "2.2",
+      "label": "Extreme Weather",
+      "fullLabel": "Extreme Weather Events",
+      "category": "climate-environmental",
+      "description": "Statistical anomalies in temperature, precipitation, storms; compound events",
+      "indicators": ["Temperature anomalies", "Precipitation deficit", "ACE index", "Compound event index", "Drought severity (PDSI)"],
+      "analogues": "2003 EU heatwave, 2010 Russia drought, 2017 Harvey, 2021 PNW heat dome, 2022 Pakistan floods"
+    },
+    {
+      "id": "2.3",
+      "label": "Carbon Cycle",
+      "fullLabel": "Carbon Cycle Disruption",
+      "category": "climate-environmental",
+      "description": "Anomalies in atmospheric CO2, CH4, ocean absorption; feedback acceleration",
+      "indicators": ["Mauna Loa CO2", "Arctic CH4", "Ocean heat content", "Ocean pH", "Sink efficiency"],
+      "analogues": "PETM (56 Mya)"
+    },
+    {
+      "id": "2.4",
+      "label": "Ecosystem Collapse",
+      "fullLabel": "Ecosystem Collapse",
+      "category": "climate-environmental",
+      "description": "Biodiversity loss, biome shifts, keystone species decline; functional extinction",
+      "indicators": ["Species extinction rate", "Forest integrity index", "Pollinator decline", "Fisheries collapse", "Soil degradation"],
+      "analogues": "Pleistocene extinctions, 19th c. bison, 20th c. cod fisheries"
+    },
+    {
+      "id": "3.1",
+      "label": "Interstate Conflict",
+      "fullLabel": "Interstate Conflict",
+      "category": "geopolitical-conflict",
+      "description": "War between states; great power confrontation; alliance activation",
+      "indicators": ["Militarized interstate disputes", "Troop mobilization", "Nuclear rhetoric", "Alliance activation", "Trade weaponization"],
+      "analogues": "1914 WWI, 1939 WWII, 1973 Yom Kippur, 1991 Gulf War, 2022 Ukraine"
+    },
+    {
+      "id": "3.2",
+      "label": "Intrastate Violence",
+      "fullLabel": "Intrastate Violence",
+      "category": "geopolitical-conflict",
+      "description": "Civil war, insurgency, state collapse, genocide; spillover effects",
+      "indicators": ["Battle deaths", "Forcibly displaced", "State authority index", "Food insecurity (IPC)", "Factionalization"],
+      "analogues": "1994 Rwanda, 1990s Yugoslavia, 2003 Iraq, 2011 Syria, 2015 Yemen"
+    },
+    {
+      "id": "3.3",
+      "label": "Resource Competition",
+      "fullLabel": "Resource Competition",
+      "category": "geopolitical-conflict",
+      "description": "Conflict over water, energy, minerals, arable land; scarcity violence",
+      "indicators": ["Water stress index", "Energy import dependence", "Critical mineral concentration", "Arable land per capita", "Resource-related violence"],
+      "analogues": "1967 Six-Day War, 1990 Gulf War, Nile basin tensions"
+    },
+    {
+      "id": "3.4",
+      "label": "Governance Decay",
+      "fullLabel": "Governance Decay",
+      "category": "geopolitical-conflict",
+      "description": "Democratic backsliding, institutional erosion, elite capture, rule of law breakdown",
+      "indicators": ["Polity score", "Rule of law index", "Corruption perception", "Press freedom", "Judicial independence"],
+      "analogues": "1930s Germany, 1970s Chile, 1990s Russia, 2010s Hungary/Turkey"
+    },
+    {
+      "id": "4.1",
+      "label": "Infrastructure Failure",
+      "fullLabel": "Critical Infrastructure Failure",
+      "category": "technological",
+      "description": "Cascading failures in energy grids, telecom, supply chains; single points of failure",
+      "indicators": ["Grid disturbance events", "Submarine cable cuts", "Port closure duration", "Chip stockpiles", "Backup system redundancy"],
+      "analogues": "2003 NE blackout, 2011 Japan tsunami, 2021 Suez blockage"
+    },
+    {
+      "id": "4.2",
+      "label": "Cyber Risk",
+      "fullLabel": "Cyber Systemic Risk",
+      "category": "technological",
+      "description": "Critical infrastructure attacks; supply chain compromises; financial system attacks",
+      "indicators": ["Critical infrastructure attacks", "Ransomware payments", "Supply chain compromises", "SWIFT/financial attacks", "Vulnerability density"],
+      "analogues": "2017 NotPetya, 2020 SolarWinds, 2021 Colonial Pipeline, 2023 MOVEit"
+    },
+    {
+      "id": "4.3",
+      "label": "AI/Compute",
+      "fullLabel": "AI/Compute Concentration",
+      "category": "technological",
+      "description": "Frontier model concentration, compute monopolies, capability overhang; accident risk",
+      "indicators": ["Frontier training cost", "Capability benchmarks", "Compute provider concentration", "AI incident database", "Autonomous weapons deployment"],
+      "analogues": "No direct analogues; closest: nuclear proliferation, 2008 derivatives"
+    },
+    {
+      "id": "5.1",
+      "label": "Pandemic Risk",
+      "fullLabel": "Pandemic/Pathogen Risk",
+      "category": "biological-health",
+      "description": "Novel pathogen emergence, antimicrobial resistance, lab accident; GCBR potential",
+      "indicators": ["Pandemic potential events", "Case fatality rate", "AMR death projections", "Gain-of-function research", "Vaccine manufacturing capacity"],
+      "analogues": "1918 Spanish flu, 2003 SARS, 2020 COVID-19"
+    },
+    {
+      "id": "5.2",
+      "label": "Food System",
+      "fullLabel": "Food System Fragility",
+      "category": "biological-health",
+      "description": "Supply chain concentration, monoculture risk, fertilizer/energy dependency; price volatility",
+      "indicators": ["Cereal stock-to-use", "Export concentration", "Fertilizer price index", "Crop diversity", "Supply chain node concentration"],
+      "analogues": "2007-08 food crisis, 2020 COVID disruption, 2022 Ukraine blockade"
+    },
+    {
+      "id": "6.1",
+      "label": "Cascade Interactions",
+      "fullLabel": "Cascade Interactions",
+      "category": "cross-cutting",
+      "description": "Explicit cross-theme connections; feedback loops; compounding effects",
+      "indicators": ["Active cascade count", "Cross-theme event frequency", "Amplification factor"],
+      "analogues": "2020-22 pandemic cascade (health -> economic -> governance)"
+    },
+    {
+      "id": "6.2",
+      "label": "Correlation Clusters",
+      "fullLabel": "Correlation Clusters",
+      "category": "cross-cutting",
+      "description": "Synchronous stress across multiple systems; global phase transitions",
+      "indicators": ["Themes above threshold count", "Cluster duration", "Historical cluster similarity"],
+      "analogues": "1914-18 (war+governance+pandemic), 1929-39 (economic+governance+war), 2020-22 (pandemic+economic+governance)"
+    }
+  ],
+  "edges": [
+    {"source": "1.1", "target": "5.2", "type": "CA", "weight": 4, "label": "Currency collapse drives import cost spike and food price inflation"},
+    {"source": "1.1", "target": "3.2", "type": "CA", "weight": 3, "label": "Fiscal strain and subsidy loss can trigger social instability"},
+    {"source": "1.1", "target": "1.3", "type": "CA", "weight": 5, "label": "Sovereign default triggers banking crisis (domestic banks hold sovereign debt)"},
+    {"source": "1.1", "target": "1.1", "type": "AM", "weight": 3, "label": "Regional contagion to neighbors with similar debt profiles"},
+
+    {"source": "1.2", "target": "1.3", "type": "CA", "weight": 4, "label": "Corporate defaults cause bank loan losses and lending contraction"},
+    {"source": "1.2", "target": "3.2", "type": "CA", "weight": 2, "label": "Employment decline from defaults reduces consumption, increases social stress"},
+
+    {"source": "1.3", "target": "1.1", "type": "FB", "weight": 5, "label": "Sovereign-bank doom loop: banking crisis requires government backstop"},
+    {"source": "1.3", "target": "1.4", "type": "CA", "weight": 4, "label": "Credit crunch forces fire sales of real assets"},
+
+    {"source": "1.4", "target": "1.3", "type": "CA", "weight": 4, "label": "Asset price correction causes bank losses (CRE exposure)"},
+    {"source": "1.4", "target": "1.1", "type": "CA", "weight": 3, "label": "Commodity bust creates producer country fiscal stress"},
+
+    {"source": "2.1", "target": "2.2", "type": "AM", "weight": 4, "label": "Tipping points amplify frequency and severity of extreme weather"},
+    {"source": "2.1", "target": "3.2", "type": "CA", "weight": 3, "label": "Sea level rise and monsoon disruption drive migration and political stress"},
+    {"source": "2.1", "target": "2.3", "type": "FB", "weight": 5, "label": "Permafrost thaw releases methane, accelerating warming in feedback loop"},
+
+    {"source": "2.2", "target": "5.2", "type": "CA", "weight": 5, "label": "Heat waves and drought cause agricultural yield loss and food price spikes"},
+    {"source": "2.2", "target": "4.1", "type": "CA", "weight": 3, "label": "Hurricanes and floods damage critical infrastructure"},
+    {"source": "2.2", "target": "3.2", "type": "CA", "weight": 3, "label": "Climate disasters drive migration and social stress"},
+
+    {"source": "2.3", "target": "2.4", "type": "CA", "weight": 4, "label": "Ocean acidification and warming disrupt marine food webs"},
+    {"source": "2.3", "target": "5.2", "type": "CA", "weight": 3, "label": "Ocean warming causes fisheries collapse and protein loss"},
+
+    {"source": "2.4", "target": "5.2", "type": "CA", "weight": 4, "label": "Pollinator loss and soil degradation reduce agricultural yields"},
+    {"source": "2.4", "target": "2.3", "type": "FB", "weight": 3, "label": "Forest loss releases stored carbon, reducing sink capacity"},
+
+    {"source": "3.1", "target": "1.1", "type": "CA", "weight": 4, "label": "War causes energy disruption and price spikes, triggering economic stress"},
+    {"source": "3.1", "target": "3.3", "type": "AM", "weight": 4, "label": "Interstate conflict intensifies resource competition and weaponization"},
+    {"source": "3.1", "target": "5.2", "type": "CA", "weight": 4, "label": "War disrupts agricultural exports and supply chains"},
+
+    {"source": "3.2", "target": "3.4", "type": "CA", "weight": 4, "label": "Civil war erodes institutional capacity and governance"},
+    {"source": "3.2", "target": "5.1", "type": "CA", "weight": 3, "label": "State collapse disrupts disease surveillance and health systems"},
+
+    {"source": "3.3", "target": "3.1", "type": "CA", "weight": 4, "label": "Resource scarcity escalates to interstate conflict"},
+    {"source": "3.3", "target": "3.2", "type": "CA", "weight": 3, "label": "Land degradation drives migration and receiving-country stress"},
+    {"source": "3.3", "target": "4.1", "type": "CA", "weight": 3, "label": "Mineral concentration enables supply weaponization and industrial disruption"},
+
+    {"source": "3.4", "target": "1.1", "type": "CA", "weight": 3, "label": "Democratic backsliding drives policy unpredictability and investment flight"},
+    {"source": "3.4", "target": "3.2", "type": "CA", "weight": 3, "label": "Elite capture and inequality fuel social polarization and instability"},
+
+    {"source": "4.1", "target": "1.2", "type": "CA", "weight": 3, "label": "Grid and port failures cause industrial shutdown and economic loss"},
+    {"source": "4.1", "target": "4.2", "type": "AM", "weight": 3, "label": "Infrastructure dependence amplifies cyber attack impact"},
+
+    {"source": "4.2", "target": "4.1", "type": "CA", "weight": 4, "label": "Cyberattacks on ICS/SCADA cause physical infrastructure failures"},
+    {"source": "4.2", "target": "1.3", "type": "CA", "weight": 3, "label": "Financial system cyberattack causes payment freeze and banking panic"},
+
+    {"source": "4.3", "target": "3.1", "type": "CA", "weight": 2, "label": "Compute concentration creates geopolitical friction and chip supply restrictions"},
+    {"source": "4.3", "target": "4.2", "type": "AM", "weight": 3, "label": "AI capabilities amplify cyber offense capabilities"},
+
+    {"source": "5.1", "target": "1.1", "type": "CA", "weight": 4, "label": "Pandemic economic shutdowns cause fiscal stress and debt accumulation"},
+    {"source": "5.1", "target": "3.4", "type": "CA", "weight": 3, "label": "Health emergencies create governance stress and democratic erosion"},
+    {"source": "5.1", "target": "5.2", "type": "CA", "weight": 3, "label": "Pandemic disrupts food supply chains and agricultural labor"},
+
+    {"source": "5.2", "target": "3.2", "type": "CA", "weight": 4, "label": "Food price spikes and shortages trigger social unrest and food riots"},
+    {"source": "5.2", "target": "1.1", "type": "CA", "weight": 3, "label": "Importing countries face fiscal strain from food subsidy costs"},
+    {"source": "5.2", "target": "3.4", "type": "CA", "weight": 3, "label": "Food insecurity erodes government legitimacy"},
+
+    {"source": "6.1", "target": "6.2", "type": "AM", "weight": 4, "label": "Active cascades increase synchronous stress across systems"},
+    {"source": "6.2", "target": "6.1", "type": "FB", "weight": 4, "label": "Correlation clusters create new cascade pathways"}
+  ]
+}

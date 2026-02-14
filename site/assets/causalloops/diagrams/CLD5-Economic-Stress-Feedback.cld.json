@@ -1,0 +1,180 @@
+{
+  "kind": "cld",
+  "id": "CLD5-Economic-Stress-Feedback",
+  "title": "Economic Stress Feedback Loop",
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": "debt_stress",
+      "label": "Sovereign Debt Stress",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 100
+      }
+    },
+    {
+      "id": "interest_rates",
+      "label": "Interest Rates",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 250,
+        "y": 50
+      }
+    },
+    {
+      "id": "investment",
+      "label": "Private Investment",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 400,
+        "y": 100
+      }
+    },
+    {
+      "id": "asset_prices",
+      "label": "Asset Prices",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 550,
+        "y": 150
+      }
+    },
+    {
+      "id": "banking_stress",
+      "label": "Banking System Stress",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 400,
+        "y": 250
+      }
+    },
+    {
+      "id": "credit_availability",
+      "label": "Credit Availability",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 250,
+        "y": 300
+      }
+    },
+    {
+      "id": "economic_output",
+      "label": "Economic Output",
+      "valueFormatted": "N/A",
+      "severity": 0.5,
+      "placement": {
+        "x": 100,
+        "y": 250
+      }
+    }
+  ],
+  "links": [
+    {
+      "id": "l1",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "debt_stress",
+      "toId": "interest_rates"
+    },
+    {
+      "id": "l2",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "interest_rates",
+      "toId": "investment"
+    },
+    {
+      "id": "l3",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "investment",
+      "toId": "economic_output"
+    },
+    {
+      "id": "l4",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "economic_output",
+      "toId": "debt_stress"
+    },
+    {
+      "id": "l5",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "interest_rates",
+      "toId": "asset_prices"
+    },
+    {
+      "id": "l6",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "asset_prices",
+      "toId": "banking_stress"
+    },
+    {
+      "id": "l7",
+      "polarity": "balancing",
+      "label": "-",
+      "fromId": "banking_stress",
+      "toId": "credit_availability"
+    },
+    {
+      "id": "l8",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "credit_availability",
+      "toId": "investment"
+    },
+    {
+      "id": "l9",
+      "polarity": "reinforcing",
+      "label": "+",
+      "fromId": "credit_availability",
+      "toId": "economic_output"
+    }
+  ],
+  "meta": {
+    "tags": [
+      "economic",
+      "financial",
+      "wssi",
+      "debt",
+      "banking"
+    ]
+  },
+  "subtitle": "Reinforcing loop showing how debt stress, asset bubbles, and banking instability create cascading feedback effects in the economic-financial system.",
+  "groups": [
+    {
+      "id": "R1",
+      "label": "Debt-Investment Spiral",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "debt_stress",
+        "interest_rates",
+        "investment",
+        "economic_output",
+        "debt_stress"
+      ]
+    },
+    {
+      "id": "R2",
+      "label": "Asset-Banking Feedback",
+      "type": "Reinforcing",
+      "nodeIds": [
+        "interest_rates",
+        "asset_prices",
+        "banking_stress",
+        "credit_availability",
+        "investment",
+        "economic_output"
+      ]
+    }
+  ]
+}

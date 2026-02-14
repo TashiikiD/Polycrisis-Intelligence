@@ -68,7 +68,7 @@ export default function Sparkline({
         ctx.lineTo(x, y);
       }
     });
-    ctx.lineTo(width, height);
+    ctx.lineTo(width - 1, height);
     ctx.lineTo(0, height);
     ctx.closePath();
 
@@ -78,10 +78,11 @@ export default function Sparkline({
     ctx.fillStyle = gradient;
     ctx.fill();
 
-    // Draw end dot
+    // Draw end dot (inset by 1px to avoid clipping)
+    const endX = width - 1;
     const lastY = height - ((data[data.length - 1] - min) / range) * height * 0.8 - height * 0.1;
     ctx.beginPath();
-    ctx.arc(width, lastY, 3, 0, Math.PI * 2);
+    ctx.arc(endX, lastY, 3, 0, Math.PI * 2);
     ctx.fillStyle = color;
     ctx.fill();
   }, [data, width, height, color]);

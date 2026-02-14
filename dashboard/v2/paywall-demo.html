@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paywall + Timeline Demo | Polycrisis Intelligence</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --bg-void: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --text-muted: #64748b;
+            --accent-primary: #64ffda;
+            --accent-secondary: #ff6b6b;
+            --border: #333;
+            --warning: #ff6b6b;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+        
+        .tier-badge {
+            display: inline-block;
+            background: var(--accent-primary);
+            color: var(--bg-void);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .tier-badge.free { background: var(--text-secondary); }
+        .tier-badge.premium { background: #ffd700; color: #000; }
+        
+        .demo-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+        
+        #timeline-container { margin: 1.5rem 0; }
+        
+        .info {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(100, 255, 218, 0.05);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .info-item { display: flex; flex-direction: column; }
+        .info-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; }
+        .info-value { color: var(--accent-primary); font-weight: 500; margin-top: 0.25rem; }
+        .info-value.locked { color: var(--warning); }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        button:hover { background: rgba(100, 255, 218, 0.1); }
+        button.primary {
+            background: var(--accent-primary);
+            color: var(--bg-void);
+            font-weight: 600;
+        }
+        button.primary:hover { opacity: 0.9; }
+        
+        .paywall-trigger {
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+        .paywall-trigger:hover { background: rgba(255, 107, 107, 0.1); }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .status-info { display: flex; gap: 2rem; }
+        .status-item { text-align: center; }
+        .status-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); }
+        .status-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        
+        .integration-note {
+            background: rgba(100, 255, 218, 0.05);
+            border-left: 3px solid var(--accent-primary);
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .integration-note code {
+            background: var(--bg-void);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Paywall + Timeline Integration</h1>
+        <p class="subtitle">Interactive demo of tiered access with paywall triggers</p>
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-info">
+                <div class="status-item">
+                    <div class="status-value" id="current-tier">Free</div>
+                    <div class="status-label">Current Tier</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="max-days">30</div>
+                    <div class="status-label">Max Days</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="events-access">156</div>
+                    <div class="status-label">Events Visible</div>
+                </div>
+            </div>
+            <button class="primary" onclick="paywall.showPaywall()">Upgrade Plan</button>
+        </div>
+        
+        <!-- Timeline Demo -->
+        <div class="demo-section">
+            <span class="tier-badge free" id="tier-badge">Free Tier</span>
+            <h2>Event Archive Timeline</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Drag the brush to select date ranges. Free tier limited to 30 days.
+            </p>
+            
+            <div id="timeline-container"></div>
+            
+            <div class="info">
+                <div class="info-item">
+                    <span class="info-label">Selected Start</span>
+                    <span class="info-value" id="range-start">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Selected End</span>
+                    <span class="info-value" id="range-end">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Range (Days)</span>
+                    <span class="info-value" id="range-days">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Access</span>
+                    <span class="info-value" id="access-status">Allowed</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button onclick="simulateTier('free')">Simulate Free</button>
+                <button onclick="simulateTier('premium')">Simulate Premium</button>
+                <button class="paywall-trigger" onclick="testPaywallTrigger()">Test Paywall Trigger</button>
+            </div>
+            
+            <div class="integration-note">
+                <strong>Integration:</strong> Timeline checks <code>paywall.canAccessHistorical(days)</code> 
+                before allowing brush selection beyond tier limit. Paywall modal triggers on boundary violation.
+            </div>
+        </div>
+    </div>
+
+    <script src="shared/js/timeline-slider.js"></script>
+    <script src="shared/js/paywall-manager.js"></script>
+    <script>
+        // Mock archive with tier awareness
+        const mockArchive = {
+            tier: 'free',
+            maxDays: 30,
+            getTimelineData: async () => {
+                const data = [];
+                const now = new Date();
+                // Generate 2 years of data
+                for (let i = 0; i < 365 * 2; i++) {
+                    const date = new Date(now - i * 24 * 60 * 60 * 1000);
+                    if (Math.random() > 0.6) {
+                        data.push({
+                            date: date.toISOString().split('T')[0],
+                            count: Math.floor(Math.random() * 15) + (i < 30 ? 10 : 0)
+                        });
+                    }
+                }
+                return { daily: data.reverse() };
+            }
+        };
+        
+        // Initialize paywall (without real Stripe keys for demo)
+        const paywall = new PaywallManager({
+            stripePublishableKey: 'pk_test_demo',
+            premiumPriceId: 'price_premium_demo',
+            enterprisePriceId: 'price_enterprise_demo'
+        });
+        
+        // Initialize timeline
+        const timeline = new TimelineSlider('#timeline-container', {
+            archive: mockArchive,
+            width: 900,
+            onChange: (range) => {
+                const days = Math.round((range.end - range.start) / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('range-start').textContent = range.start.toLocaleDateString();
+                document.getElementById('range-end').textContent = range.end.toLocaleDateString();
+                document.getElementById('range-days').textContent = days;
+                
+                // Check access
+                const canAccess = paywall.canAccessHistorical(days);
+                const statusEl = document.getElementById('access-status');
+                statusEl.textContent = canAccess ? 'Allowed' : 'Blocked';
+                statusEl.className = canAccess ? 'info-value' : 'info-value locked';
+                
+                // Update visible events count
+                updateVisibleEvents(days);
+            },
+            onPaywall: (event) => {
+                paywall.showPaywall({ daysRequested: 90, trigger: 'timeline' });
+            }
+        });
+        
+        // Initialize
+        paywall.init().then(() => {
+            // Override tier for demo
+            paywall.currentTier = 'free';
+            timeline.init();
+            updateTierUI();
+        });
+        
+        // Simulate tier change
+        function simulateTier(tier) {
+            paywall.currentTier = tier;
+            mockArchive.tier = tier;
+            mockArchive.maxDays = tier === 'free' ? 30 : 1825;
+            
+            updateTierUI();
+            timeline.update();
+            
+            // Reset selection to valid range
+            const maxDays = tier === 'free' ? 30 : 180;
+            const end = new Date();
+            const start = new Date(end - maxDays * 24 * 60 * 60 * 1000);
+            timeline.setSelection(start, end);
+        }
+        
+        // Test paywall trigger
+        function testPaywallTrigger() {
+            paywall.showPaywall({ daysRequested: 180, trigger: 'manual' });
+        }
+        
+        // Update tier UI
+        function updateTierUI() {
+            const tier = paywall.currentTier;
+            const tierInfo = paywall.getCurrentTier();
+            
+            document.getElementById('current-tier').textContent = tierInfo.name;
+            document.getElementById('max-days').textContent = tierInfo.maxDays;
+            
+            const badge = document.getElementById('tier-badge');
+            badge.textContent = tierInfo.name + ' Tier';
+            badge.className = 'tier-badge ' + tier;
+        }
+        
+        // Update visible events count
+        function updateVisibleEvents(days) {
+            // Mock calculation
+            const eventsPerDay = 5;
+            const visible = Math.min(days, paywall.getCurrentTier().maxDays) * eventsPerDay;
+            document.getElementById('events-access').textContent = Math.round(visible);
+        }
+        
+        // Listen for tier changes
+        window.addEventListener('paywall:tierChanged', (e) => {
+            console.log('Tier changed:', e.detail);
+            updateTierUI();
+        });
+    </script>
+</body>
+</html>

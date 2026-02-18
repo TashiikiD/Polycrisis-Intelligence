@@ -15,12 +15,35 @@ import importlib
 import secrets
 from pathlib import Path
 
+def resolve_analytics_dir() -> Path:
+    """Resolve analytics artifacts directory across local and hosted layouts."""
+    override = os.getenv("WSSI_ANALYTICS_DIR")
+    if override:
+        return Path(override).expanduser().resolve()
+
+    app_dir = Path(__file__).resolve().parent
+    candidates: List[Path] = [app_dir / "output" / "analytics", Path.cwd() / "output" / "analytics"]
+    for parent in app_dir.parents:
+        candidates.append(parent / "output" / "analytics")
+
+    seen = set()
+    for candidate in candidates:
+        key = str(candidate)
+        if key in seen:
+            continue
+        seen.add(key)
+        if candidate.exists():
+            return candidate
+
+    # Fall back to a sane default path without assuming parent depth.
+    return app_dir / "output" / "analytics"
+
 # Database setup
 DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 DB_PATH = DATA_DIR / "wssi_api.db"
 WSSI_DATA_PATH = DATA_DIR / "wssi-latest.json"
-ANALYTICS_DIR = Path(__file__).resolve().parents[2] / "output" / "analytics"
+ANALYTICS_DIR = resolve_analytics_dir()
 
 TIER_RATE_LIMITS = {
     "free": 0,

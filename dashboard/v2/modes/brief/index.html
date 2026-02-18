@@ -472,9 +472,7 @@
             </div>
             <div class="header-actions">
                 <div class="header-freshness" id="headerFreshness"></div>
-                <a href="../pulse/index.html" class="mode-switch">
-                    🔮 Switch to Pulse
-                </a>
+                <a href="../../app/index.html" class="mode-switch">Open Day 6 App</a>
                 <button class="btn" onclick="exportPDF()">
                     📄 Export PDF
                 </button>
@@ -576,6 +574,7 @@
                 wssiData = wrapped.data;
                 
                 renderDashboard();
+                initFreshness();
             } catch (e) {
                 console.error('Failed to load WSSI:', e);
                 document.getElementById('themeTable').innerHTML = `
@@ -776,24 +775,18 @@
     </script>
     <script src="../../shared/js/freshness.js"></script>
     <script>
-        // Initialize freshness display after data loads
         function initFreshness() {
-            if (window.DataFreshness && wssiData) {
-                const timestamp = wssiData.last_updated || wssiData.calculation_timestamp || wssiData.date;
-                if (timestamp) {
-                    DataFreshness.init('#headerFreshness', timestamp, {
-                        showTime: true
-                    });
-                }
+            if (!window.DataFreshness || !wssiData) {
+                return;
+            }
+
+            const timestamp = wssiData.last_updated || wssiData.calculation_timestamp || wssiData.date;
+            if (timestamp) {
+                DataFreshness.init("#headerFreshness", timestamp, { showTime: true });
             }
         }
-        
-        // Hook into existing initializeBrief
-        const originalInitBrief = initializeBrief;
-        initializeBrief = function() {
-            originalInitBrief();
-            initFreshness();
-        };
     </script>
 </body>
 </html>
+
+

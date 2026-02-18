@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-02-17T00:00:00Z",
+  "active_alerts": [
+    {
+      "alert_id": "THEME_CRITICAL_3.4_20260216",
+      "title": "Governance Decay at CRITICAL stress",
+      "description": "Theme Governance Decay has crossed critical stress threshold based on current z-score.",
+      "alert_type": "Geopolitical-Conflict",
+      "severity": "critical",
+      "status": "active",
+      "created_at": "2026-02-16 21:10:00",
+      "theme_ids": ["3.4"],
+      "indicator_id": "3.4.10",
+      "threshold": 3.0,
+      "raw_value": -3.84,
+      "metadata": {
+        "alert_id": "THEME_CRITICAL_3.4_20260216",
+        "theme_ids": ["3.4"],
+        "trigger_value": -3.84
+      }
+    },
+    {
+      "alert_id": "THEME_APPROACHING_3.1_20260216",
+      "title": "Interstate Conflict approaching critical",
+      "description": "Theme Interstate Conflict is approaching critical stress conditions.",
+      "alert_type": "Geopolitical-Conflict",
+      "severity": "warning",
+      "status": "active",
+      "created_at": "2026-02-16 15:40:00",
+      "theme_ids": ["3.1"],
+      "indicator_id": "3.1.1",
+      "threshold": 2.0,
+      "raw_value": -2.24,
+      "metadata": {
+        "alert_id": "THEME_APPROACHING_3.1_20260216",
+        "theme_ids": ["3.1"],
+        "trigger_value": -2.24
+      }
+    },
+    {
+      "alert_id": "WSSI_ACCEL_20260216",
+      "title": "Rapid WSSI acceleration: +1.43",
+      "description": "WSSI increased sharply vs prior run and warrants active monitoring.",
+      "alert_type": "Composite",
+      "severity": "warning",
+      "status": "active",
+      "created_at": "2026-02-16 12:15:00",
+      "theme_ids": [],
+      "indicator_id": null,
+      "threshold": 1.0,
+      "raw_value": 1.43,
+      "metadata": {
+        "alert_id": "WSSI_ACCEL_20260216",
+        "theme_ids": [],
+        "trigger_value": 1.43
+      }
+    }
+  ],
+  "recent_alerts": [
+    {
+      "alert_id": "THEME_CRITICAL_2.1_20260215",
+      "title": "Tipping Point Proximity at CRITICAL stress",
+      "description": "Theme Tipping Point Proximity exceeded critical threshold during prior cycle.",
+      "alert_type": "Climate-Environmental",
+      "severity": "critical",
+      "status": "resolved",
+      "created_at": "2026-02-15 11:00:00",
+      "theme_ids": ["2.1"],
+      "indicator_id": "2.1.1",
+      "threshold": 3.0,
+      "raw_value": 3.23,
+      "metadata": {
+        "alert_id": "THEME_CRITICAL_2.1_20260215",
+        "theme_ids": ["2.1"],
+        "trigger_value": 3.23
+      }
+    }
+  ]
+}

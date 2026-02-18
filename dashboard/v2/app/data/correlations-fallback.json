@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-02-17T00:00:00Z",
+  "window_days": 90,
+  "strong_threshold": 0.6,
+  "theme_level": {
+    "matrix": {
+      "1.1": {
+        "1.1": 1.0,
+        "1.2": -0.45,
+        "2.2": 0.61
+      },
+      "1.2": {
+        "1.1": -0.45,
+        "1.2": 1.0,
+        "2.2": -0.17
+      },
+      "2.2": {
+        "1.1": 0.61,
+        "1.2": -0.17,
+        "2.2": 1.0
+      }
+    },
+    "pairs": [
+      {
+        "theme_a": "1.1",
+        "theme_b": "1.2",
+        "pearson_r": -0.45,
+        "p_value": 0.0321,
+        "sample_n": 62,
+        "is_significant": 1
+      },
+      {
+        "theme_a": "1.1",
+        "theme_b": "2.2",
+        "pearson_r": 0.61,
+        "p_value": 0.0088,
+        "sample_n": 59,
+        "is_significant": 1
+      },
+      {
+        "theme_a": "1.2",
+        "theme_b": "2.2",
+        "pearson_r": -0.17,
+        "p_value": 0.2481,
+        "sample_n": 57,
+        "is_significant": 0
+      }
+    ]
+  }
+}

@@ -3,7 +3,7 @@
  * 
  * Features:
  * - Stripe Checkout integration
- * - Tier management (free/premium/enterprise)
+ * - Tier management (free/basic/pro/enterprise)
  * - Paywall modal UI
  * - Server-side session validation
  * - Integration with TimelineSlider and EventArchive
@@ -11,7 +11,7 @@
  * Usage:
  *   const paywall = new PaywallManager({
  *     stripePublishableKey: 'pk_live_...',
- *     apiEndpoint: '/api/verify-session'
+ *     apiEndpoint: '/api/v1/billing'
  *   });
  *   await paywall.init();
  *   
@@ -24,7 +24,7 @@
 class PaywallManager {
     constructor(options = {}) {
         this.stripeKey = options.stripePublishableKey || '';
-        this.apiEndpoint = options.apiEndpoint || '/api/verify-session';
+        this.apiEndpoint = options.apiEndpoint || '/api/v1/billing';
         this.redirectUrl = options.redirectUrl || window.location.href;
         
         // Tier configuration
@@ -35,23 +35,32 @@ class PaywallManager {
                 maxDays: 30,
                 features: ['30-day event history', 'Basic WSSI score', 'Daily digest']
             },
-            premium: {
-                name: 'Premium',
-                priceId: options.premiumPriceId || '',
+            basic: {
+                name: 'Basic',
                 price: 9,
                 maxDays: 1825, // 5 years
                 features: [
                     '5-year historical archive',
-                    'Advanced WSSI analytics',
-                    'Timeline filtering',
-                    'Export capabilities',
-                    'API access (1000 req/month)'
+                    'Full dashboard access',
+                    'PDF exports',
+                    'API access (usage based)'
+                ]
+            },
+            pro: {
+                name: 'Pro',
+                price: 20,
+                maxDays: 1825,
+                features: [
+                    '5-year historical archive',
+                    'Full dashboard access',
+                    'PDF exports',
+                    'API access (1K/day included)',
+                    'Priority support'
                 ]
             },
             enterprise: {
                 name: 'Enterprise',
-                priceId: options.enterprisePriceId || '',
-                price: 49,
+                price: 149,
                 maxDays: 3650, // 10 years
                 features: [
                     '10-year historical archive',
@@ -163,29 +172,46 @@ class PaywallManager {
      * Initiate checkout for tier upgrade
      */
     async checkout(tier) {
-        if (!this.stripe) {
-            console.error('Stripe not initialized');
+        if (!this.tiers[tier]) {
+            console.error(`Unknown tier: ${tier}`);
             return;
         }
-        
-        const priceId = this.tiers[tier]?.priceId;
-        if (!priceId) {
-            console.error(`No price ID for tier: ${tier}`);
+        if (tier === 'enterprise') {
+            window.location.href = 'mailto:sales@polycrisis.io?subject=Enterprise%20Plan%20Inquiry';
             return;
         }
-        
+
+        const apiKey = localStorage.getItem('wssi_api_key') || localStorage.getItem('api_key') || '';
+        if (!apiKey) {
+            this._showError('No API key found. Sign up or log in first.');
+            return;
+        }
+
         try {
-            const { error } = await this.stripe.redirectToCheckout({
-                lineItems: [{ price: priceId, quantity: 1 }],
-                mode: 'subscription',
-                successUrl: `${this.redirectUrl}?session_id={CHECKOUT_SESSION_ID}`,
-                cancelUrl: this.redirectUrl
+            const response = await fetch(`${this.apiEndpoint}/checkout-session`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    tier,
+                    success_url: `${window.location.origin}/app/index.html?checkout=success#ledger`,
+                    cancel_url: `${window.location.origin}/pricing/index.html?checkout=cancel`
+                })
             });
-            
-            if (error) {
-                console.error('Checkout error:', error);
-                this._showError(error.message);
+            const data = await response.json();
+
+            if (!response.ok) {
+                const msg = data?.detail?.message || data?.detail || 'Checkout failed';
+                this._showError(msg);
+                return;
             }
+            if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+                return;
+            }
+            this._showError('Checkout URL was not returned.');
         } catch (err) {
             console.error('Checkout failed:', err);
             this._showError('Unable to start checkout. Please try again.');
@@ -261,7 +287,7 @@ class PaywallManager {
         const tiersContainer = modal.querySelector('.paywall-tiers');
         
         const currentMax = this.tiers[this.currentTier].maxDays;
-        const neededTier = daysRequested <= 30 ? 'free' : daysRequested <= 1825 ? 'premium' : 'enterprise';
+        const neededTier = daysRequested <= 30 ? 'free' : daysRequested <= 1825 ? 'basic' : 'enterprise';
         
         tiersContainer.innerHTML = Object.entries(this.tiers)
             .filter(([key]) => key !== 'free')
@@ -304,39 +330,16 @@ class PaywallManager {
      * Verify checkout session with backend
      */
     async _verifySession() {
-        try {
-            const response = await fetch(`${this.apiEndpoint}?session_id=${this.sessionId}`);
-            const data = await response.json();
-            
-            if (data.tier) {
-                this.currentTier = data.tier;
-                this.customerId = data.customerId;
-                this.subscriptionStatus = data.status;
-                this._storeTier();
-                this._emit('tierChanged', { tier: data.tier });
-            }
-        } catch (err) {
-            console.error('Session verification failed:', err);
-        }
+        await this._loadStoredTier();
     }
 
     /**
      * Load tier from storage
      */
     async _loadStoredTier() {
-        try {
-            const response = await fetch(this.apiEndpoint, { credentials: 'include' });
-            if (response.ok) {
-                const data = await response.json();
-                this.currentTier = data.tier || 'free';
-                this.subscriptionStatus = data.status;
-            }
-        } catch (err) {
-            // Fallback to localStorage
-            const stored = localStorage.getItem('paywall_tier');
-            if (stored) {
-                this.currentTier = stored;
-            }
+        const stored = localStorage.getItem('wssi_tier') || localStorage.getItem('paywall_tier');
+        if (stored) {
+            this.currentTier = stored;
         }
     }
 

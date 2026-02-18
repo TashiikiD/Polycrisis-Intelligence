@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-sans);
             background: var(--bg-void);
             color: var(--text-primary);
             min-height: 100vh;
@@ -25,7 +25,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 880px;
             width: 100%;
             text-align: center;
         }
@@ -39,7 +39,7 @@
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.75rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
@@ -51,24 +51,24 @@
         .subtitle {
             font-size: 1.125rem;
             color: var(--text-secondary);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .wssi-preview {
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
             display: inline-flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .wssi-value {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 700;
-            font-family: 'SF Mono', Monaco, monospace;
+            font-family: var(--font-mono);
         }
 
         .wssi-value.negative {
@@ -84,9 +84,8 @@
         }
 
         .wssi-score {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--text-primary);
         }
 
         .wssi-trend {
@@ -95,85 +94,76 @@
             margin-top: 0.25rem;
         }
 
-        .mode-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .mode-card {
+        .brief-entry {
+            display: block;
             background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            transition: var(--transition-base);
+            max-width: 560px;
+            margin: 0 auto 1.25rem;
         }
 
-        .mode-card:hover {
-            transform: translateY(-4px);
+        .brief-entry:hover {
+            transform: translateY(-2px);
             border-color: var(--accent-cyan);
-            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
-        .mode-card.pulse:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 8px 32px rgba(184, 41, 221, 0.1);
-        }
-
-        .mode-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .mode-title {
+        .entry-title {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
-        .mode-desc {
-            font-size: 0.875rem;
+        .entry-desc {
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            line-height: 1.5;
         }
 
-        .mode-tag {
-            display: inline-block;
-            font-size: 0.625rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            margin-top: 1rem;
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.85rem;
+            transition: var(--transition-fast);
+        }
+
+        .links a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-cyan);
             background: var(--bg-elevated);
-            color: var(--text-muted);
         }
 
         .footer {
-            margin-top: 3rem;
+            margin-top: 0.5rem;
             font-size: 0.75rem;
             color: var(--text-muted);
         }
 
         @media (max-width: 640px) {
-            .mode-selector {
-                grid-template-columns: 1fr;
-            }
-            
             h1 {
                 font-size: 2rem;
             }
-            
+
             .wssi-preview {
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .wssi-meta {
                 text-align: center;
             }
@@ -184,80 +174,88 @@
     <div class="container">
         <div class="logo">Polycrisis Intelligence Platform</div>
         <h1>WSSI Dashboard</h1>
-        <p class="subtitle">Weighted Synchronous Stress Index</p>
-        
-        <div class="wssi-preview" id="wssiPreview">
+        <p class="subtitle">Brief mode is the active MVP experience.</p>
+
+        <div class="wssi-preview">
             <div class="wssi-value negative" id="wssiValue">--</div>
             <div class="wssi-meta">
                 <div class="wssi-score" id="wssiScore">--/100</div>
                 <div class="wssi-trend" id="wssiTrend">Loading...</div>
             </div>
         </div>
-        
-        <div class="mode-selector">
-            <a href="modes/brief/index.html" class="mode-card">
-                <div class="mode-icon">ðŸ“Š</div>
-                <div class="mode-title">Brief</div>
-                <div class="mode-desc">Clean, tabular view optimized for quick scanning. Sortable data, PDF export, mobile-friendly.</div>
-                <span class="mode-tag">Executive</span>
-            </a>
-            
-            <a href="modes/pulse/index.html" <a href="research/index.html">Research Library</a> class="mode-card pulse">
-                <div class="mode-icon">ðŸ”®</div>
-                <div class="mode-title">Pulse</div>
-                <div class="mode-desc">Living visualization of global stress. Interactive correlations, temporal flows, cascade simulation.</div>
-                <span class="mode-tag">Experimental</span>
-            </a>
+
+        <a href="app/index.html" class="brief-entry">
+            <div class="entry-title">Open Brief Dashboard</div>
+            <div class="entry-desc">Production shell with Stress Ledger, API-first data wiring, and responsive behavior.</div>
+        </a>
+
+        <div class="links">
+            <a href="research/index.html">Research Library</a>
+            <a href="login/index.html">Login</a>
+            <a href="signup/index.html">Sign Up</a>
+            <a href="pricing/index.html">Pricing</a>
         </div>
-        
+
         <div class="footer">
-            Data updated: <span id="lastUpdate">--</span> | 23 indicators across 11 themes
+            Data updated: <span id="lastUpdate">--</span>
         </div>
     </div>
 
     <script src="shared/js/fallback-data.js"></script>
     <script src="shared/js/wssi-api.js"></script>
     <script>
-        // Load WSSI data from live API
+        function parsePreviewResponse(response) {
+            if (!response) {
+                return null;
+            }
+
+            if (typeof response.wssi_value === "number") {
+                return {
+                    value: response.wssi_value,
+                    score: response.wssi_score,
+                    level: response.stress_level || "unknown",
+                    timestamp: response.calculation_timestamp || response.generated_at || response.date
+                };
+            }
+
+            if (response.data && typeof response.data.overall_score === "number") {
+                return {
+                    value: response.data.overall_score,
+                    score: response.data.overall_score,
+                    level: response.alert_level || "unknown",
+                    timestamp: response.data.calculated_at || response.data.timestamp
+                };
+            }
+
+            return null;
+        }
+
         async function loadWSSI() {
             try {
                 const response = await window.PolycrisisAPI.getWSSI();
-
-                // Update preview
-                const valueEl = document.getElementById('wssiValue');
-                const scoreEl = document.getElementById('wssiScore');
-                const trendEl = document.getElementById('wssiTrend');
-                const updateEl = document.getElementById('lastUpdate');
-
-                if (response.data) {
-                    const score = response.data.overall_score;
-                    valueEl.textContent = score.toFixed(2);
-                    valueEl.className = score < 0 ? 'wssi-value negative' : 'wssi-value positive';
-                    scoreEl.textContent = `${score.toFixed(1)}/100`;
-
-                    // Alert level as trend
-                    const trendText = response.alert_level === 'critical' ? 'Critical stress' :
-                                    response.alert_level === 'high' ? 'High stress' :
-                                    response.alert_level === 'moderate' ? 'Moderate stress' :
-                                    response.alert_level === 'low' ? 'Low stress' : 'Unknown';
-                    trendEl.textContent = trendText;
-
-                    updateEl.textContent = new Date(response.data.calculated_at).toLocaleString();
-                } else {
-                    throw new Error('No WSSI data available');
+                const parsed = parsePreviewResponse(response);
+                if (!parsed) {
+                    throw new Error("No WSSI data available");
                 }
-            } catch (e) {
-                console.error('Failed to load WSSI:', e);
-                document.getElementById('wssiTrend').textContent = 'Data unavailable (API connection failed)';
+
+                const valueEl = document.getElementById("wssiValue");
+                const scoreEl = document.getElementById("wssiScore");
+                const trendEl = document.getElementById("wssiTrend");
+                const updateEl = document.getElementById("lastUpdate");
+
+                valueEl.textContent = parsed.value.toFixed(2);
+                valueEl.className = parsed.value < 0 ? "wssi-value negative" : "wssi-value positive";
+                scoreEl.textContent = `${(parsed.score ?? parsed.value).toFixed(1)}/100`;
+                trendEl.textContent = `Stress level: ${parsed.level}`;
+                updateEl.textContent = parsed.timestamp ? new Date(parsed.timestamp).toLocaleString() : "Unknown";
+            } catch (error) {
+                console.error("Failed to load WSSI preview:", error);
+                document.getElementById("wssiTrend").textContent = "Data unavailable";
             }
         }
 
-        // Load on page load
         loadWSSI();
-
-        // Auto-refresh every 60 seconds
         setInterval(loadWSSI, 60000);
     </script>
 </body>
 </html>
-

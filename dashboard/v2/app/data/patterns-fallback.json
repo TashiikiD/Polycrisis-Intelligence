@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-02-17T00:00:00Z",
+  "method": "weighted_cosine_overlap_penalty",
+  "current_vector_size": 52,
+  "matches": [
+    {
+      "episode_id": "episode_2008_financial_crisis",
+      "label": "2008 Financial Crisis",
+      "period": "2008-09 to 2009-06",
+      "description": "Credit stress + volatility shock + labor market deterioration.",
+      "similarity_pct": 80.38,
+      "confidence_tier": "high",
+      "required_overlap_min": 4,
+      "diagnostics": {
+        "raw_cosine": 0.803843,
+        "penalty": 1.0,
+        "overlap": ["1.1.new1", "1.1.new2", "1.1.new3", "1.2.1", "1.4.1"],
+        "missing_indicators": []
+      }
+    },
+    {
+      "episode_id": "episode_2020_covid_shock",
+      "label": "2020 COVID Shock",
+      "period": "2020-03 to 2020-08",
+      "description": "Acute cross-system volatility with supply and health strain.",
+      "similarity_pct": 25.87,
+      "confidence_tier": "low",
+      "required_overlap_min": 4,
+      "diagnostics": {
+        "raw_cosine": 0.323362,
+        "penalty": 0.8,
+        "overlap": ["1.4.1", "3.1.new3", "5.1.new2", "5.2.new1"],
+        "missing_indicators": ["2.2.1"]
+      }
+    },
+    {
+      "episode_id": "episode_2022_energy_food",
+      "label": "2022 Energy-Food Crisis",
+      "period": "2022-02 to 2022-12",
+      "description": "Inflation and food-system stress driven by conflict and energy disruption.",
+      "similarity_pct": 0.0,
+      "confidence_tier": "low",
+      "required_overlap_min": 4,
+      "diagnostics": {
+        "raw_cosine": 0.0,
+        "penalty": 0.8,
+        "overlap": ["1.1.new2", "2.1.new3", "3.1.new1", "3.1.new3"],
+        "missing_indicators": ["5.2.1"]
+      }
+    }
+  ]
+}

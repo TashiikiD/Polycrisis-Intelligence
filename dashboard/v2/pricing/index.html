@@ -4,469 +4,397 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing | Polycrisis Intelligence</title>
-    <link rel="stylesheet" href="shared/css/variables.css">
+    <link rel="stylesheet" href="../shared/css/variables.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-void);
             color: var(--text-primary);
             min-height: 100vh;
-            padding: 2rem 1rem;
+            padding: 2rem 1rem 3rem;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2.5rem; }
         .logo {
-            font-size: 0.875rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            margin-bottom: 0.85rem;
         }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
+        h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); }
         .subtitle {
-            font-size: 1.25rem;
+            margin: 0.8rem auto 0;
+            max-width: 720px;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
+            line-height: 1.45;
         }
-
+        .launch-banner {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.12), rgba(255, 107, 107, 0.06));
+            border: 1px solid rgba(255, 107, 107, 0.32);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .launch-banner strong { color: #ff8a8a; }
+        .message {
+            display: none;
+            margin: 0 0 1.25rem;
+            padding: 0.75rem 0.9rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        .message.error {
+            display: block;
+            background: rgba(255, 45, 85, 0.12);
+            border: 1px solid rgba(255, 45, 85, 0.35);
+            color: #ff7a9a;
+        }
+        .message.info {
+            display: block;
+            background: rgba(0, 212, 170, 0.12);
+            border: 1px solid rgba(0, 212, 170, 0.35);
+            color: #9afae5;
+        }
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-
-        .pricing-card {
+        .card {
             background: var(--bg-surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 14px;
+            padding: 1.1rem;
             position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .pricing-card.popular {
+        .card.popular {
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 2px var(--accent-cyan);
+            box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.25);
         }
-
         .popular-badge {
             position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -10px;
+            right: 10px;
             background: var(--accent-cyan);
             color: var(--bg-void);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .tier-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .tier-description {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .price {
-            margin-bottom: 1.5rem;
-        }
-
-        .price-amount {
-            font-size: 3rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            color: var(--text-primary);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-radius: 999px;
+            padding: 0.2rem 0.55rem;
         }
-
-        .price-period {
-            font-size: 1rem;
+        .tier-name { margin: 0; font-size: 1.25rem; }
+        .tier-desc { margin: 0.4rem 0 0.7rem; color: var(--text-secondary); font-size: 0.87rem; min-height: 2.5rem; }
+        .price-line { margin-bottom: 0.7rem; }
+        .price-old {
+            font-size: 1.12rem;
             color: var(--text-muted);
+            text-decoration: line-through;
+            margin-right: 0.35rem;
         }
-
-        .features {
+        .price-now { font-size: 2.1rem; font-weight: 700; }
+        .price-period { color: var(--text-muted); }
+        .launch-tag {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            font-size: 0.69rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #ffe2e2;
+            background: rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 107, 107, 0.45);
+            border-radius: 999px;
+            padding: 0.18rem 0.5rem;
+        }
+        ul.features {
             list-style: none;
-            margin-bottom: 2rem;
+            margin: 0 0 1rem;
+            padding: 0;
         }
-
-        .features li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        ul.features li {
+            font-size: 0.86rem;
+            padding: 0.42rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        .features li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-check {
-            color: var(--accent-cyan);
-            font-weight: bold;
-        }
-
+        ul.features li:last-child { border-bottom: none; }
         .btn {
-            display: block;
             width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--accent-cyan);
-            color: var(--bg-void);
-        }
-
-        .btn-secondary {
+            border-radius: 9px;
+            border: 1px solid var(--border);
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid var(--border);
+            padding: 0.7rem 0.85rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
         }
-
-        .btn:hover {
-            transform: scale(1.02);
+        .btn.primary {
+            border-color: rgba(0, 212, 170, 0.35);
+            background: rgba(0, 212, 170, 0.16);
+            color: #d2fff6;
         }
-
-        .comparison {
+        .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+        .comparison, .faq, .trust {
             background: var(--bg-surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            overflow-x: auto;
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 1rem;
         }
-
-        .comparison h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .comparison-table {
+        h2 { margin: 0 0 0.8rem; font-size: 1.08rem; }
+        table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.85rem;
         }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 1rem;
+        th, td {
             text-align: left;
-            border-bottom: 1px solid var(--border);
+            padding: 0.62rem 0.55rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
-
-        .comparison-table th {
-            font-weight: 600;
+        th {
             color: var(--text-muted);
-            font-size: 0.875rem;
+            font-size: 0.74rem;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
-
-        .comparison-table td {
-            font-size: 0.875rem;
+        .faq-item + .faq-item { margin-top: 0.8rem; }
+        .faq-item h3 { margin: 0; font-size: 0.9rem; }
+        .faq-item p { margin: 0.3rem 0 0; color: var(--text-secondary); font-size: 0.84rem; }
+        .trust-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.65rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
         }
-
-        .comparison-table tr:hover {
-            background: var(--bg-void);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .footer a {
-            color: var(--accent-cyan);
-            text-decoration: none;
-        }
-
-        /* Early Adopter Pricing Styles */
-        .price-original {
-            text-decoration: line-through;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-        }
-        
-        .early-adopter-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-        
-        .early-adopter-note {
-            font-size: 0.75rem;
-            color: var(--accent-cyan);
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-        
-        .urgency-banner {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(238, 90, 90, 0.1) 100%);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
+        .trust-list li {
+            font-size: 0.84rem;
             color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 0.6rem 0.65rem;
         }
-        
-        .urgency-banner strong {
-            color: #ff6b6b;
+        .footer {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
         }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
+        .footer a { color: var(--accent-cyan); text-decoration: none; }
+        @media (max-width: 720px) {
+            .price-now { font-size: 1.75rem; }
+            table { font-size: 0.79rem; }
+            th, td { padding: 0.5rem 0.38rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">POLYCRISIS INTELLIGENCE</div>
-            <h1>Simple, Transparent Pricing</h1>
-            <p class="subtitle">Start free, scale as you grow. All plans include access to 12+ data sources and the WSSI synthesis engine.</p>
-        </div>
+        <header class="header">
+            <div class="logo">Polycrisis Intelligence</div>
+            <h1>Launch Pricing</h1>
+            <p class="subtitle">API-key based access. Free is intentionally constrained to 0 API calls/day and limited dashboard scope. Paid plans unlock the full Brief dashboard and API access.</p>
+        </header>
 
-        <div class="urgency-banner">
-            🚀 <strong>Limited Time Early Adopter Pricing</strong> — Lock in 80% off for 6 months guaranteed. 
-            Prices increase when we hit 100 users.
-        </div>
+        <p class="launch-banner">Limited launch window: <strong>Basic $9/mo</strong> (vs $19) and <strong>Pro $20/mo</strong> (vs $49) for 6 months via Stripe coupon flow.</p>
+        <p id="pricingMessage" class="message"></p>
 
-        <div class="pricing-grid">
-            <!-- Free Tier -->
-            <div class="pricing-card">
-                <div class="tier-name">Free</div>
-                <div class="tier-description">For developers and researchers getting started</div>
-                <div class="price">
-                    <span class="price-amount">$0</span>
+        <section class="pricing-grid">
+            <article class="card">
+                <h2 class="tier-name">Free</h2>
+                <p class="tier-desc">Validation access for setup and testing.</p>
+                <div class="price-line"><span class="price-now">$0</span><span class="price-period">/month</span></div>
+                <ul class="features">
+                    <li>0 API calls/day</li>
+                    <li>WSSI summary + stress ledger (top 5 themes)</li>
+                    <li>No timeline/correlation/network/pattern panels</li>
+                    <li>Community-level support</li>
+                </ul>
+                <button class="btn" data-action="signup" data-tier="free">Start Free</button>
+            </article>
+
+            <article class="card">
+                <h2 class="tier-name">Basic</h2>
+                <p class="tier-desc">Entry production access for operators.</p>
+                <span class="launch-tag">Launch pricing</span>
+                <div class="price-line">
+                    <span class="price-old">$19</span>
+                    <span class="price-now">$9</span>
                     <span class="price-period">/month</span>
                 </div>
-                
                 <ul class="features">
-                    <li><span class="feature-check">✓</span> 100 API calls/day</li>
-                    <li><span class="feature-check">✓</span> 12+ data sources</li>
-                    <li><span class="feature-check">✓</span> Basic WSSI scores</li>
-                    <li><span class="feature-check">✓</span> CSV exports</li>
-                    <li><span class="feature-check">✓</span> Community support</li>
+                    <li>Full dashboard access</li>
+                    <li>PDF export entitlement</li>
+                    <li>API access (usage-based)</li>
+                    <li>Email support</li>
                 </ul>
-                
-                <a href="/signup?plan=free" class="btn btn-secondary">Get Started Free</a>
-            </div>
+                <button class="btn" data-action="checkout" data-tier="basic">Upgrade to Basic</button>
+            </article>
 
-            <!-- Developer Tier -->
-            <div class="pricing-card">
-                <div class="tier-name">Developer</div>
-                <div class="tier-description">For startups and indie developers</div>
-                <div class="early-adopter-badge">Early Adopter</div>
-                <div class="price">
-                    <span class="price-original">$49</span>
-                    <span class="price-amount">$10</span>
+            <article class="card popular">
+                <span class="popular-badge">Most used</span>
+                <h2 class="tier-name">Pro</h2>
+                <p class="tier-desc">Operational teams needing included throughput.</p>
+                <span class="launch-tag">Launch pricing</span>
+                <div class="price-line">
+                    <span class="price-old">$49</span>
+                    <span class="price-now">$20</span>
                     <span class="price-period">/month</span>
                 </div>
-                <div class="early-adopter-note">Lock in this price for 6 months</div>
-                
                 <ul class="features">
-                    <li><span class="feature-check">✓</span> 1,000 API calls/day</li>
-                    <li><span class="feature-check">✓</span> 12+ data sources</li>
-                    <li><span class="feature-check">✓</span> Advanced WSSI scores</li>
-                    <li><span class="feature-check">✓</span> CSV & JSON exports</li>
-                    <li><span class="feature-check">✓</span> Email support</li>
-                    <li><span class="feature-check">✓</span> Webhook notifications</li>
+                    <li>Full dashboard access</li>
+                    <li>PDF export entitlement</li>
+                    <li>API access (1K/day included + overage)</li>
+                    <li>Priority support</li>
                 </ul>
-                
-                <a href="/signup?plan=developer" class="btn btn-secondary">Start Developer Trial</a>
-            </div>
+                <button class="btn primary" data-action="checkout" data-tier="pro">Upgrade to Pro</button>
+            </article>
 
-            <!-- Pro Tier -->
-            <div class="pricing-card popular">
-                <div class="popular-badge">Most Popular</div>
-                <div class="tier-name">Pro</div>
-                <div class="tier-description">For SMEs and consultancies</div>
-                <div class="early-adopter-badge">Early Adopter</div>
-                <div class="price">
-                    <span class="price-original">$199</span>
-                    <span class="price-amount">$39</span>
-                    <span class="price-period">/month</span>
-                </div>
-                <div class="early-adopter-note">Lock in this price for 6 months</div>
-                
+            <article class="card">
+                <h2 class="tier-name">Enterprise</h2>
+                <p class="tier-desc">Custom deployment and reporting requirements.</p>
+                <div class="price-line"><span class="price-now">$149</span><span class="price-period"> launch / $499 standard</span></div>
                 <ul class="features">
-                    <li><span class="feature-check">✓</span> 10,000 API calls/day</li>
-                    <li><span class="feature-check">✓</span> 12+ data sources</li>
-                    <li><span class="feature-check">✓</span> Full WSSI analytics</li>
-                    <li><span class="feature-check">✓</span> All export formats</li>
-                    <li><span class="feature-check">✓</span> Priority support</li>
-                    <li><span class="feature-check">✓</span> Custom webhooks</li>
-                    <li><span class="feature-check">✓</span> Team collaboration</li>
+                    <li>Unlimited included API</li>
+                    <li>Custom reports + SLA</li>
+                    <li>Dedicated support channel</li>
+                    <li>Contracted onboarding</li>
                 </ul>
-                
-                <a href="/signup?plan=pro" class="btn btn-primary">Start Pro Trial</a>
-            </div>
+                <a class="btn" href="mailto:sales@polycrisis.io?subject=Enterprise%20Plan%20Inquiry">Contact Sales</a>
+            </article>
+        </section>
 
-            <!-- Enterprise Tier -->
-            <div class="pricing-card">
-                <div class="tier-name">Enterprise</div>
-                <div class="tier-description">For fintech, governments, and Fortune 500</div>
-                <div class="price">
-                    <span class="price-amount">Custom</span>
-                </div>
-                
-                <ul class="features">
-                    <li><span class="feature-check">✓</span> Unlimited API calls</li>
-                    <li><span class="feature-check">✓</span> Custom data integrations</li>
-                    <li><span class="feature-check">✓</span> Dedicated support</li>
-                    <li><span class="feature-check">✓</span> SLA guarantees</li>
-                    <li><span class="feature-check">✓</span> White-label options</li>
-                    <li><span class="feature-check">✓</span> On-premise deployment</li>
-                </ul>
-                
-                <a href="/contact?plan=enterprise" class="btn btn-secondary">Contact Sales</a>
-            </div>
-        </div>
-
-        <div class="comparison">
+        <section class="comparison">
             <h2>Feature Comparison</h2>
-            <table class="comparison-table">
+            <table>
                 <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Free</th>
-                        <th>Developer</th>
-                        <th>Pro</th>
-                        <th>Enterprise</th>
-                    </tr>
+                    <tr><th>Feature</th><th>Free</th><th>Basic</th><th>Pro</th><th>Enterprise</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>API Calls/Day</td>
-                        <td>100</td>
-                        <td>1,000</td>
-                        <td>10,000</td>
-                        <td>Unlimited</td>
-                    </tr>
-                    <tr>
-                        <td>Data Sources</td>
-                        <td>12+</td>
-                        <td>12+</td>
-                        <td>12+</td>
-                        <td>Custom</td>
-                    </tr>
-                    <tr>
-                        <td>WSSI Scores</td>
-                        <td>Basic</td>
-                        <td>Advanced</td>
-                        <td>Full Analytics</td>
-                        <td>Custom</td>
-                    </tr>
-                    <tr>
-                        <td>Export Formats</td>
-                        <td>CSV</td>
-                        <td>CSV, JSON</td>
-                        <td>All Formats</td>
-                        <td>Custom</td>
-                    </tr>
-                    <tr>
-                        <td>Webhooks</td>
-                        <td>—</td>
-                        <td>Basic</td>
-                        <td>Custom</td>
-                        <td>Enterprise</td>
-                    </tr>
-                    <tr>
-                        <td>Support</td>
-                        <td>Community</td>
-                        <td>Email</td>
-                        <td>Priority</td>
-                        <td>Dedicated</td>
-                    </tr>
-                    <tr>
-                        <td>Team Members</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>5</td>
-                        <td>Unlimited</td>
-                    </tr>
-                    <tr>
-                        <td>SLA</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>99.9%</td>
-                        <td>99.99%</td>
-                    </tr>
+                    <tr><td>Dashboard tabs</td><td>Ledger only</td><td>All</td><td>All</td><td>All + custom</td></tr>
+                    <tr><td>API calls/day</td><td>0</td><td>Usage-based</td><td>1,000 included</td><td>Unlimited</td></tr>
+                    <tr><td>PDF exports</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Alert register + network</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                    <tr><td>Support</td><td>Community</td><td>Email</td><td>Priority</td><td>Dedicated</td></tr>
                 </tbody>
             </table>
-        </div>
+        </section>
 
-        <div class="footer">
-            <p>All plans include access to climate, economic, conflict, governance, and SDG data sources.</p>
-            <p>Questions? <a href="mailto:sales@polycrisis.io">Contact our sales team</a> or <a href="/docs">read the docs</a>.</p>
-        </div>
+        <section class="faq">
+            <h2>FAQ</h2>
+            <div class="faq-item">
+                <h3>Do I need Stripe configured today?</h3>
+                <p>No. If Stripe keys are missing, signup still provisions an API key and you can continue with free-mode access until billing is enabled.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do launch discounts apply?</h3>
+                <p>Checkout uses backend-configured Stripe coupons. If coupons are unavailable, checkout falls back to standard Stripe pricing.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I upgrade later from the dashboard?</h3>
+                <p>Yes. Free users can upgrade any time via this page; the dashboard keeps the Upgrade link visible for free-tier sessions.</p>
+            </div>
+        </section>
+
+        <section class="trust">
+            <h2>Trust Signals</h2>
+            <ul class="trust-list">
+                <li>12+ multi-domain source families (economic, climate, conflict, governance, health).</li>
+                <li>60-second dashboard refresh cycle with stale-data signaling.</li>
+                <li>Deterministic fallback chain to preserve continuity during API outages.</li>
+                <li>Explicit proxy-labeling where backend parity is not yet available.</li>
+            </ul>
+        </section>
+
+        <p class="footer">Questions on procurement or enterprise onboarding: <a href="mailto:sales@polycrisis.io">sales@polycrisis.io</a></p>
     </div>
+
+    <script>
+        const messageEl = document.getElementById('pricingMessage');
+        const params = new URLSearchParams(window.location.search);
+        const checkoutParam = params.get('checkout');
+        if (checkoutParam === 'cancel') {
+            messageEl.className = 'message info';
+            messageEl.textContent = 'Checkout canceled. You can resume any time.';
+        }
+
+        const setMessage = (type, text) => {
+            messageEl.className = `message ${type}`;
+            messageEl.textContent = text;
+        };
+
+        const getStoredApiKey = () => (localStorage.getItem('wssi_api_key') || localStorage.getItem('api_key') || '').trim();
+
+        async function beginCheckout(tier, button) {
+            const apiKey = getStoredApiKey();
+            if (!apiKey) {
+                window.location.href = `../signup/index.html?plan=${encodeURIComponent(tier)}`;
+                return;
+            }
+
+            button.disabled = true;
+            const oldText = button.textContent;
+            button.textContent = 'Starting checkout...';
+
+            try {
+                const payload = {
+                    tier,
+                    success_url: `${window.location.origin}/app/index.html?checkout=success#ledger`,
+                    cancel_url: `${window.location.origin}/pricing/index.html?checkout=cancel`
+                };
+                const response = await fetch('/api/v1/billing/checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    const code = data?.detail?.code || '';
+                    if (code === 'BILLING_NOT_CONFIGURED') {
+                        setMessage('info', 'Stripe is not configured yet in this environment. Your API key remains active; upgrade can be retried once keys/webhooks are connected.');
+                        return;
+                    }
+                    throw new Error(data?.detail?.message || data?.detail || 'Unable to start checkout.');
+                }
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                    return;
+                }
+                throw new Error('Checkout URL was not returned by server.');
+            } catch (error) {
+                setMessage('error', error?.message || 'Checkout failed.');
+            } finally {
+                button.disabled = false;
+                button.textContent = oldText;
+            }
+        }
+
+        document.querySelectorAll('button[data-action="signup"]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const tier = button.getAttribute('data-tier') || 'free';
+                window.location.href = `../signup/index.html?plan=${encodeURIComponent(tier)}`;
+            });
+        });
+
+        document.querySelectorAll('button[data-action="checkout"]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const tier = button.getAttribute('data-tier');
+                if (!tier) return;
+                beginCheckout(tier, button);
+            });
+        });
+    </script>
 </body>
 </html>

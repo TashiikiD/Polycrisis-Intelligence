@@ -260,11 +260,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="apiKey">API Key (optional)</label>
+                    <input type="password" id="apiKey" name="apiKey" placeholder="wssi-free-...">
+                </div>
+
+                <div class="form-group">
                     <div class="password-row">
                         <label for="password">Password</label>
-                        <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                        <a href="../pricing/index.html" class="forgot-password">Need a key?</a>
                     </div>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" placeholder="••••••••">
                 </div>
 
                 <div class="remember-row">
@@ -288,7 +293,7 @@
             </button>
 
             <div class="footer">
-                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                <p>Don't have an account? <a href="../signup/index.html">Sign up</a></p>
             </div>
         </div>
     </div>
@@ -315,49 +320,75 @@
             document.getElementById('error-message').style.display = 'block';
         }
 
+        function saveAuthState(payload, remember) {
+            const apiKey = String(payload.api_key ?? "").trim();
+            const tier = String(payload.tier ?? "free").trim().toLowerCase();
+            const rateLimit = Number.isFinite(Number(payload.rate_limit)) ? Number(payload.rate_limit) : null;
+            if (!apiKey) {
+                throw new Error('No API key returned. Please generate a key from Pricing.');
+            }
+            localStorage.setItem('wssi_api_key', apiKey);
+            localStorage.setItem('api_key', apiKey);
+            localStorage.setItem('wssi_tier', tier || 'free');
+            if (rateLimit !== null) localStorage.setItem('wssi_rate_limit', String(rateLimit));
+            if (payload.access_token) localStorage.setItem('wssi_access_token', payload.access_token);
+            if (payload.refresh_token) localStorage.setItem('wssi_refresh_token', payload.refresh_token);
+            if (payload.email) localStorage.setItem('wssi_email', payload.email);
+            localStorage.setItem('remember_me', remember ? 'true' : 'false');
+        }
+
+        async function loginWithApiKey(rawApiKey) {
+            const response = await fetch('/api/v1/auth/key-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_key: rawApiKey })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.detail?.message || data?.detail || 'Invalid API key.');
+            }
+            return { ...data, api_key: rawApiKey };
+        }
+
+        async function loginWithPassword(email, password) {
+            const response = await fetch('/api/v1/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.detail?.message || data?.detail || 'Invalid email or password.');
+            }
+            return data;
+        }
+
         // Form submission
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submit-btn');
             const errorDiv = document.getElementById('error-message');
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const apiKeyInput = document.getElementById('apiKey').value.trim();
+            const remember = document.getElementById('remember').checked;
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Logging in...';
             errorDiv.style.display = 'none';
 
             try {
-                const response = await fetch('/api/v1/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: document.getElementById('email').value,
-                        password: document.getElementById('password').value
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Store tokens
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('refresh_token', data.refresh_token);
-                    
-                    // Store remember me preference
-                    if (document.getElementById('remember').checked) {
-                        localStorage.setItem('remember_me', 'true');
-                    }
-                    
-                    // Redirect to dashboard
-                    window.location.href = '/dashboard/';
-                } else {
-                    errorDiv.textContent = data.detail || 'Invalid email or password.';
-                    errorDiv.style.display = 'block';
+                if (!apiKeyInput && (!email || !password)) {
+                    throw new Error('Provide API key or email + password.');
                 }
+                const payload = apiKeyInput
+                    ? await loginWithApiKey(apiKeyInput)
+                    : await loginWithPassword(email, password);
+                saveAuthState(payload, remember);
+                window.location.href = '../app/index.html#ledger';
             } catch (error) {
-                errorDiv.textContent = 'Network error. Please try again.';
+                errorDiv.textContent = error?.message || 'Network error. Please try again.';
                 errorDiv.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
@@ -366,15 +397,13 @@
         });
 
         function handleGoogleLogin() {
-            // Redirect to Google OAuth
-            window.location.href = '/api/v1/auth/google';
+            alert('Google OAuth is not enabled in Day 10 MVP. Use API key or email + password.');
         }
 
         // Check if already logged in
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            // Redirect to dashboard
-            window.location.href = '/dashboard/';
+        const existingKey = localStorage.getItem('wssi_api_key') || localStorage.getItem('api_key');
+        if (existingKey) {
+            window.location.href = '../app/index.html#ledger';
         }
     </script>
 </body>

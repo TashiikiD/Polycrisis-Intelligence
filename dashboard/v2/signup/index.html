@@ -262,6 +262,33 @@
             margin-bottom: 1rem;
             display: none;
         }
+
+        .api-key-section {
+            background: var(--bg-void);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin: 1rem 0 0;
+            display: none;
+        }
+
+        .api-key-section p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .api-key-value {
+            font-family: monospace;
+            font-size: 0.84rem;
+            line-height: 1.35;
+            word-break: break-all;
+            background: rgba(0, 255, 204, 0.08);
+            border: 1px solid rgba(0, 255, 204, 0.35);
+            border-radius: 6px;
+            padding: 0.5rem;
+            color: var(--accent-cyan);
+        }
     </style>
 </head>
 <body>
@@ -333,8 +360,13 @@
             </button>
 
             <div class="footer">
-                <p>Already have an account? <a href="login.html">Log in</a></p>
+                <p>Already have an account? <a href="../login/index.html">Log in</a></p>
             </div>
+        </div>
+
+        <div id="api-key-section" class="api-key-section">
+            <p>Save this API key now. It grants access to your account:</p>
+            <div id="api-key-value" class="api-key-value"></div>
         </div>
 
         <p style="text-align: center; margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">
@@ -346,11 +378,19 @@
         // Get plan from URL
         const urlParams = new URLSearchParams(window.location.search);
         const plan = urlParams.get('plan');
+        const normalizePlan = (raw) => {
+            const value = String(raw || 'free').toLowerCase();
+            if (value === 'developer') return 'basic';
+            if (value === 'professional') return 'pro';
+            if (['free', 'basic', 'pro', 'enterprise'].includes(value)) return value;
+            return 'free';
+        };
+        const selectedTier = normalizePlan(plan);
+        const tierLabel = selectedTier === 'basic' ? 'Basic' : selectedTier === 'pro' ? 'Pro' : selectedTier === 'enterprise' ? 'Enterprise' : 'Free';
         
-        if (plan) {
+        if (plan || selectedTier !== 'free') {
             document.getElementById('plan-banner').style.display = 'block';
-            document.getElementById('plan-name').textContent = 
-                plan.charAt(0).toUpperCase() + plan.slice(1);
+            document.getElementById('plan-name').textContent = tierLabel;
         }
 
         // Password strength checker
@@ -397,6 +437,50 @@
             });
         });
 
+        function persistAuth(data) {
+            if (!data?.api_key) {
+                throw new Error('API key issuance failed. Please retry.');
+            }
+            localStorage.setItem('wssi_api_key', data.api_key);
+            localStorage.setItem('api_key', data.api_key);
+            localStorage.setItem('wssi_tier', data.tier || selectedTier);
+            if (data.rate_limit !== undefined && data.rate_limit !== null) {
+                localStorage.setItem('wssi_rate_limit', String(data.rate_limit));
+            }
+            if (data.access_token) localStorage.setItem('wssi_access_token', data.access_token);
+            if (data.refresh_token) localStorage.setItem('wssi_refresh_token', data.refresh_token);
+            localStorage.setItem('wssi_email', document.getElementById('email').value.trim());
+        }
+
+        async function maybeCheckout(tier, apiKey) {
+            if (!['basic', 'pro'].includes(tier)) return false;
+            const configResp = await fetch('/api/v1/billing/config');
+            if (!configResp.ok) return false;
+            const config = await configResp.json();
+            if (!config.enabled) return false;
+
+            const payload = {
+                tier,
+                success_url: `${window.location.origin}/app/index.html?checkout=success#ledger`,
+                cancel_url: `${window.location.origin}/pricing/index.html?checkout=cancel`
+            };
+            const checkoutResp = await fetch('/api/v1/billing/checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify(payload)
+            });
+            const checkoutData = await checkoutResp.json();
+            if (!checkoutResp.ok) return false;
+            if (checkoutData.checkout_url) {
+                window.location.href = checkoutData.checkout_url;
+                return true;
+            }
+            return false;
+        }
+
         // Form submission
         document.getElementById('signup-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -404,11 +488,14 @@
             const submitBtn = document.getElementById('submit-btn');
             const errorDiv = document.getElementById('error-message');
             const successDiv = document.getElementById('success-message');
+            const keySection = document.getElementById('api-key-section');
+            const keyValue = document.getElementById('api-key-value');
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Creating account...';
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
+            keySection.style.display = 'none';
 
             try {
                 const response = await fetch('/api/v1/auth/register', {
@@ -421,22 +508,32 @@
                         password: document.getElementById('password').value,
                         first_name: document.getElementById('firstName').value,
                         last_name: document.getElementById('lastName').value,
-                        company: document.getElementById('company').value
+                        company: document.getElementById('company').value,
+                        tier: selectedTier
                     })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    successDiv.textContent = 'Account created! Please check your email to verify your account.';
+                    persistAuth(data);
+                    keyValue.textContent = data.api_key;
+                    keySection.style.display = 'block';
+                    successDiv.textContent = `Account created on ${tierLabel}.`;
                     successDiv.style.display = 'block';
                     document.getElementById('signup-form').reset();
+                    const checkoutStarted = await maybeCheckout(selectedTier, data.api_key);
+                    if (!checkoutStarted) {
+                        setTimeout(() => {
+                            window.location.href = '../app/index.html#ledger';
+                        }, 900);
+                    }
                 } else {
-                    errorDiv.textContent = data.detail || 'Registration failed. Please try again.';
+                    errorDiv.textContent = data?.detail?.message || data?.detail || 'Registration failed. Please try again.';
                     errorDiv.style.display = 'block';
                 }
             } catch (error) {
-                errorDiv.textContent = 'Network error. Please try again.';
+                errorDiv.textContent = error?.message || 'Network error. Please try again.';
                 errorDiv.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
@@ -445,8 +542,7 @@
         });
 
         function handleGoogleSignup() {
-            // Redirect to Google OAuth
-            window.location.href = '/api/v1/auth/google';
+            alert('Google OAuth is not enabled in Day 10 MVP.');
         }
     </script>
 </body>

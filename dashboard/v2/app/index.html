@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polycrisis Intelligence | Brief Dashboard</title>
+    <link rel="stylesheet" href="../shared/css/variables.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/charts.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand-block">
+            <p class="brand-eyebrow">Polycrisis Intelligence</p>
+            <h1>Brief Dashboard</h1>
+            <p class="brand-subtitle">Day 9 MVP shell: tabbed intelligence workspace with pattern matching</p>
+        </div>
+
+        <div class="header-right">
+            <div class="status-row">
+                <span id="dataSourceLabel" class="source-label">Source: starting...</span>
+                <span id="staleBadge" class="stale-badge hidden" aria-live="polite"></span>
+            </div>
+            <div class="access-row">
+                <span id="accessBadge" class="access-badge">Tier: Free</span>
+                <a id="upgradeLink" class="upgrade-link" href="../pricing/index.html">Upgrade</a>
+            </div>
+            <p class="timestamp">Last refresh: <span id="lastRefresh">--</span></p>
+            <button id="refreshButton" class="btn-refresh" type="button">Refresh now</button>
+        </div>
+    </header>
+
+    <main class="main-layout">
+        <section class="summary-grid" aria-label="WSSI summary">
+            <article class="summary-card">
+                <p class="summary-label">WSSI Value</p>
+                <p id="wssiValue" class="summary-value">--</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">WSSI Score</p>
+                <p id="wssiScore" class="summary-value">--</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">As Of</p>
+                <p id="calculationTime" class="summary-text">--</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">Rows</p>
+                <p id="rowCount" class="summary-text">--</p>
+            </article>
+        </section>
+
+        <p id="accessNotice" class="access-notice hidden" role="status" aria-live="polite"></p>
+
+        <section class="dashboard-shell">
+            <section class="main-column">
+                <nav id="dashboardTabList" class="tab-nav" aria-label="Dashboard views" role="tablist">
+                    <button id="tab-ledger" class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="tab-panel-ledger" tabindex="0" data-tab="ledger">Stress Ledger</button>
+                    <button id="tab-correlations" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-panel-correlations" tabindex="-1" data-tab="correlations">Correlations</button>
+                    <button id="tab-network" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-panel-network" tabindex="-1" data-tab="network">Network</button>
+                    <button id="tab-patterns" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-panel-patterns" tabindex="-1" data-tab="patterns">Patterns</button>
+                    <button id="tab-timeline" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tab-panel-timeline" tabindex="-1" data-tab="timeline">Timeline</button>
+                </nav>
+
+                <section id="tab-panel-ledger" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-ledger" data-tab-panel="ledger">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="stressLedgerHeading">Stress Ledger</h2>
+                            <p class="panel-subtitle">Theme-level stress signals (trend uses 30d momentum proxy)</p>
+                        </div>
+                        <span id="stressLedgerPanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="stressLedgerMount"></div>
+                </section>
+
+                <section id="tab-panel-correlations" class="panel tab-panel hidden" role="tabpanel" aria-labelledby="tab-correlations" data-tab-panel="correlations">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="correlationHeatmapHeading">Correlation Heatmap</h2>
+                            <p class="panel-subtitle">Cross-theme Pearson r, significance, and strong-pattern labeling</p>
+                        </div>
+                        <span id="correlationPanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="correlationHeatmapMount"></div>
+                </section>
+
+                <section id="tab-panel-network" class="panel tab-panel hidden" role="tabpanel" aria-labelledby="tab-network" data-tab-panel="network">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="networkGraphHeading">Network Graph</h2>
+                            <p class="panel-subtitle">Theme and bridge-node interactions with evidence-weighted links</p>
+                        </div>
+                        <span id="networkPanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="networkGraphMount"></div>
+                </section>
+
+                <section id="tab-panel-patterns" class="panel tab-panel hidden" role="tabpanel" aria-labelledby="tab-patterns" data-tab-panel="patterns">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="patternMatcherHeading">Pattern Matcher</h2>
+                            <p class="panel-subtitle">Historical analog matching using diagnostic proxy radar and top episodes</p>
+                        </div>
+                        <span id="patternsPanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="patternMatcherMount"></div>
+                </section>
+
+                <section id="tab-panel-timeline" class="panel tab-panel hidden" role="tabpanel" aria-labelledby="tab-timeline" data-tab-panel="timeline">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="wssiTimelineHeading">WSSI Timeline</h2>
+                            <p class="panel-subtitle">90-day WSSI score trend with alert annotations</p>
+                        </div>
+                        <span id="timelinePanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="wssiTimelineMount"></div>
+                </section>
+            </section>
+
+            <aside class="side-rail" aria-label="Context panels">
+                <section class="panel" aria-labelledby="alertRegisterHeading">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="alertRegisterHeading">Alert Register</h2>
+                            <p class="panel-subtitle">Filterable active and recent alerts with timeline and network sync</p>
+                        </div>
+                        <span id="alertsPanelStatus" class="panel-status hidden" aria-live="polite"></span>
+                    </div>
+                    <div id="alertRegisterMount"></div>
+                </section>
+
+                <section class="panel" aria-labelledby="themeDetailHeading">
+                    <div class="panel-header">
+                        <div>
+                            <h2 id="themeDetailHeading">Theme Detail</h2>
+                            <p class="panel-subtitle">Selected theme indicators and 30d momentum proxy</p>
+                        </div>
+                    </div>
+                    <div id="themeDetailMount"></div>
+                </section>
+            </aside>
+        </section>
+
+        <p id="errorMessage" class="error-message hidden" role="alert"></p>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

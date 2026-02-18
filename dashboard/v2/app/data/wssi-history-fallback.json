@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-02-17T00:00:00Z",
+  "days": 90,
+  "history": [
+    { "date": "2025-11-20", "wssi_score": 46.2, "wssi_value": -0.19, "wssi_delta": -0.2, "trend": "down" },
+    { "date": "2025-11-30", "wssi_score": 51.4, "wssi_value": 0.12, "wssi_delta": 0.31, "trend": "up" },
+    { "date": "2025-12-10", "wssi_score": 42.9, "wssi_value": -0.39, "wssi_delta": -0.51, "trend": "down" },
+    { "date": "2025-12-20", "wssi_score": 58.1, "wssi_value": 0.49, "wssi_delta": 0.88, "trend": "up" },
+    { "date": "2025-12-30", "wssi_score": 62.7, "wssi_value": 0.76, "wssi_delta": 0.27, "trend": "up" },
+    { "date": "2026-01-09", "wssi_score": 55.8, "wssi_value": 0.35, "wssi_delta": -0.41, "trend": "down" },
+    { "date": "2026-01-19", "wssi_score": 64.3, "wssi_value": 0.86, "wssi_delta": 0.51, "trend": "up" },
+    { "date": "2026-01-29", "wssi_score": 70.5, "wssi_value": 1.23, "wssi_delta": 0.37, "trend": "up" },
+    { "date": "2026-02-03", "wssi_score": 73.8, "wssi_value": 1.43, "wssi_delta": 0.20, "trend": "up" },
+    { "date": "2026-02-08", "wssi_score": 68.2, "wssi_value": 1.09, "wssi_delta": -0.34, "trend": "down" },
+    { "date": "2026-02-12", "wssi_score": 61.4, "wssi_value": 0.68, "wssi_delta": -0.41, "trend": "down" },
+    { "date": "2026-02-16", "wssi_score": 57.6, "wssi_value": 0.46, "wssi_delta": -0.22, "trend": "down" }
+  ]
+}

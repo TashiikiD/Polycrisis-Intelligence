@@ -1,0 +1,147 @@
+{
+  "generated_at": "2026-02-17T00:00:00Z",
+  "node_count": 7,
+  "edge_count": 8,
+  "warnings": [],
+  "nodes": [
+    {
+      "id": "n_1_2",
+      "label": "Corporate Debt Distress",
+      "category": "Economic-Financial",
+      "theme_id": "1.2",
+      "x": 180,
+      "y": 120
+    },
+    {
+      "id": "n_2_1",
+      "label": "Tipping Point Proximity",
+      "category": "Climate-Environmental",
+      "theme_id": "2.1",
+      "x": 500,
+      "y": 110
+    },
+    {
+      "id": "n_3_1",
+      "label": "Interstate Conflict",
+      "category": "Geopolitical-Conflict",
+      "theme_id": "3.1",
+      "x": 640,
+      "y": 330
+    },
+    {
+      "id": "n_3_4",
+      "label": "Governance Decay",
+      "category": "Geopolitical-Conflict",
+      "theme_id": "3.4",
+      "x": 430,
+      "y": 420
+    },
+    {
+      "id": "n_4_2",
+      "label": "Cyber Systemic Risk",
+      "category": "Technological",
+      "theme_id": "4.2",
+      "x": 260,
+      "y": 390
+    },
+    {
+      "id": "n_5_2",
+      "label": "Food System Fragility",
+      "category": "Biological-Health",
+      "theme_id": "5.2",
+      "x": 120,
+      "y": 270
+    },
+    {
+      "id": "n_bridge_supply_chain",
+      "label": "Global Supply Chain Chokepoints",
+      "category": "Cross-System",
+      "theme_id": null,
+      "x": 360,
+      "y": 250
+    }
+  ],
+  "edges": [
+    {
+      "id": "e01",
+      "source": "n_1_2",
+      "target": "n_bridge_supply_chain",
+      "weight": 0.62,
+      "evidence": "documented",
+      "direction": "unidirectional",
+      "type": "corporate_margin_pressure"
+    },
+    {
+      "id": "e02",
+      "source": "n_bridge_supply_chain",
+      "target": "n_5_2",
+      "weight": 0.78,
+      "evidence": "established",
+      "direction": "unidirectional",
+      "type": "logistics_food"
+    },
+    {
+      "id": "e03",
+      "source": "n_2_1",
+      "target": "n_5_2",
+      "weight": 0.66,
+      "evidence": "documented",
+      "direction": "unidirectional",
+      "type": "crop_shock"
+    },
+    {
+      "id": "e04",
+      "source": "n_3_1",
+      "target": "n_bridge_supply_chain",
+      "weight": 0.58,
+      "evidence": "documented",
+      "direction": "unidirectional",
+      "type": "trade_route_disruption"
+    },
+    {
+      "id": "e05",
+      "source": "n_3_4",
+      "target": "n_3_1",
+      "weight": 0.53,
+      "evidence": "documented",
+      "direction": "unidirectional",
+      "type": "governance_conflict_feedback"
+    },
+    {
+      "id": "e06",
+      "source": "n_4_2",
+      "target": "n_bridge_supply_chain",
+      "weight": 0.49,
+      "evidence": "emerging",
+      "direction": "unidirectional",
+      "type": "cyber_logistics_disruption"
+    },
+    {
+      "id": "e07",
+      "source": "n_4_2",
+      "target": "n_3_4",
+      "weight": 0.44,
+      "evidence": "emerging",
+      "direction": "unidirectional",
+      "type": "information_governance"
+    },
+    {
+      "id": "e08",
+      "source": "n_2_1",
+      "target": "n_3_1",
+      "weight": 0.47,
+      "evidence": "documented",
+      "direction": "unidirectional",
+      "type": "climate_conflict_pressure"
+    }
+  ],
+  "metrics": {
+    "n_1_2": { "degree_total": 2, "pagerank": 0.103, "betweenness": 0.12 },
+    "n_2_1": { "degree_total": 2, "pagerank": 0.111, "betweenness": 0.1 },
+    "n_3_1": { "degree_total": 3, "pagerank": 0.138, "betweenness": 0.15 },
+    "n_3_4": { "degree_total": 2, "pagerank": 0.122, "betweenness": 0.11 },
+    "n_4_2": { "degree_total": 2, "pagerank": 0.094, "betweenness": 0.08 },
+    "n_5_2": { "degree_total": 2, "pagerank": 0.127, "betweenness": 0.09 },
+    "n_bridge_supply_chain": { "degree_total": 5, "pagerank": 0.211, "betweenness": 0.33 }
+  }
+}

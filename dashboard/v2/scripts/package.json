@@ -1,0 +1,16 @@
+{
+  "name": "dashboard-v2-smoke-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Reusable smoke checks for Dashboard v2",
+  "scripts": {
+    "smoke:day6": "node day6-smoke-check.js",
+    "smoke:day7": "node day7-smoke-check.js",
+    "smoke:day8": "node day8-smoke-check.js",
+    "smoke:day9": "node day9-smoke-check.js",
+    "smoke:day10": "node day10-smoke-check.js"
+  },
+  "dependencies": {
+    "playwright": "1.58.2"
+  }
+}

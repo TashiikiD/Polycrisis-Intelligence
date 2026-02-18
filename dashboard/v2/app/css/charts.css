@@ -1,0 +1,223 @@
+.stress-bar {
+    width: 100%;
+    max-width: 220px;
+    height: 0.62rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stress-fill {
+    height: 100%;
+    border-radius: inherit;
+    transition: width 200ms ease;
+}
+
+.stress-fill.stable {
+    background: #00d4aa;
+}
+
+.stress-fill.watch {
+    background: #f4c542;
+}
+
+.stress-fill.approaching {
+    background: #ff6b35;
+}
+
+.stress-fill.critical {
+    background: #ff2d55;
+}
+
+.stress-fill.unknown {
+    background: var(--text-muted);
+}
+
+.chart-shell {
+    position: relative;
+    padding: 0.75rem 0.85rem 1rem;
+}
+
+.chart-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.chart-meta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+}
+
+.chart-meta {
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+}
+
+.chart-reset-btn {
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.72rem;
+}
+
+.chart-reset-btn:hover,
+.chart-reset-btn:focus-visible {
+    outline: none;
+    border-color: var(--accent-cyan);
+    color: var(--text-primary);
+}
+
+.chart-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.45rem;
+}
+
+.legend-chip {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.legend-gradient {
+    width: 180px;
+    height: 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #2f6ff5 0%, #f5f7fa 50%, #f46060 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.heatmap-stage,
+.timeline-stage,
+.network-stage,
+.pattern-stage {
+    position: relative;
+    width: 100%;
+}
+
+.heatmap-canvas {
+    width: 100%;
+    height: 420px;
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    background: rgba(10, 10, 16, 0.65);
+}
+
+.timeline-canvas {
+    width: 100%;
+    height: 320px;
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    background: rgba(10, 10, 16, 0.65);
+}
+
+.network-canvas {
+    width: 100%;
+    height: 420px;
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    background: rgba(10, 10, 16, 0.65);
+}
+
+.pattern-radar-canvas {
+    width: 100%;
+    height: 320px;
+    display: block;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    background: rgba(10, 10, 16, 0.65);
+}
+
+.heatmap-canvas:focus-visible,
+.timeline-canvas:focus-visible,
+.network-canvas:focus-visible,
+.pattern-radar-canvas:focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+}
+
+.chart-tooltip {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+    min-width: 160px;
+    background: rgba(12, 12, 18, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.45rem 0.55rem;
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.chart-tooltip p {
+    margin: 0.15rem 0;
+}
+
+.network-toolbar {
+    margin-bottom: 0.35rem;
+}
+
+.network-toggle-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.55rem;
+}
+
+.network-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.network-toggle input {
+    margin: 0;
+}
+
+.network-legend-text {
+    margin: 0.5rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .heatmap-canvas {
+        height: 340px;
+    }
+
+    .timeline-canvas {
+        height: 280px;
+    }
+
+    .network-canvas {
+        height: 320px;
+    }
+
+    .pattern-radar-canvas {
+        height: 280px;
+    }
+
+    .legend-gradient {
+        width: 120px;
+    }
+}

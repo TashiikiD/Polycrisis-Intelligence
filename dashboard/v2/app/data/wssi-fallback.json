@@ -1,0 +1,74 @@
+{
+  "date": "2026-02-17",
+  "wssi_value": -2.31,
+  "wssi_score": 41.2,
+  "calculation_timestamp": "2026-02-17T12:00:00Z",
+  "theme_signals": [
+    {
+      "theme_id": "3.4",
+      "theme_name": "Governance Decay",
+      "category": "Geopolitical-Conflict",
+      "mean_z_score": -3.22,
+      "stress_level": "critical",
+      "momentum_30d": -0.71,
+      "confidence_tier": "documented",
+      "quality_score": 0.74,
+      "data_freshness": "recent",
+      "indicator_details": [
+        {
+          "indicator_id": "3.4.10",
+          "name": "Regime Stability Stress",
+          "source": "Polity5",
+          "stress_z_latest": -3.0,
+          "momentum_30d": -0.4,
+          "freshness": "recent",
+          "quality_tier": "documented"
+        }
+      ]
+    },
+    {
+      "theme_id": "2.1",
+      "theme_name": "Tipping Point Proximity",
+      "category": "Climate-Environmental",
+      "mean_z_score": 2.45,
+      "stress_level": "approaching",
+      "momentum_30d": 0.35,
+      "confidence_tier": "established",
+      "quality_score": 0.82,
+      "data_freshness": "fresh",
+      "indicator_details": [
+        {
+          "indicator_id": "2.1.1",
+          "name": "Global Surface Temperature",
+          "source": "Copernicus",
+          "stress_z_latest": 2.2,
+          "momentum_30d": 0.21,
+          "freshness": "fresh",
+          "quality_tier": "established"
+        }
+      ]
+    },
+    {
+      "theme_id": "1.2",
+      "theme_name": "Corporate Debt Distress",
+      "category": "Economic-Financial",
+      "mean_z_score": 1.14,
+      "stress_level": "watch",
+      "momentum_30d": 0.05,
+      "confidence_tier": "emerging",
+      "quality_score": 0.61,
+      "data_freshness": "warning",
+      "indicator_details": [
+        {
+          "indicator_id": "1.2.6",
+          "name": "BBB Credit Spread",
+          "source": "FRED",
+          "stress_z_latest": 1.0,
+          "momentum_30d": 0.03,
+          "freshness": "warning",
+          "quality_tier": "documented"
+        }
+      ]
+    }
+  ]
+}

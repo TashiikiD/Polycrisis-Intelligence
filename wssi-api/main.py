@@ -154,8 +154,14 @@ def init_db():
             INSERT INTO api_keys (key_hash, name, tier, rate_limit, is_admin)
             VALUES (?, 'Default Admin', 'enterprise', 999999999, 1)
         ''', (admin_hash,))
-        print(f"Created default admin key: {admin_key}")
-        print("SAVE THIS KEY - it will not be shown again!")
+        show_admin_key = os.getenv("WSSI_PRINT_BOOTSTRAP_ADMIN_KEY", "0") == "1"
+        if show_admin_key:
+            print(f"Created default admin key: {admin_key}")
+            print("SAVE THIS KEY - it will not be shown again!")
+        else:
+            masked = f"{admin_key[:14]}...{admin_key[-6:]}"
+            print(f"Created default admin key (masked): {masked}")
+            print("Set WSSI_PRINT_BOOTSTRAP_ADMIN_KEY=1 only for one-time secure capture.")
     
     conn.commit()
     conn.close()

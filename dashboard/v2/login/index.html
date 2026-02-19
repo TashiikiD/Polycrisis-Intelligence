@@ -428,10 +428,16 @@
             alert('Google OAuth is not enabled in Day 10 MVP. Use API key or email + password.');
         }
 
-        // Check if already logged in
+        // If a key already exists, show a notice but do not force redirect.
         const existingKey = localStorage.getItem('wssi_api_key') || localStorage.getItem('api_key');
         if (existingKey) {
-            window.location.href = '../app/index.html#ledger';
+            const tier = (localStorage.getItem('wssi_tier') || localStorage.getItem('tier') || 'free').toUpperCase();
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerHTML = `Already signed in (${tier}). <a href="../app/index.html#ledger" style="color:inherit;text-decoration:underline;">Open dashboard</a> or sign in with another account below.`;
+            errorDiv.style.background = 'rgba(0, 255, 204, 0.1)';
+            errorDiv.style.borderColor = 'var(--accent-cyan)';
+            errorDiv.style.color = 'var(--accent-cyan)';
+            errorDiv.style.display = 'block';
         }
     </script>
 </body>

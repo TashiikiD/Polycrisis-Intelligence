@@ -10,6 +10,25 @@ const TIMELINE_BANDS = [
     { name: "high", min: 60, max: 75 },
     { name: "critical", min: 75, max: 101 }
 ];
+const DEFAULT_PUBLIC_API_BASE = "https://polycrisis-intelligence-production.up.railway.app";
+
+function readStorageSafe(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch {
+        return null;
+    }
+}
+
+function resolveApiBaseUrl() {
+    const fromStorage = String(readStorageSafe("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    if (fromStorage) return fromStorage;
+    if (typeof window !== "undefined") {
+        const host = String(window.location?.hostname ?? "").toLowerCase();
+        if (host.endsWith("github.io")) return DEFAULT_PUBLIC_API_BASE;
+    }
+    return "";
+}
 
 const toNumber = (value) => {
     const n = Number(value);
@@ -697,7 +716,12 @@ export class DashboardApiClient {
         try {
             const headers = { Accept: "application/json" };
             if (this.apiKey) headers["X-API-Key"] = this.apiKey;
-            const response = await fetch(path, {
+            const normalizedPath = String(path ?? "");
+            const base = resolveApiBaseUrl();
+            const target = /^https?:\/\//i.test(normalizedPath)
+                ? normalizedPath
+                : (base && normalizedPath.startsWith("/") ? `${base}${normalizedPath}` : normalizedPath);
+            const response = await fetch(target, {
                 signal: controller.signal,
                 headers
             });

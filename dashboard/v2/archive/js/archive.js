@@ -4,6 +4,7 @@ const elements = {
     rows: document.getElementById("archiveRows"),
     empty: document.getElementById("archiveEmptyState")
 };
+const DEFAULT_PUBLIC_API_BASE = "https://polycrisis-intelligence-production.up.railway.app";
 
 function readStorage(key) {
     try {
@@ -28,7 +29,9 @@ function tierLabel(tier) {
 }
 
 function apiPath(path) {
-    const base = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const fromStorage = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const host = String(window.location?.hostname ?? "").toLowerCase();
+    const base = fromStorage || (host.endsWith("github.io") ? DEFAULT_PUBLIC_API_BASE : "");
     if (!base) return path;
     return `${base}${path}`;
 }

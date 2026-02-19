@@ -11,6 +11,7 @@ import { exportFragilityBriefPdf } from "./utils/report-exporter.js";
 
 const TAB_ORDER = ["ledger", "correlations", "network", "patterns", "timeline"];
 const FREE_THEME_LIMIT = 5;
+const DEFAULT_PUBLIC_API_BASE = "https://polycrisis-intelligence-production.up.railway.app";
 
 const apiClient = new DashboardApiClient({ timeoutMs: 10000 });
 const themeDetail = new ThemeDetailPanel(document.getElementById("themeDetailMount"));
@@ -104,7 +105,9 @@ function readStorage(key) {
 }
 
 function apiPath(path) {
-    const base = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const fromStorage = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const host = String(window.location?.hostname ?? "").toLowerCase();
+    const base = fromStorage || (host.endsWith("github.io") ? DEFAULT_PUBLIC_API_BASE : "");
     if (!base) return path;
     return `${base}${path}`;
 }

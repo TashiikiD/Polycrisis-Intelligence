@@ -184,6 +184,28 @@ h1 {
     vertical-align: middle;
 }
 
+.health-pill {
+    display: inline-block;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    padding: 0.12rem 0.5rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.health-pill.health-healthy {
+    border-color: rgba(0, 212, 170, 0.45);
+    color: #c9fff2;
+    background: rgba(0, 212, 170, 0.14);
+}
+
+.health-pill.health-degraded {
+    border-color: rgba(255, 159, 28, 0.5);
+    color: #ffd9ab;
+    background: rgba(255, 159, 28, 0.16);
+}
+
 .archive-empty {
     margin: 0;
     padding: var(--space-md) var(--space-lg);

@@ -93,11 +93,13 @@ PDF export runs fully client-side in `dashboard/v2/app`:
 
 Archive and publish workflows rely on API endpoints in `wssi-api`:
 
-1. `POST /api/v1/briefs/releases/publish` (requires `X-Brief-Publish-Token`)
-2. `GET /api/v1/briefs/releases?limit=50`
-3. `GET /api/v1/briefs/releases/{release_id}`
-4. `GET /api/v1/briefs/releases/{release_id}/view?variant=free|paid`
-5. `GET /api/v1/briefs/releases/{release_id}/model?variant=free|paid`
+1. `POST /api/v1/analytics/ingest` (requires `X-Analytics-Ingest-Token`)
+2. `GET /api/v1/briefs/releases/readiness`
+3. `POST /api/v1/briefs/releases/publish` (requires `X-Brief-Publish-Token`)
+4. `GET /api/v1/briefs/releases?limit=50`
+5. `GET /api/v1/briefs/releases/{release_id}`
+6. `GET /api/v1/briefs/releases/{release_id}/view?variant=free|paid`
+7. `GET /api/v1/briefs/releases/{release_id}/model?variant=free|paid`
 
 Local storage keys used by dashboard/archive pages:
 
@@ -108,7 +110,10 @@ Local storage keys used by dashboard/archive pages:
 
 ## Day 11.5 Archive Degradation Rules
 
-1. Publish control remains hidden unless `wssi_brief_publish_token` exists in local storage.
-2. Archive page is still browsable without API key (free variant links only).
-3. Paid links appear only when API resolves caller to paid tier.
-4. Missing or invalid paid access returns upgrade-required responses from API (`402/403`).
+1. Canonical server publish data source is `WSSI_ANALYTICS_DIR` (default `/app/data/analytics` in production).
+2. Publish control remains hidden unless `wssi_brief_publish_token` exists in local storage.
+3. Publish prechecks `/api/v1/briefs/releases/readiness`; blocked state prevents publish when core `wssi-latest` is missing.
+4. Non-core missing/stale datasets produce a degraded release with explicit section flags.
+5. Archive page is still browsable without API key (free variant links only).
+6. Paid links appear only when API resolves caller to paid tier.
+7. Missing or invalid paid access returns upgrade-required responses from API (`402/403`).

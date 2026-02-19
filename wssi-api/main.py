@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any, Tuple
-from datetime import datetime, timedelta
+from typing import List, Optional, Dict, Any, Tuple, Set
+from datetime import datetime, timedelta, timezone
 from contextlib import asynccontextmanager
 import sqlite3
 import json
@@ -17,37 +17,64 @@ import secrets
 from html import escape as html_escape
 from pathlib import Path
 
-def resolve_analytics_dir() -> Path:
-    """Resolve analytics artifacts directory across local and hosted layouts."""
-    override = os.getenv("WSSI_ANALYTICS_DIR")
-    if override:
-        return Path(override).expanduser().resolve()
-
-    app_dir = Path(__file__).resolve().parent
+def discover_legacy_analytics_dirs(app_dir: Path, exclude: Optional[Path] = None) -> List[Path]:
+    """Discover legacy analytics artifact directories for compatibility fallback."""
     candidates: List[Path] = [app_dir / "output" / "analytics", Path.cwd() / "output" / "analytics"]
     for parent in app_dir.parents:
         candidates.append(parent / "output" / "analytics")
 
-    seen = set()
+    seen: Set[str] = set()
+    out: List[Path] = []
+    exclude_resolved = exclude.resolve() if exclude else None
     for candidate in candidates:
-        key = str(candidate)
+        resolved = candidate.expanduser().resolve()
+        key = str(resolved)
         if key in seen:
             continue
         seen.add(key)
-        if candidate.exists():
-            return candidate
+        if exclude_resolved and resolved == exclude_resolved:
+            continue
+        if resolved.exists():
+            out.append(resolved)
+    return out
 
-    # Fall back to a sane default path without assuming parent depth.
-    return app_dir / "output" / "analytics"
+
+def resolve_analytics_dir(data_dir: Path) -> Path:
+    """Resolve canonical analytics directory (default `/app/data/analytics`)."""
+    override = os.getenv("WSSI_ANALYTICS_DIR", "").strip()
+    if override:
+        target = Path(override).expanduser().resolve()
+    else:
+        target = (data_dir / "analytics").resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    return target
 
 # Database setup
 DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 DB_PATH = DATA_DIR / "wssi_api.db"
 WSSI_DATA_PATH = DATA_DIR / "wssi-latest.json"
-ANALYTICS_DIR = resolve_analytics_dir()
+ANALYTICS_DIR = resolve_analytics_dir(DATA_DIR)
+LEGACY_ANALYTICS_DIRS = discover_legacy_analytics_dirs(Path(__file__).resolve().parent, exclude=ANALYTICS_DIR)
 BRIEF_ARCHIVE_ROOT = DATA_DIR / "brief_archive"
 BRIEF_RELEASES_ROOT = BRIEF_ARCHIVE_ROOT / "releases"
+ALLOWED_ANALYTICS_FILENAMES = {
+    "wssi-latest.json",
+    "wssi-history.json",
+    "correlations.json",
+    "alerts.json",
+    "network.json",
+    "patterns.json",
+    "indicators-latest.json",
+}
+PUBLISH_DATASET_MAP = {
+    "wssi-latest": {"filename": "wssi-latest.json", "section": "wssi_summary", "core": True},
+    "alerts": {"filename": "alerts.json", "section": "alerts", "core": False},
+    "correlations": {"filename": "correlations.json", "section": "correlations", "core": False},
+    "network": {"filename": "network.json", "section": "network", "core": False},
+    "patterns": {"filename": "patterns.json", "section": "patterns", "core": False},
+    "wssi-history": {"filename": "wssi-history.json", "section": "timeline", "core": False},
+}
 
 TIER_RATE_LIMITS = {
     "free": 0,
@@ -166,9 +193,18 @@ def init_db():
             free_json_path TEXT NOT NULL,
             paid_json_path TEXT NOT NULL,
             created_by TEXT,
-            notes TEXT
+            notes TEXT,
+            is_degraded INTEGER NOT NULL DEFAULT 0,
+            data_status_json TEXT NOT NULL DEFAULT '{}'
         )
     ''')
+
+    cursor.execute("PRAGMA table_info(brief_releases)")
+    brief_columns = {row[1] for row in cursor.fetchall()}
+    if "is_degraded" not in brief_columns:
+        cursor.execute("ALTER TABLE brief_releases ADD COLUMN is_degraded INTEGER NOT NULL DEFAULT 0")
+    if "data_status_json" not in brief_columns:
+        cursor.execute("ALTER TABLE brief_releases ADD COLUMN data_status_json TEXT NOT NULL DEFAULT '{}'")
     
     # Create default admin key if none exists
     cursor.execute("SELECT COUNT(*) FROM api_keys WHERE is_admin = 1")
@@ -267,6 +303,11 @@ class BriefPublishRequest(BaseModel):
     release_date: Optional[str] = None
     notes: Optional[str] = None
     created_by: Optional[str] = None
+    strict_mode: bool = False
+
+class AnalyticsIngestRequest(BaseModel):
+    source: Optional[str] = None
+    files: Dict[str, Any] = Field(default_factory=dict)
 
 # FastAPI app
 @asynccontextmanager
@@ -648,18 +689,205 @@ def require_brief_publish_token(x_brief_publish_token: Optional[str] = Header(No
         )
     return {"token_valid": "yes"}
 
+def configured_analytics_ingest_token() -> str:
+    return (
+        os.getenv("WSSI_ANALYTICS_INGEST_TOKEN", "").strip()
+        or os.getenv("WSSI_BRIEF_PUBLISH_TOKEN", "").strip()
+    )
+
+def require_analytics_ingest_token(
+    x_analytics_ingest_token: Optional[str] = Header(None, alias="X-Analytics-Ingest-Token")
+) -> Dict[str, str]:
+    configured = configured_analytics_ingest_token()
+    if not configured:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "ANALYTICS_INGEST_NOT_CONFIGURED",
+                "message": "Analytics ingest token is not configured"
+            }
+        )
+    if not x_analytics_ingest_token or not hmac.compare_digest(configured, x_analytics_ingest_token.strip()):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={"code": "INGEST_TOKEN_INVALID", "message": "Invalid analytics ingest token"}
+        )
+    return {"token_valid": "yes"}
+
 def read_json(path: Path) -> Dict[str, Any]:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
+def dedupe_paths(paths: List[Path]) -> List[Path]:
+    seen: Set[str] = set()
+    out: List[Path] = []
+    for path in paths:
+        resolved = path.expanduser().resolve()
+        key = str(resolved)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(resolved)
+    return out
+
+def analytics_file_candidates(filename: str) -> List[Path]:
+    paths: List[Path] = [ANALYTICS_DIR / filename]
+    if filename == "wssi-latest.json":
+        paths.append(WSSI_DATA_PATH)
+    else:
+        paths.append(DATA_DIR / filename)
+    for legacy_dir in LEGACY_ANALYTICS_DIRS:
+        paths.append(legacy_dir / filename)
+    return dedupe_paths(paths)
+
 def load_json_candidates(paths: List[Path], error_message: str) -> Dict[str, Any]:
+    last_decode_error: Optional[str] = None
     for path in paths:
         if path.exists():
-            return read_json(path)
+            try:
+                return read_json(path)
+            except json.JSONDecodeError:
+                last_decode_error = str(path)
+    if last_decode_error:
+        message = f"{error_message} (invalid JSON: {last_decode_error})"
+    else:
+        message = error_message
     raise HTTPException(
         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-        detail={"code": "DATA_UNAVAILABLE", "message": error_message}
+        detail={"code": "DATA_UNAVAILABLE", "message": message}
     )
+
+def parse_timestamp_any(value: Any) -> Optional[datetime]:
+    if not value:
+        return None
+    if isinstance(value, (int, float)):
+        try:
+            if value > 10_000_000_000:
+                return datetime.utcfromtimestamp(float(value) / 1000.0)
+            return datetime.utcfromtimestamp(float(value))
+        except Exception:
+            return None
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        if len(text) == 10:
+            return datetime.strptime(text, "%Y-%m-%d")
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        if parsed.tzinfo is not None:
+            parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+        return parsed
+    except Exception:
+        return None
+
+def extract_payload_timestamp(payload: Dict[str, Any]) -> Optional[str]:
+    if not isinstance(payload, dict):
+        return None
+    direct_keys = ["generated_at", "calculation_timestamp", "timestamp", "updated_at"]
+    for key in direct_keys:
+        dt = parse_timestamp_any(payload.get(key))
+        if dt:
+            return dt.isoformat() + "Z"
+
+    rows = payload.get("history")
+    if not isinstance(rows, list):
+        rows = payload.get("data")
+    if isinstance(rows, list) and rows:
+        for row in reversed(rows):
+            if not isinstance(row, dict):
+                continue
+            dt = parse_timestamp_any(row.get("timestamp_ms"))
+            if not dt:
+                dt = parse_timestamp_any(row.get("timestamp"))
+            if not dt:
+                dt = parse_timestamp_any(row.get("date"))
+            if dt:
+                return dt.isoformat() + "Z"
+    return None
+
+def freshness_from_timestamp(timestamp_value: Optional[str]) -> Dict[str, Any]:
+    if not timestamp_value:
+        return {"state": "unknown", "age_hours": None}
+    parsed = parse_timestamp_any(timestamp_value)
+    if not parsed:
+        return {"state": "unknown", "age_hours": None}
+    age_hours = round((datetime.utcnow() - parsed).total_seconds() / 3600, 2)
+    if age_hours <= 24:
+        state = "fresh"
+    elif age_hours <= 72:
+        state = "recent"
+    elif age_hours <= 168:
+        state = "warning"
+    else:
+        state = "stale"
+    return {"state": state, "age_hours": age_hours}
+
+def load_dataset_with_status(dataset_key: str, spec: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    filename = str(spec["filename"])
+    candidates = analytics_file_candidates(filename)
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            payload = read_json(path)
+        except json.JSONDecodeError:
+            return (
+                {
+                    "dataset": dataset_key,
+                    "filename": filename,
+                    "section": spec["section"],
+                    "core": bool(spec["core"]),
+                    "available": False,
+                    "source_path": str(path),
+                    "generated_at": None,
+                    "freshness": "unknown",
+                    "age_hours": None,
+                    "error": "invalid_json"
+                },
+                {}
+            )
+        timestamp_value = extract_payload_timestamp(payload)
+        freshness = freshness_from_timestamp(timestamp_value)
+        return (
+            {
+                "dataset": dataset_key,
+                "filename": filename,
+                "section": spec["section"],
+                "core": bool(spec["core"]),
+                "available": True,
+                "source_path": str(path),
+                "generated_at": timestamp_value,
+                "freshness": freshness["state"],
+                "age_hours": freshness["age_hours"],
+                "error": None
+            },
+            payload if isinstance(payload, dict) else {}
+        )
+
+    return (
+        {
+            "dataset": dataset_key,
+            "filename": filename,
+            "section": spec["section"],
+            "core": bool(spec["core"]),
+            "available": False,
+            "source_path": None,
+            "generated_at": None,
+            "freshness": "unknown",
+            "age_hours": None,
+            "error": "missing"
+        },
+        {}
+    )
+
+def archive_dataset_snapshot() -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+    statuses: Dict[str, Dict[str, Any]] = {}
+    payloads: Dict[str, Dict[str, Any]] = {}
+    for dataset_key, spec in PUBLISH_DATASET_MAP.items():
+        status_row, payload = load_dataset_with_status(dataset_key, spec)
+        statuses[dataset_key] = status_row
+        payloads[dataset_key] = payload
+    return statuses, payloads
 
 def derive_stress_level(score: float) -> str:
     if score >= 75:
@@ -718,14 +946,14 @@ def normalize_wssi_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 def load_wssi_data() -> Dict[str, Any]:
     payload = load_json_candidates(
-        [WSSI_DATA_PATH, ANALYTICS_DIR / "wssi-latest.json"],
+        analytics_file_candidates("wssi-latest.json"),
         "WSSI data not available"
     )
     return normalize_wssi_payload(payload)
 
 def load_analytics_payload(filename: str) -> Dict[str, Any]:
     return load_json_candidates(
-        [DATA_DIR / filename, ANALYTICS_DIR / filename],
+        analytics_file_candidates(filename),
         f"{filename} not available"
     )
 
@@ -943,21 +1171,82 @@ def derive_timeline_trend(history_payload: Dict[str, Any]) -> str:
         return f"down {delta:.2f}"
     return "flat 0.00"
 
-def build_brief_archive_model() -> Dict[str, Any]:
-    snapshot = load_wssi_data()
-    correlations = load_analytics_payload("correlations.json")
-    alerts = load_analytics_payload("alerts.json")
-    network = load_analytics_payload("network.json")
-    patterns = load_analytics_payload("patterns.json")
-    timeline = load_analytics_payload("wssi-history.json")
+def build_publish_health(dataset_status: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    missing_sections: List[str] = []
+    stale_sections: List[str] = []
+    for status_row in dataset_status.values():
+        section = str(status_row.get("section") or "unknown")
+        if not bool(status_row.get("available")):
+            missing_sections.append(section)
+            continue
+        if str(status_row.get("freshness") or "unknown").lower() == "stale":
+            stale_sections.append(section)
+    missing_unique = sorted(set(missing_sections))
+    stale_unique = sorted(set(stale_sections))
+    return {
+        "is_degraded": bool(missing_unique or stale_unique),
+        "missing_sections": missing_unique,
+        "stale_sections": stale_unique,
+        "dataset_status": dataset_status
+    }
+
+def collect_publish_inputs() -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]], Dict[str, Any], List[str]]:
+    dataset_status, payloads = archive_dataset_snapshot()
+    publish_health = build_publish_health(dataset_status)
+    core_missing = [
+        dataset_key
+        for dataset_key, row in dataset_status.items()
+        if bool(row.get("core")) and not bool(row.get("available"))
+    ]
+    return dataset_status, payloads, publish_health, core_missing
+
+def archive_readiness_payload() -> Dict[str, Any]:
+    dataset_status, _, publish_health, core_missing = collect_publish_inputs()
+    publish_blocked = len(core_missing) > 0
+    overall_status = "blocked" if publish_blocked else ("degraded" if publish_health.get("is_degraded") else "healthy")
+    return {
+        "status": overall_status,
+        "publish_blocked": publish_blocked,
+        "core_missing": core_missing,
+        "dataset_status": dataset_status,
+        "publish_health": publish_health,
+        "generated_at": iso_utc_now()
+    }
+
+def build_brief_archive_model(strict_mode: bool = False) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    dataset_status, payloads, publish_health, core_missing = collect_publish_inputs()
+    if core_missing:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "DATA_UNAVAILABLE",
+                "message": f"Core dataset unavailable for publish: {', '.join(core_missing)}"
+            }
+        )
+    if strict_mode and publish_health.get("is_degraded"):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "DATA_UNAVAILABLE",
+                "message": "Strict publish blocked due to missing or stale non-core datasets"
+            }
+        )
+
+    snapshot = normalize_wssi_payload(payloads.get("wssi-latest", {}))
+    correlations = payloads.get("correlations", {})
+    alerts = payloads.get("alerts", {})
+    network = payloads.get("network", {})
+    patterns = payloads.get("patterns", {})
+    timeline = payloads.get("wssi-history", {})
 
     theme_rows = collect_theme_rows(snapshot)
     alert_data = summarize_alert_rows(alerts)
     strong_pairs = extract_strong_correlations(correlations)
     network_highlights = extract_network_highlights(network)
     pattern_rows = extract_pattern_highlights(patterns)
+    trend_label = derive_timeline_trend(timeline) if dataset_status["wssi-history"]["available"] else "insufficient history"
 
-    return {
+    model = {
         "generated_at": iso_utc_now(),
         "brand_title": "The Fragility Brief",
         "wssi_summary": {
@@ -966,7 +1255,7 @@ def build_brief_archive_model() -> Dict[str, Any]:
             "stress_level": snapshot.get("stress_level"),
             "active_themes": len(theme_rows),
             "above_warning_count": snapshot.get("above_warning"),
-            "trend_label": derive_timeline_trend(timeline),
+            "trend_label": trend_label,
             "calculation_timestamp": snapshot.get("calculation_timestamp")
         },
         "top_themes": theme_rows,
@@ -989,15 +1278,18 @@ def build_brief_archive_model() -> Dict[str, Any]:
             for row in theme_rows
         ],
         "source_labels": {
-            "snapshot": "wssi-latest",
-            "correlations": "correlations",
-            "alerts": "alerts",
-            "network": "network",
-            "patterns": "patterns",
-            "timeline": "wssi-history"
+            "snapshot": dataset_status["wssi-latest"].get("source_path"),
+            "correlations": dataset_status["correlations"].get("source_path"),
+            "alerts": dataset_status["alerts"].get("source_path"),
+            "network": dataset_status["network"].get("source_path"),
+            "patterns": dataset_status["patterns"].get("source_path"),
+            "timeline": dataset_status["wssi-history"].get("source_path")
         },
+        "data_freshness": dataset_status,
+        "publish_health": publish_health,
         "disclaimer": "Historical analogs are structural similarity, not prediction."
     }
+    return model, publish_health
 
 def apply_brief_variant(model: Dict[str, Any], variant: str) -> Dict[str, Any]:
     if variant == "paid":
@@ -1006,6 +1298,9 @@ def apply_brief_variant(model: Dict[str, Any], variant: str) -> Dict[str, Any]:
         return paid_model
 
     free_model = json.loads(json.dumps(model))
+    free_model.setdefault("alerts", {}).setdefault("latest_rows", [])
+    free_model.setdefault("network", {}).setdefault("nodes", [])
+    free_model.setdefault("network", {}).setdefault("edges", [])
     free_model["top_themes"] = free_model.get("top_themes", [])[:5]
     free_model["alerts"]["latest_rows"] = free_model.get("alerts", {}).get("latest_rows", [])[:3]
     free_model["correlations"] = free_model.get("correlations", [])[:1]
@@ -1041,10 +1336,24 @@ def render_brief_archive_html(model: Dict[str, Any], variant: str) -> str:
     network_edges = model.get("network", {}).get("edges", [])
     patterns = model.get("patterns", [])
     appendix = model.get("indicator_appendix", [])
+    publish_health = model.get("publish_health", {}) if isinstance(model.get("publish_health"), dict) else {}
+    missing_sections = publish_health.get("missing_sections") if isinstance(publish_health.get("missing_sections"), list) else []
+    stale_sections = publish_health.get("stale_sections") if isinstance(publish_health.get("stale_sections"), list) else []
+    is_degraded = bool(publish_health.get("is_degraded"))
     tier_label = "Paid" if variant == "paid" else "Free"
     locked_note = ""
     if variant == "free":
         locked_note = '<p class="upgrade-note">Upgrade required for full report sections and complete appendix.</p>'
+    health_tone = "Degraded" if is_degraded else "Healthy"
+    health_class = "degraded" if is_degraded else "healthy"
+    health_details: List[str] = []
+    if missing_sections:
+        health_details.append(f"Missing: {', '.join(sorted(set(str(item) for item in missing_sections)))}")
+    if stale_sections:
+        health_details.append(f"Stale: {', '.join(sorted(set(str(item) for item in stale_sections)))}")
+    if not health_details:
+        health_details.append("All required datasets available with acceptable freshness.")
+    health_html = "".join(f"<p>{html_escape(detail)}</p>" for detail in health_details)
 
     def table_rows(items: List[Dict[str, Any]], cols: List[str]) -> str:
         if not items:
@@ -1162,6 +1471,8 @@ def render_brief_archive_html(model: Dict[str, Any], variant: str) -> str:
         h1 {{ margin: 0; }}
         .meta {{ color: #425979; font-size: 0.9rem; }}
         .badge {{ display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid #9ab0cd; background: #edf3fc; font-size: 0.75rem; }}
+        .badge.healthy {{ border-color: #11895f; background: #e6f7ee; color: #0b5f41; }}
+        .badge.degraded {{ border-color: #ba5e00; background: #fff4df; color: #7a3f00; }}
         section {{ background: #fff; border: 1px solid #d9e3f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }}
         table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
         th, td {{ border-bottom: 1px solid #e3eaf4; text-align: left; padding: 6px; }}
@@ -1180,6 +1491,11 @@ def render_brief_archive_html(model: Dict[str, Any], variant: str) -> str:
         <h1>{html_escape(str(model.get("brand_title") or "The Fragility Brief"))}</h1>
         <p class="meta">Generated {html_escape(str(model.get("generated_at") or ""))} · <span class="badge">{tier_label} Archive Variant</span></p>
     </header>
+    <section>
+        <h2>Data Health</h2>
+        <p class="meta"><span class="badge {health_class}">{health_tone}</span></p>
+        {health_html}
+    </section>
     <section>
         <h2>Executive Snapshot</h2>
         <div class="kpi-grid">
@@ -1252,10 +1568,26 @@ def archive_links_for_release(release_id: str, is_paid: bool) -> Dict[str, Any]:
 
 def serialize_release_row(row: sqlite3.Row, is_paid: bool) -> Dict[str, Any]:
     summary = {}
+    data_status = {}
     try:
         summary = json.loads(row["summary_json"])
     except Exception:
         summary = {}
+    try:
+        data_status = json.loads(row["data_status_json"]) if row["data_status_json"] else {}
+    except Exception:
+        data_status = {}
+    missing_sections = data_status.get("missing_sections") if isinstance(data_status.get("missing_sections"), list) else []
+    stale_sections = data_status.get("stale_sections") if isinstance(data_status.get("stale_sections"), list) else []
+    if not missing_sections and isinstance(data_status.get("dataset_status"), dict):
+        missing_sections = sorted(
+            {
+                str(item.get("section") or key)
+                for key, item in data_status["dataset_status"].items()
+                if isinstance(item, dict) and not bool(item.get("available"))
+            }
+        )
+    is_degraded = bool(row["is_degraded"]) or bool(data_status.get("is_degraded"))
     return {
         "release_id": row["release_id"],
         "release_date": row["release_date"],
@@ -1268,7 +1600,11 @@ def serialize_release_row(row: sqlite3.Row, is_paid: bool) -> Dict[str, Any]:
         "notes": row["notes"],
         "tier_variants": json.loads(row["tier_variants"]) if row["tier_variants"] else ["free", "paid"],
         "links": archive_links_for_release(row["release_id"], is_paid),
-        "locked_paid": not is_paid
+        "locked_paid": not is_paid,
+        "is_degraded": is_degraded,
+        "missing_sections": missing_sections,
+        "stale_sections": stale_sections,
+        "data_quality": "degraded" if is_degraded else "healthy"
     }
 
 def enforce_archive_retention(conn: sqlite3.Connection) -> None:
@@ -1335,6 +1671,13 @@ def write_json_file(path: Path, payload: Dict[str, Any]) -> None:
     with open(path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, ensure_ascii=True, indent=2)
 
+def write_json_file_atomic(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.parent / f".{path.name}.{secrets.token_hex(6)}.tmp"
+    with open(tmp_path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, ensure_ascii=True, indent=2)
+    os.replace(tmp_path, path)
+
 def write_text_file(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as handle:
@@ -1357,6 +1700,7 @@ def release_variant_file_path(row: sqlite3.Row, variant: str, kind: str) -> Path
 def build_release_summary(model: Dict[str, Any], free_model: Dict[str, Any], paid_model: Dict[str, Any]) -> Dict[str, Any]:
     wssi_summary = model.get("wssi_summary", {})
     alerts = model.get("alerts", {}).get("counts", {})
+    publish_health = model.get("publish_health", {}) if isinstance(model.get("publish_health"), dict) else {}
     return {
         "wssi_score": wssi_summary.get("wssi_score"),
         "wssi_value": wssi_summary.get("wssi_value"),
@@ -1366,7 +1710,9 @@ def build_release_summary(model: Dict[str, Any], free_model: Dict[str, Any], pai
         "alert_counts": alerts,
         "free_theme_count": len(free_model.get("top_themes", [])),
         "paid_theme_count": len(paid_model.get("top_themes", [])),
-        "generated_at": model.get("generated_at")
+        "generated_at": model.get("generated_at"),
+        "data_quality": "degraded" if publish_health.get("is_degraded") else "healthy",
+        "missing_sections": publish_health.get("missing_sections", [])
     }
 
 def persist_brief_release(
@@ -1378,6 +1724,7 @@ def persist_brief_release(
     paid_model: Dict[str, Any],
     free_html: str,
     paid_html: str,
+    publish_health: Dict[str, Any],
     created_by: Optional[str],
     notes: Optional[str]
 ) -> sqlite3.Row:
@@ -1394,6 +1741,8 @@ def persist_brief_release(
 
     summary = build_release_summary(paid_model, free_model, paid_model)
     wssi_summary = paid_model.get("wssi_summary", {})
+    is_degraded = 1 if bool(publish_health.get("is_degraded")) else 0
+    data_status_json = json.dumps(publish_health)
 
     conn = get_db()
     try:
@@ -1404,9 +1753,9 @@ def persist_brief_release(
                 release_id, release_date, published_at, title, tier_variants,
                 wssi_score, wssi_value, summary_json,
                 free_html_path, paid_html_path, free_json_path, paid_json_path,
-                created_by, notes
+                created_by, notes, is_degraded, data_status_json
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(release_id) DO UPDATE SET
                 release_date = excluded.release_date,
                 published_at = excluded.published_at,
@@ -1420,7 +1769,9 @@ def persist_brief_release(
                 free_json_path = excluded.free_json_path,
                 paid_json_path = excluded.paid_json_path,
                 created_by = excluded.created_by,
-                notes = excluded.notes
+                notes = excluded.notes,
+                is_degraded = excluded.is_degraded,
+                data_status_json = excluded.data_status_json
             """,
             (
                 release_id,
@@ -1436,7 +1787,9 @@ def persist_brief_release(
                 relative_to_data_dir(free_json_path),
                 relative_to_data_dir(paid_json_path),
                 created_by,
-                notes
+                notes,
+                is_degraded,
+                data_status_json
             )
         )
         enforce_archive_retention(conn)
@@ -1565,6 +1918,49 @@ def get_wssi_history(
         "source": "synthetic-fallback"
     }
 
+def normalize_theme_signal_for_response(signal: Dict[str, Any]) -> Dict[str, Any]:
+    theme_name = str(signal.get("theme_name") or signal.get("name") or "Unknown Theme")
+    theme_id = str(signal.get("theme_id") or theme_name.lower().replace(" ", "-").replace("/", "-"))
+    category = str(signal.get("category") or "Uncategorized")
+    raw_value = (
+        to_float(signal.get("raw_value"))
+        if signal.get("raw_value") is not None
+        else (
+            to_float(signal.get("value"))
+            if signal.get("value") is not None
+            else to_float(signal.get("mean_z_score"))
+        )
+    )
+    normalized_value = (
+        to_float(signal.get("normalized_value"))
+        if signal.get("normalized_value") is not None
+        else (
+            to_float(signal.get("normalized_z"))
+            if signal.get("normalized_z") is not None
+            else to_float(signal.get("mean_z_score"))
+        )
+    )
+    weight = to_float(signal.get("weight"))
+    weighted_contribution = to_float(signal.get("weighted_contribution"))
+    if raw_value is None:
+        raw_value = 0.0
+    if normalized_value is None:
+        normalized_value = raw_value
+    if weight is None:
+        weight = 1.0
+    if weighted_contribution is None:
+        weighted_contribution = normalized_value * weight
+    return {
+        "theme_id": theme_id,
+        "theme_name": theme_name,
+        "category": category,
+        "raw_value": raw_value,
+        "normalized_value": normalized_value,
+        "stress_level": str(signal.get("stress_level") or normalize_stress_level(signal.get("stress_level"), normalized_value)),
+        "weight": weight,
+        "weighted_contribution": weighted_contribution
+    }
+
 @app.get("/themes", response_model=List[ThemeSignal], tags=["Themes"])
 def get_all_themes(key_data: Dict = Depends(get_current_key)):
     """Get all themes with current status."""
@@ -1572,13 +1968,9 @@ def get_all_themes(key_data: Dict = Depends(get_current_key)):
     
     themes = []
     for signal in data['theme_signals']:
-        theme_id = signal.get('theme_id') or signal['theme_name'].lower().replace(' ', '-').replace('/', '-')
-        payload = {k: v for k, v in signal.items() if k != 'theme_name'}
-        payload["theme_id"] = theme_id
-        themes.append(ThemeSignal(
-            **payload,
-            theme_name=signal['theme_name']
-        ))
+        if not isinstance(signal, dict):
+            continue
+        themes.append(ThemeSignal(**normalize_theme_signal_for_response(signal)))
     
     return themes
 
@@ -1588,15 +1980,15 @@ def get_theme_detail(theme_id: str, key_data: Dict = Depends(get_current_key)):
     data = load_wssi_data()
     
     for signal in data['theme_signals']:
-        sid = signal.get("theme_id") or signal['theme_name'].lower().replace(' ', '-').replace('/', '-')
-        slug = signal['theme_name'].lower().replace(' ', '-').replace('/', '-')
+        if not isinstance(signal, dict):
+            continue
+        signal_name = str(signal.get("theme_name") or signal.get("name") or "")
+        sid = signal.get("theme_id") or signal_name.lower().replace(' ', '-').replace('/', '-')
+        slug = signal_name.lower().replace(' ', '-').replace('/', '-')
         if sid == theme_id or slug == theme_id:
-            payload = {k: v for k, v in signal.items() if k != 'theme_name'}
-            payload["theme_id"] = sid
-            return ThemeSignal(
-                **payload,
-                theme_name=signal['theme_name']
-            )
+            normalized = normalize_theme_signal_for_response(signal)
+            normalized["theme_id"] = str(sid)
+            return ThemeSignal(**normalized)
     
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -1682,6 +2074,57 @@ def get_alerts_v1(key_data: Dict = Depends(get_current_key)):
 def get_patterns_v1(key_data: Dict = Depends(get_current_key)):
     return get_patterns(key_data)
 
+@app.post("/api/v1/analytics/ingest", tags=["Analytics"])
+def ingest_analytics_bundle(
+    payload: AnalyticsIngestRequest,
+    _token: Dict[str, str] = Depends(require_analytics_ingest_token)
+):
+    files = payload.files if isinstance(payload.files, dict) else {}
+    if not files:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={"code": "INGEST_EMPTY", "message": "files map is required"}
+        )
+
+    unknown = sorted(set(files.keys()) - ALLOWED_ANALYTICS_FILENAMES)
+    if unknown:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={
+                "code": "INVALID_ARTIFACT_NAMES",
+                "message": f"Unsupported artifact names: {', '.join(unknown)}"
+            }
+        )
+
+    written: List[str] = []
+    for filename, file_payload in files.items():
+        try:
+            write_json_file_atomic(ANALYTICS_DIR / filename, file_payload)
+        except (TypeError, ValueError):
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail={
+                    "code": "INGEST_INVALID_PAYLOAD",
+                    "message": f"Artifact '{filename}' is not valid JSON-serializable content"
+                }
+            )
+        written.append(filename)
+        if filename == "wssi-latest.json":
+            write_json_file_atomic(WSSI_DATA_PATH, file_payload)
+
+    return {
+        "status": "ingested",
+        "source": str(payload.source or "unknown"),
+        "analytics_dir": str(ANALYTICS_DIR),
+        "written_count": len(written),
+        "written_files": sorted(written),
+        "ingested_at": iso_utc_now()
+    }
+
+@app.get("/api/v1/briefs/releases/readiness", tags=["Brief Archive"])
+def get_brief_archive_readiness():
+    return archive_readiness_payload()
+
 @app.post("/api/v1/briefs/releases/publish", tags=["Brief Archive"])
 def publish_brief_release(
     payload: Optional[BriefPublishRequest] = Body(default=None),
@@ -1694,8 +2137,9 @@ def publish_brief_release(
     published_at = iso_utc_now()
     created_by = str(publish_payload.created_by or "script").strip() or "script"
     notes = str(publish_payload.notes).strip() if publish_payload and publish_payload.notes else None
+    strict_mode = bool(publish_payload.strict_mode)
 
-    base_model = build_brief_archive_model()
+    base_model, publish_health = build_brief_archive_model(strict_mode=strict_mode)
     free_model = apply_brief_variant(base_model, "free")
     paid_model = apply_brief_variant(base_model, "paid")
     free_html = render_brief_archive_html(free_model, "free")
@@ -1710,6 +2154,7 @@ def publish_brief_release(
         paid_model=paid_model,
         free_html=free_html,
         paid_html=paid_html,
+        publish_health=publish_health,
         created_by=created_by,
         notes=notes
     )
@@ -1718,7 +2163,9 @@ def publish_brief_release(
         "status": "published",
         "release": release,
         "archive_page_url": "/dashboard/v2/archive/index.html",
-        "variant_urls": release["links"]
+        "variant_urls": release["links"],
+        "publish_health": publish_health,
+        "strict_mode": strict_mode
     }
 
 @app.get("/api/v1/briefs/releases", tags=["Brief Archive"])

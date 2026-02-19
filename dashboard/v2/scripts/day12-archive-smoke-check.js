@@ -27,6 +27,10 @@ let releases = [
     created_by: "seed",
     notes: "seed release",
     tier_variants: ["free", "paid"],
+    is_degraded: true,
+    missing_sections: ["correlations"],
+    stale_sections: [],
+    data_quality: "degraded",
   },
 ];
 
@@ -108,6 +112,29 @@ function createServer() {
       });
     }
 
+    if (pathname === "/api/v1/briefs/releases/readiness" && method === "GET") {
+      return sendJson(res, 200, {
+        status: "degraded",
+        publish_blocked: false,
+        core_missing: [],
+        dataset_status: {
+          "wssi-latest": { available: true, freshness: "fresh", section: "wssi_summary", core: true, source_path: "/app/data/analytics/wssi-latest.json" },
+          alerts: { available: true, freshness: "fresh", section: "alerts", core: false, source_path: "/app/data/analytics/alerts.json" },
+          correlations: { available: false, freshness: "unknown", section: "correlations", core: false, source_path: null },
+          network: { available: true, freshness: "recent", section: "network", core: false, source_path: "/app/data/analytics/network.json" },
+          patterns: { available: true, freshness: "recent", section: "patterns", core: false, source_path: "/app/data/analytics/patterns.json" },
+          "wssi-history": { available: true, freshness: "recent", section: "timeline", core: false, source_path: "/app/data/analytics/wssi-history.json" },
+        },
+        publish_health: {
+          is_degraded: true,
+          missing_sections: ["correlations"],
+          stale_sections: [],
+          dataset_status: {},
+        },
+        generated_at: new Date().toISOString(),
+      });
+    }
+
     if (pathname === "/api/v1/briefs/releases/publish" && method === "POST") {
       const token = String(req.headers["x-brief-publish-token"] || "").trim();
       if (token !== publishToken) {
@@ -138,6 +165,10 @@ function createServer() {
           created_by: body.created_by || "dashboard-admin",
           notes: body.notes || null,
           tier_variants: ["free", "paid"],
+          is_degraded: true,
+          missing_sections: ["correlations"],
+          stale_sections: [],
+          data_quality: "degraded",
         };
         releases.unshift(release);
         publishCount += 1;
@@ -150,6 +181,13 @@ function createServer() {
           },
           archive_page_url: "/dashboard/v2/archive/index.html",
           variant_urls: releaseLinks(releaseId, true),
+          publish_health: {
+            is_degraded: true,
+            missing_sections: ["correlations"],
+            stale_sections: [],
+            dataset_status: {},
+          },
+          strict_mode: false,
         });
       });
       return;
@@ -251,7 +289,7 @@ async function run() {
     }));
     out.push(result(
       "3. In-app publish action posts release and shows status + archive link",
-      publishState.status.toLowerCase().includes("published release") && publishState.archiveLinkVisible,
+      publishState.status.toLowerCase().includes("published") && publishState.status.toLowerCase().includes("degraded") && publishState.archiveLinkVisible,
       JSON.stringify(publishState)
     ));
 
@@ -267,10 +305,11 @@ async function run() {
       rowCount: document.querySelectorAll("#archiveRows tr").length,
       hasLockPill: document.querySelector("#archiveRows .lock-pill") !== null,
       hasPaidBriefAction: Array.from(document.querySelectorAll("#archiveRows .actions a")).some((a) => a.textContent.includes("Paid Brief")),
+      hasHealthPill: document.querySelector("#archiveRows .health-pill") !== null,
     }));
     out.push(result(
       "4. Archive page loads free-tier list with paid links hidden/locked",
-      freeArchive.rowCount > 0 && freeArchive.hasLockPill && !freeArchive.hasPaidBriefAction,
+      freeArchive.rowCount > 0 && freeArchive.hasLockPill && !freeArchive.hasPaidBriefAction && freeArchive.hasHealthPill,
       JSON.stringify(freeArchive)
     ));
 
@@ -292,19 +331,27 @@ async function run() {
     ));
 
     reqCtx = await request.newContext();
+    const readinessResp = await reqCtx.get(`${base}/api/v1/briefs/releases/readiness`);
+    const readinessBody = await readinessResp.json();
+    out.push(result(
+      "6. Readiness endpoint reports state before publish workflow",
+      readinessResp.status() === 200 && readinessBody.publish_blocked === false,
+      `status=${readinessResp.status()} blocked=${String(readinessBody.publish_blocked)}`
+    ));
+
     const latestReleaseId = releases[0].release_id;
     const unauthPaidView = await reqCtx.get(`${base}/api/v1/briefs/releases/${latestReleaseId}/view?variant=paid`);
     const paidView = await reqCtx.get(`${base}/api/v1/briefs/releases/${latestReleaseId}/view?variant=paid`, {
       headers: { "X-API-Key": paidApiKey },
     });
     out.push(result(
-      "6. Paid variant endpoint enforces access control",
+      "7. Paid variant endpoint enforces access control",
       [402, 403].includes(unauthPaidView.status()) && paidView.status() === 200,
       `unauth=${unauthPaidView.status()} paid=${paidView.status()}`
     ));
 
     out.push(result(
-      "7. No runtime page exceptions during archive/publish interactions",
+      "8. No runtime page exceptions during archive/publish interactions",
       pageErrors.length === 0,
       `console=${consoleErrors.length} page=${pageErrors.length}`
     ));
@@ -312,7 +359,7 @@ async function run() {
     const appResp = await reqCtx.get(`${base}/app/index.html`);
     const archiveResp = await reqCtx.get(`${base}/archive/index.html`);
     out.push(result(
-      "8. App and archive routes are reachable",
+      "9. App and archive routes are reachable",
       appResp.status() === 200 && archiveResp.status() === 200,
       `app=${appResp.status()} archive=${archiveResp.status()}`
     ));

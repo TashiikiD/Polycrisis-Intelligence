@@ -643,20 +643,54 @@ async function handlePublishBriefRelease() {
     }
 
     elements.publishBriefButton.disabled = true;
-    setPublishStatus("Publishing server-side Fragility Brief release...", "");
+    setPublishStatus("Checking archive readiness...", "");
     elements.publishBriefArchiveLink?.classList.add("hidden");
 
     try {
-        const headers = {
+        const authHeaders = { Accept: "application/json" };
+        if (authState.apiKey) authHeaders["X-API-Key"] = authState.apiKey;
+
+        const readinessResponse = await fetch(apiPath("/api/v1/briefs/releases/readiness"), {
+            method: "GET",
+            headers: authHeaders
+        });
+        const readinessPayload = await readinessResponse.json().catch(() => ({}));
+        if (!readinessResponse.ok) {
+            const detail = readinessPayload?.detail ?? {};
+            const message = detail.message ?? `${readinessResponse.status} ${readinessResponse.statusText}`;
+            throw new Error(`Readiness check failed: ${message}`);
+        }
+        if (readinessPayload.publish_blocked) {
+            const coreMissing = Array.isArray(readinessPayload.core_missing) ? readinessPayload.core_missing : [];
+            const blockedMessage = coreMissing.length > 0
+                ? `Publish blocked: core data unavailable (${coreMissing.join(", ")}).`
+                : "Publish blocked: core data unavailable.";
+            setPublishStatus(blockedMessage, "error");
+            return;
+        }
+
+        const readinessHealth = readinessPayload.publish_health ?? {};
+        const readinessMissing = Array.isArray(readinessHealth.missing_sections) ? readinessHealth.missing_sections : [];
+        const readinessStale = Array.isArray(readinessHealth.stale_sections) ? readinessHealth.stale_sections : [];
+        if (readinessHealth.is_degraded) {
+            const fragments = [];
+            if (readinessMissing.length > 0) fragments.push(`missing: ${readinessMissing.join(", ")}`);
+            if (readinessStale.length > 0) fragments.push(`stale: ${readinessStale.join(", ")}`);
+            setPublishStatus(`Readiness is degraded (${fragments.join(" | ")}). Publishing with flags...`, "warning");
+        } else {
+            setPublishStatus("Readiness healthy. Publishing release...", "");
+        }
+
+        const publishHeaders = {
             "Content-Type": "application/json",
             Accept: "application/json",
             "X-Brief-Publish-Token": briefPublishToken
         };
-        if (authState.apiKey) headers["X-API-Key"] = authState.apiKey;
+        if (authState.apiKey) publishHeaders["X-API-Key"] = authState.apiKey;
         const response = await fetch(apiPath("/api/v1/briefs/releases/publish"), {
             method: "POST",
-            headers,
-            body: JSON.stringify({ created_by: "dashboard-admin" })
+            headers: publishHeaders,
+            body: JSON.stringify({ created_by: "dashboard-admin", strict_mode: false })
         });
         const payload = await response.json().catch(() => ({}));
         if (!response.ok) {
@@ -665,7 +699,14 @@ async function handlePublishBriefRelease() {
             throw new Error(message);
         }
         const releaseId = payload?.release?.release_id ?? "unknown";
-        setPublishStatus(`Published release ${releaseId}.`, "success");
+        const publishHealth = payload?.publish_health ?? {};
+        const missingSections = Array.isArray(publishHealth.missing_sections) ? publishHealth.missing_sections : [];
+        if (publishHealth.is_degraded) {
+            const suffix = missingSections.length > 0 ? ` Missing sections: ${missingSections.join(", ")}.` : "";
+            setPublishStatus(`Published degraded release ${releaseId}.${suffix}`, "warning");
+        } else {
+            setPublishStatus(`Published healthy release ${releaseId}.`, "success");
+        }
         if (elements.publishBriefArchiveLink) {
             elements.publishBriefArchiveLink.href = "../archive/index.html";
             elements.publishBriefArchiveLink.classList.remove("hidden");

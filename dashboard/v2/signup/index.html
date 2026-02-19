@@ -375,6 +375,34 @@
     </div>
 
     <script>
+        const DEFAULT_PUBLIC_API_BASE = 'https://polycrisis-intelligence-production.up.railway.app';
+
+        function readStorage(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch {
+                return null;
+            }
+        }
+
+        function apiPath(path) {
+            const fromStorage = String(readStorage('wssi_api_base_url') ?? '').trim().replace(/\/+$/, '');
+            const host = String(window.location?.hostname ?? '').toLowerCase();
+            const base = fromStorage || (host.endsWith('github.io') ? DEFAULT_PUBLIC_API_BASE : '');
+            if (!base) return path;
+            return `${base}${path}`;
+        }
+
+        async function readJsonSafe(response) {
+            const text = await response.text();
+            if (!text) return {};
+            try {
+                return JSON.parse(text);
+            } catch {
+                return { detail: text };
+            }
+        }
+
         // Get plan from URL
         const urlParams = new URLSearchParams(window.location.search);
         const plan = urlParams.get('plan');
@@ -454,9 +482,9 @@
 
         async function maybeCheckout(tier, apiKey) {
             if (!['basic', 'pro'].includes(tier)) return false;
-            const configResp = await fetch('/api/v1/billing/config');
+            const configResp = await fetch(apiPath('/api/v1/billing/config'));
             if (!configResp.ok) return false;
-            const config = await configResp.json();
+            const config = await readJsonSafe(configResp);
             if (!config.enabled) return false;
 
             const payload = {
@@ -464,7 +492,7 @@
                 success_url: `${window.location.origin}/app/index.html?checkout=success#ledger`,
                 cancel_url: `${window.location.origin}/pricing/index.html?checkout=cancel`
             };
-            const checkoutResp = await fetch('/api/v1/billing/checkout-session', {
+            const checkoutResp = await fetch(apiPath('/api/v1/billing/checkout-session'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -472,7 +500,7 @@
                 },
                 body: JSON.stringify(payload)
             });
-            const checkoutData = await checkoutResp.json();
+            const checkoutData = await readJsonSafe(checkoutResp);
             if (!checkoutResp.ok) return false;
             if (checkoutData.checkout_url) {
                 window.location.href = checkoutData.checkout_url;
@@ -498,7 +526,7 @@
             keySection.style.display = 'none';
 
             try {
-                const response = await fetch('/api/v1/auth/register', {
+                const response = await fetch(apiPath('/api/v1/auth/register'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -513,7 +541,7 @@
                     })
                 });
 
-                const data = await response.json();
+                const data = await readJsonSafe(response);
 
                 if (response.ok) {
                     persistAuth(data);

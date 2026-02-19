@@ -319,6 +319,34 @@
     </div>
 
     <script>
+        const DEFAULT_PUBLIC_API_BASE = 'https://polycrisis-intelligence-production.up.railway.app';
+
+        function readStorage(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch {
+                return null;
+            }
+        }
+
+        function apiPath(path) {
+            const fromStorage = String(readStorage('wssi_api_base_url') ?? '').trim().replace(/\/+$/, '');
+            const host = String(window.location?.hostname ?? '').toLowerCase();
+            const base = fromStorage || (host.endsWith('github.io') ? DEFAULT_PUBLIC_API_BASE : '');
+            if (!base) return path;
+            return `${base}${path}`;
+        }
+
+        async function readJsonSafe(response) {
+            const text = await response.text();
+            if (!text) return {};
+            try {
+                return JSON.parse(text);
+            } catch {
+                return { detail: text };
+            }
+        }
+
         const messageEl = document.getElementById('pricingMessage');
         const params = new URLSearchParams(window.location.search);
         const checkoutParam = params.get('checkout');
@@ -351,7 +379,7 @@
                     success_url: `${window.location.origin}/app/index.html?checkout=success#ledger`,
                     cancel_url: `${window.location.origin}/pricing/index.html?checkout=cancel`
                 };
-                const response = await fetch('/api/v1/billing/checkout-session', {
+                const response = await fetch(apiPath('/api/v1/billing/checkout-session'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -359,7 +387,7 @@
                     },
                     body: JSON.stringify(payload)
                 });
-                const data = await response.json();
+                const data = await readJsonSafe(response);
                 if (!response.ok) {
                     const code = data?.detail?.code || '';
                     if (code === 'BILLING_NOT_CONFIGURED') {

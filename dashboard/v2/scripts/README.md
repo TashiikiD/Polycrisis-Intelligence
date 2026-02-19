@@ -81,6 +81,36 @@ What it validates:
 11. Day 9 smoke regression pass
 12. Reachability of `login/signup/pricing`
 
+## Day 11 Smoke Check
+
+Script: `day11-smoke-check.js`
+
+What it validates:
+1. Header export CTA is present and keyboard accessible
+2. Free-tier export is limited (top-5 + placeholders)
+3. Paid-tier export includes full sections + indicator appendix
+4. WSSI summary in report matches on-screen values
+5. Alerts/correlations/network/pattern highlights populate from Day 9/10 datasets
+6. Stale section badges appear when one dataset fails and export still proceeds
+7. PDF-library failure path triggers print fallback cleanly
+8. No runtime regressions during export interactions
+9. Day 10 smoke regression pass (which chains Day 9/8/7/6)
+10. Reachability of `login/signup/pricing/archive`
+
+## Day 12 Archive Smoke Check
+
+Script: `day12-archive-smoke-check.js`
+
+What it validates:
+1. In-app publish control stays hidden without local publish token
+2. In-app publish control appears when local publish token is set
+3. Publish action posts release and surfaces success state + archive link
+4. Archive page loads newest-first release list with free-tier lock behavior
+5. Paid-tier archive browse exposes paid variant links
+6. Paid variant endpoint enforces access control for unauth/free callers
+7. No runtime console/page regressions during publish + archive flows
+8. App and archive route reachability
+
 ## Usage
 
 From `polycrisis-intelligence/dashboard/v2/scripts`:
@@ -92,6 +122,8 @@ npm run smoke:day7
 npm run smoke:day8
 npm run smoke:day9
 npm run smoke:day10
+npm run smoke:day11
+npm run smoke:day12-archive
 ```
 
 Optional port overrides:
@@ -102,11 +134,15 @@ $env:DAY7_SMOKE_PORT=3300
 $env:DAY8_SMOKE_PORT=3500
 $env:DAY9_SMOKE_PORT=3600
 $env:DAY10_SMOKE_PORT=4100
+$env:DAY11_SMOKE_PORT=5200
+$env:DAY12_ARCHIVE_SMOKE_PORT=5300
 npm run smoke:day6
 npm run smoke:day7
 npm run smoke:day8
 npm run smoke:day9
 npm run smoke:day10
+npm run smoke:day11
+npm run smoke:day12-archive
 ```
 
 Expected output:
@@ -115,4 +151,6 @@ Expected output:
 - `DAY8_SMOKE_RESULTS_START ... DAY8_SMOKE_RESULTS_END`
 - `DAY9_SMOKE_RESULTS_START ... DAY9_SMOKE_RESULTS_END`
 - `DAY10_SMOKE_RESULTS_START ... DAY10_SMOKE_RESULTS_END`
+- `DAY11_SMOKE_RESULTS_START ... DAY11_SMOKE_RESULTS_END`
+- `DAY12_ARCHIVE_SMOKE_RESULTS_START ... DAY12_ARCHIVE_SMOKE_RESULTS_END`
 - summary lines with `failed=0`

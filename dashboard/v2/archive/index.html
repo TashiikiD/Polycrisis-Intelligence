@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragility Brief Archive | Polycrisis Intelligence</title>
+    <link rel="stylesheet" href="../shared/css/variables.css">
+    <link rel="stylesheet" href="css/archive.css">
+</head>
+<body>
+    <header class="archive-header">
+        <div>
+            <p class="archive-eyebrow">Polycrisis Intelligence</p>
+            <h1>The Fragility Brief Archive</h1>
+            <p class="archive-subtitle">Server-side release history. Newest release appears first.</p>
+        </div>
+        <div class="archive-header-actions">
+            <span id="archiveTierBadge" class="tier-badge">Tier: Free</span>
+            <a class="header-link" href="../app/index.html#ledger">Open Dashboard</a>
+        </div>
+    </header>
+
+    <main class="archive-main">
+        <section class="archive-panel">
+            <div class="archive-panel-head">
+                <h2>Released Briefs</h2>
+                <p id="archiveDataStatus" class="archive-status" role="status" aria-live="polite">Loading releases...</p>
+            </div>
+
+            <div class="archive-table-wrap">
+                <table class="archive-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Title</th>
+                            <th>WSSI</th>
+                            <th>Summary</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archiveRows"></tbody>
+                </table>
+            </div>
+            <p id="archiveEmptyState" class="archive-empty hidden">No releases are available yet.</p>
+        </section>
+    </main>
+
+    <script type="module" src="js/archive.js"></script>
+</body>
+</html>

@@ -6,6 +6,8 @@ import { ThemeDetailPanel } from "./components/theme-detail.js";
 import { NetworkGraph } from "./components/network-graph.js";
 import { AlertRegister } from "./components/alert-register.js";
 import { PatternMatcher } from "./components/pattern-matcher.js";
+import { buildFragilityBriefModel } from "./utils/report-model.js";
+import { exportFragilityBriefPdf } from "./utils/report-exporter.js";
 
 const TAB_ORDER = ["ledger", "correlations", "network", "patterns", "timeline"];
 const FREE_THEME_LIMIT = 5;
@@ -44,6 +46,12 @@ const elements = {
     staleBadge: document.getElementById("staleBadge"),
     lastRefresh: document.getElementById("lastRefresh"),
     refreshButton: document.getElementById("refreshButton"),
+    exportBriefButton: document.getElementById("exportBriefButton"),
+    exportBriefStatus: document.getElementById("exportBriefStatus"),
+    publishBriefButton: document.getElementById("publishBriefButton"),
+    publishBriefStatus: document.getElementById("publishBriefStatus"),
+    publishBriefArchiveLink: document.getElementById("publishBriefArchiveLink"),
+    briefRenderHost: document.getElementById("fragilityBriefRenderHost"),
     errorMessage: document.getElementById("errorMessage"),
     accessBadge: document.getElementById("accessBadge"),
     upgradeLink: document.getElementById("upgradeLink"),
@@ -62,6 +70,15 @@ const elements = {
     }
 };
 
+const panelStatusMessages = {
+    stressLedger: "",
+    correlation: "",
+    timeline: "",
+    network: "",
+    alerts: "",
+    patterns: ""
+};
+
 const lastSuccessful = {
     snapshot: null,
     correlations: null,
@@ -74,6 +91,7 @@ const lastSuccessful = {
 let refreshInterval = null;
 let activeTab = "ledger";
 let authState = loadAuthState();
+let briefPublishToken = "";
 let refreshToken = 0;
 apiClient.setAuth(authState);
 
@@ -83,6 +101,12 @@ function readStorage(key) {
     } catch {
         return null;
     }
+}
+
+function apiPath(path) {
+    const base = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    if (!base) return path;
+    return `${base}${path}`;
 }
 
 function normalizeTier(value) {
@@ -107,6 +131,10 @@ function loadAuthState() {
     const apiKey = String(readStorage("wssi_api_key") ?? readStorage("api_key") ?? "").trim();
     const tier = normalizeTier(readStorage("wssi_tier") ?? readStorage("tier") ?? readStorage("paywall_tier"));
     return { apiKey, tier };
+}
+
+function loadBriefPublishToken() {
+    return String(readStorage("wssi_brief_publish_token") ?? "").trim();
 }
 
 function formatTimestamp(value) {
@@ -135,6 +163,7 @@ function updateHash(tabId) {
 }
 
 function setPanelStatus(panelKey, message) {
+    panelStatusMessages[panelKey] = message || "";
     const el = elements.panelStatus[panelKey];
     if (!el) return;
     if (!message) {
@@ -144,6 +173,70 @@ function setPanelStatus(panelKey, message) {
     }
     el.classList.remove("hidden");
     el.textContent = message;
+}
+
+function setExportStatus(message, tone = "") {
+    const el = elements.exportBriefStatus;
+    if (!el) return;
+    el.classList.remove("is-error", "is-warning", "is-success");
+    if (!message) {
+        el.classList.add("hidden");
+        el.textContent = "";
+        return;
+    }
+    if (tone === "error") el.classList.add("is-error");
+    else if (tone === "warning") el.classList.add("is-warning");
+    else if (tone === "success") el.classList.add("is-success");
+    el.classList.remove("hidden");
+    el.textContent = message;
+}
+
+function setPublishStatus(message, tone = "") {
+    const el = elements.publishBriefStatus;
+    if (!el) return;
+    el.classList.remove("is-error", "is-warning", "is-success");
+    if (!message) {
+        el.classList.add("hidden");
+        el.textContent = "";
+        return;
+    }
+    if (tone === "error") el.classList.add("is-error");
+    else if (tone === "warning") el.classList.add("is-warning");
+    else if (tone === "success") el.classList.add("is-success");
+    el.classList.remove("hidden");
+    el.textContent = message;
+}
+
+function updatePublishControls(options = {}) {
+    briefPublishToken = loadBriefPublishToken();
+    const visible = Boolean(briefPublishToken);
+    if (elements.publishBriefButton) {
+        elements.publishBriefButton.classList.toggle("hidden", !visible);
+        elements.publishBriefButton.disabled = !visible;
+    }
+    if (!options.preserveStatus && !visible) {
+        setPublishStatus("");
+        elements.publishBriefArchiveLink?.classList.add("hidden");
+    }
+}
+
+function canExportBrief() {
+    return Boolean(lastSuccessful.snapshot);
+}
+
+function updateExportAvailability(options = {}) {
+    const hasData = canExportBrief();
+    if (elements.exportBriefButton) elements.exportBriefButton.disabled = !hasData;
+    if (options.preserveStatus) return;
+    if (!hasData) {
+        setExportStatus("Export unavailable until first successful data refresh.", "warning");
+        return;
+    }
+    if (!isPaidTier(authState.tier)) {
+        setExportStatus("Free-tier export includes limited sections and upgrade placeholders.", "warning");
+    } else {
+        setExportStatus("");
+    }
 }
 
 function setStaleState(isStale, message = "") {
@@ -248,6 +341,7 @@ function applyAccessGating() {
     if (!paid && activeTab !== "ledger") {
         setActiveTab("ledger");
     }
+    updateExportAvailability();
 }
 
 function setActiveTab(nextTabId, options = {}) {
@@ -328,15 +422,27 @@ function bindTabRouting() {
 
 function syncAuthStateIfChanged() {
     const next = loadAuthState();
-    if (next.apiKey === authState.apiKey && next.tier === authState.tier) return;
+    const nextPublishToken = loadBriefPublishToken();
+    const tokenChanged = nextPublishToken !== briefPublishToken;
+    if (next.apiKey === authState.apiKey && next.tier === authState.tier && !tokenChanged) return;
     authState = next;
     apiClient.setAuth(authState);
     setAccessUI();
     applyAccessGating();
+    updatePublishControls({ preserveStatus: true });
+    if (tokenChanged) {
+        setPublishStatus("Publish token updated. Ready to publish release.", "success");
+    }
     refreshDashboard();
 }
 
 async function refreshFreeDashboard() {
+    lastSuccessful.correlations = null;
+    lastSuccessful.timeline = null;
+    lastSuccessful.alerts = null;
+    lastSuccessful.network = null;
+    lastSuccessful.patterns = null;
+
     setPanelStatus("stressLedger", "");
     setPanelStatus("correlation", "");
     setPanelStatus("timeline", "");
@@ -362,6 +468,7 @@ async function refreshFreeDashboard() {
         network.setThemeMetrics(limitedRows);
         setStaleState(false);
         setError("");
+        updateExportAvailability();
         return;
     }
 
@@ -371,6 +478,7 @@ async function refreshFreeDashboard() {
         updateSummary(lastSuccessful.snapshot, lastSuccessful.snapshot.rows.length);
         ledger.setRows(lastSuccessful.snapshot.rows);
     }
+    updateExportAvailability();
 }
 
 async function refreshPaidDashboard() {
@@ -466,6 +574,7 @@ async function refreshPaidDashboard() {
         setStaleState(false);
         setError("");
     }
+    updateExportAvailability();
 }
 
 async function refreshDashboard() {
@@ -484,11 +593,99 @@ async function refreshDashboard() {
     if (token !== refreshToken) return;
 }
 
+function exportFileName() {
+    const dt = new Date();
+    const month = String(dt.getMonth() + 1).padStart(2, "0");
+    const day = String(dt.getDate()).padStart(2, "0");
+    return `the-fragility-brief-${dt.getFullYear()}-${month}-${day}.pdf`;
+}
+
+async function handleExportBrief() {
+    if (!elements.exportBriefButton) return;
+    if (!canExportBrief()) {
+        updateExportAvailability();
+        return;
+    }
+    if (!elements.briefRenderHost) {
+        setExportStatus("Export unavailable: report render host missing.", "error");
+        return;
+    }
+
+    elements.exportBriefButton.disabled = true;
+    setExportStatus("Preparing Fragility Brief export...", "");
+
+    try {
+        const model = buildFragilityBriefModel(lastSuccessful, authState, { panelStatus: panelStatusMessages });
+        const result = await exportFragilityBriefPdf(model, {
+            mountEl: elements.briefRenderHost,
+            fileName: exportFileName(),
+            allowPrintFallback: true,
+            stylesheetHrefs: ["css/report.css"]
+        });
+        if (result.method === "pdf") {
+            setExportStatus("Fragility Brief PDF downloaded.", "success");
+        } else {
+            setExportStatus("PDF libraries unavailable. Opened print fallback.", "warning");
+        }
+    } catch (error) {
+        setExportStatus(`Fragility Brief export failed: ${error.message ?? "unknown error"}`, "error");
+    } finally {
+        if (elements.exportBriefButton) elements.exportBriefButton.disabled = false;
+    }
+}
+
+async function handlePublishBriefRelease() {
+    if (!elements.publishBriefButton) return;
+    if (!briefPublishToken) {
+        setPublishStatus("Publish token missing. Set localStorage.wssi_brief_publish_token.", "warning");
+        updatePublishControls();
+        return;
+    }
+
+    elements.publishBriefButton.disabled = true;
+    setPublishStatus("Publishing server-side Fragility Brief release...", "");
+    elements.publishBriefArchiveLink?.classList.add("hidden");
+
+    try {
+        const headers = {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-Brief-Publish-Token": briefPublishToken
+        };
+        if (authState.apiKey) headers["X-API-Key"] = authState.apiKey;
+        const response = await fetch(apiPath("/api/v1/briefs/releases/publish"), {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ created_by: "dashboard-admin" })
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+            const detail = payload?.detail ?? {};
+            const message = detail.message ?? payload.message ?? `${response.status} ${response.statusText}`;
+            throw new Error(message);
+        }
+        const releaseId = payload?.release?.release_id ?? "unknown";
+        setPublishStatus(`Published release ${releaseId}.`, "success");
+        if (elements.publishBriefArchiveLink) {
+            elements.publishBriefArchiveLink.href = "../archive/index.html";
+            elements.publishBriefArchiveLink.classList.remove("hidden");
+        }
+    } catch (error) {
+        setPublishStatus(`Publish failed: ${error.message ?? "unknown error"}`, "error");
+    } finally {
+        if (elements.publishBriefButton) elements.publishBriefButton.disabled = false;
+    }
+}
+
 function init() {
+    updatePublishControls();
     setAccessUI();
     applyAccessGating();
     bindTabRouting();
     elements.refreshButton.addEventListener("click", refreshDashboard);
+    elements.exportBriefButton?.addEventListener("click", handleExportBrief);
+    elements.publishBriefButton?.addEventListener("click", handlePublishBriefRelease);
+    updateExportAvailability();
     refreshDashboard();
 
     refreshInterval = setInterval(() => {

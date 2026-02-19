@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/report.css">
 </head>
 <body>
     <header class="app-header">
@@ -27,7 +28,15 @@
                 <a id="upgradeLink" class="upgrade-link" href="../pricing/index.html">Upgrade</a>
             </div>
             <p class="timestamp">Last refresh: <span id="lastRefresh">--</span></p>
-            <button id="refreshButton" class="btn-refresh" type="button">Refresh now</button>
+            <div class="action-row">
+                <button id="refreshButton" class="btn-refresh" type="button">Refresh now</button>
+                <button id="exportBriefButton" class="btn-export" type="button" aria-describedby="exportBriefStatus">Export Fragility Brief (PDF)</button>
+                <a class="archive-link" href="../archive/index.html">Archive</a>
+                <button id="publishBriefButton" class="btn-publish hidden" type="button" aria-describedby="publishBriefStatus">Publish Fragility Brief Release</button>
+            </div>
+            <p id="exportBriefStatus" class="export-status hidden" role="status" aria-live="polite"></p>
+            <p id="publishBriefStatus" class="publish-status hidden" role="status" aria-live="polite"></p>
+            <a id="publishBriefArchiveLink" class="publish-archive-link hidden" href="../archive/index.html">Open Archive</a>
         </div>
     </header>
 
@@ -146,6 +155,9 @@
         <p id="errorMessage" class="error-message hidden" role="alert"></p>
     </main>
 
+    <section id="fragilityBriefRenderHost" class="fragility-brief-render-host" aria-hidden="true"></section>
+    <script src="vendor/html2canvas.min.js"></script>
+    <script src="vendor/jspdf.umd.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

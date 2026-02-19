@@ -67,3 +67,48 @@ Returned normalized models:
 - Pattern radar uses diagnostic proxy axes from current payload fields and is explicitly labeled as proxy.
 - App client forwards `X-API-Key` when present in local storage (`wssi_api_key` / `api_key`).
 - Free tier is hard-gated in app shell to WSSI summary + Stress Ledger top 5 rows only.
+
+## Day 11 Fragility Brief Export Dependencies
+
+PDF export runs fully client-side in `dashboard/v2/app`:
+
+1. Render model assembly:
+   - `js/utils/report-model.js`
+   - consumes last-good normalized snapshots from app orchestration state
+2. Export pipeline:
+   - `js/utils/report-exporter.js`
+   - renders offscreen report DOM in `#fragilityBriefRenderHost`
+   - converts DOM to PDF via local vendor libs:
+     - `vendor/html2canvas.min.js`
+     - `vendor/jspdf.umd.min.js`
+
+## Day 11 Degradation Rules
+
+1. If one or more datasets are stale/unavailable, export still proceeds using last-good snapshots and section stale badges.
+2. If no last-good WSSI snapshot exists yet, export stays disabled.
+3. If PDF vendor libs are unavailable at runtime, exporter opens print fallback using `css/report.css`.
+4. Free tier export is intentionally limited and shows upgrade placeholders for full sections/appendix.
+
+## Day 11.5 Server Archive Dependencies
+
+Archive and publish workflows rely on API endpoints in `wssi-api`:
+
+1. `POST /api/v1/briefs/releases/publish` (requires `X-Brief-Publish-Token`)
+2. `GET /api/v1/briefs/releases?limit=50`
+3. `GET /api/v1/briefs/releases/{release_id}`
+4. `GET /api/v1/briefs/releases/{release_id}/view?variant=free|paid`
+5. `GET /api/v1/briefs/releases/{release_id}/model?variant=free|paid`
+
+Local storage keys used by dashboard/archive pages:
+
+- `wssi_brief_publish_token`: enables in-app publish button
+- `wssi_api_key`: used for paid-tier archive access
+- `wssi_tier` (or `tier`): tier badge context
+- `wssi_api_base_url` (optional): absolute API base override for hosted static deployments
+
+## Day 11.5 Archive Degradation Rules
+
+1. Publish control remains hidden unless `wssi_brief_publish_token` exists in local storage.
+2. Archive page is still browsable without API key (free variant links only).
+3. Paid links appear only when API resolves caller to paid tier.
+4. Missing or invalid paid access returns upgrade-required responses from API (`402/403`).

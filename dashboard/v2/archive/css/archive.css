@@ -1,0 +1,209 @@
+:root {
+    --archive-panel-bg: rgba(18, 18, 26, 0.9);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% 0%, rgba(0, 212, 170, 0.1), transparent 35%), var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+}
+
+.archive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-lg);
+    padding: var(--space-xl);
+    border-bottom: 1px solid var(--border);
+    background: rgba(16, 16, 24, 0.88);
+}
+
+.archive-eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0.35rem 0;
+    font-size: 1.7rem;
+}
+
+.archive-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.archive-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.tier-badge {
+    border: 1px solid rgba(0, 212, 170, 0.35);
+    color: #cafff2;
+    background: rgba(0, 212, 170, 0.12);
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.header-link {
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    text-decoration: none;
+    padding: 0.24rem 0.62rem;
+    font-size: 0.75rem;
+}
+
+.header-link:hover,
+.header-link:focus-visible {
+    border-color: var(--accent-cyan);
+    outline: none;
+}
+
+.archive-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl);
+}
+
+.archive-panel {
+    background: var(--archive-panel-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.archive-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-md) var(--space-lg);
+}
+
+.archive-panel-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.archive-status {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.archive-status.is-error {
+    color: var(--freshness-stale);
+}
+
+.archive-status.is-success {
+    color: var(--stress-stable);
+}
+
+.archive-table-wrap {
+    overflow-x: auto;
+}
+
+.archive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.archive-table th,
+.archive-table td {
+    border-bottom: 1px solid var(--border-subtle);
+    text-align: left;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.84rem;
+    vertical-align: top;
+}
+
+.archive-table th {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.meta {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.actions a,
+.action-muted {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.18rem 0.5rem;
+    font-size: 0.73rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.actions a:hover,
+.actions a:focus-visible {
+    border-color: var(--accent-cyan);
+    outline: none;
+}
+
+.action-muted {
+    color: var(--text-muted);
+}
+
+.lock-pill {
+    margin-left: 0.4rem;
+    border: 1px solid rgba(255, 159, 28, 0.45);
+    color: #ffd9ab;
+    background: rgba(255, 159, 28, 0.14);
+    border-radius: 999px;
+    padding: 0.1rem 0.42rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    vertical-align: middle;
+}
+
+.archive-empty {
+    margin: 0;
+    padding: var(--space-md) var(--space-lg);
+    color: var(--text-muted);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .archive-header {
+        flex-direction: column;
+    }
+
+    .archive-main {
+        padding: var(--space-md);
+    }
+
+    .archive-panel-head {
+        flex-direction: column;
+    }
+}

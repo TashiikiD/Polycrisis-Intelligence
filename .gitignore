@@ -45,3 +45,6 @@ wssi-api/README.md
 *.tmp
 *.temp
 .cache/
+
+# Symlinks to external infrastructure
+shared/

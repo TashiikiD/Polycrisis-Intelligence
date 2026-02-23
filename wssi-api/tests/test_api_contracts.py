@@ -2,6 +2,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import shutil
 from pathlib import Path
 
 import pytest
@@ -19,7 +20,20 @@ def _load_main_module():
 
 @pytest.fixture(scope="session")
 def api_module():
-    return _load_main_module()
+    module = _load_main_module()
+    db_backup = module.DB_PATH.read_bytes() if module.DB_PATH.exists() else None
+    wssi_backup = module.WSSI_DATA_PATH.read_text(encoding="utf-8") if module.WSSI_DATA_PATH.exists() else None
+    yield module
+    if db_backup is None:
+        if module.DB_PATH.exists():
+            module.DB_PATH.unlink()
+    else:
+        module.DB_PATH.write_bytes(db_backup)
+    if wssi_backup is None:
+        if module.WSSI_DATA_PATH.exists():
+            module.WSSI_DATA_PATH.unlink()
+    else:
+        module.WSSI_DATA_PATH.write_text(wssi_backup, encoding="utf-8")
 
 
 @pytest.fixture(scope="session")
@@ -97,9 +111,21 @@ def _cleanup_release(api_module, release_id: str):
 @pytest.fixture
 def archive_publish_setup(api_module):
     token = "pytest-brief-publish-token"
+    ingest_token = "pytest-analytics-ingest-token"
     previous_token = os.environ.get("WSSI_BRIEF_PUBLISH_TOKEN")
+    previous_ingest_token = os.environ.get("WSSI_ANALYTICS_INGEST_TOKEN")
     previous_max = os.environ.get("WSSI_BRIEF_ARCHIVE_MAX_RELEASES")
+    previous_analytics_dir = api_module.ANALYTICS_DIR
+    previous_legacy_dirs = list(api_module.LEGACY_ANALYTICS_DIRS)
+    previous_root_wssi = api_module.WSSI_DATA_PATH.read_text(encoding="utf-8") if api_module.WSSI_DATA_PATH.exists() else None
+    isolated_dir = api_module.DATA_DIR / "pytest_analytics"
+    if isolated_dir.exists():
+        shutil.rmtree(isolated_dir, ignore_errors=True)
+    isolated_dir.mkdir(parents=True, exist_ok=True)
+    api_module.ANALYTICS_DIR = isolated_dir
+    api_module.LEGACY_ANALYTICS_DIRS = []
     os.environ["WSSI_BRIEF_PUBLISH_TOKEN"] = token
+    os.environ["WSSI_ANALYTICS_INGEST_TOKEN"] = ingest_token
     os.environ["WSSI_BRIEF_ARCHIVE_MAX_RELEASES"] = "200"
 
     payloads = {
@@ -195,26 +221,31 @@ def archive_publish_setup(api_module):
         },
     }
 
-    backups = {}
     for filename, payload in payloads.items():
-        path = api_module.DATA_DIR / filename
-        backups[filename] = path.read_text(encoding="utf-8") if path.exists() else None
+        path = api_module.ANALYTICS_DIR / filename
         path.write_text(json.dumps(payload), encoding="utf-8")
+    api_module.WSSI_DATA_PATH.write_text(json.dumps(payloads["wssi-latest.json"]), encoding="utf-8")
 
-    yield {"token": token}
+    yield {"token": token, "ingest_token": ingest_token}
 
-    for filename, original in backups.items():
-        path = api_module.DATA_DIR / filename
-        if original is None:
-            if path.exists():
-                path.unlink()
-        else:
-            path.write_text(original, encoding="utf-8")
+    shutil.rmtree(isolated_dir, ignore_errors=True)
+    if previous_root_wssi is None:
+        if api_module.WSSI_DATA_PATH.exists():
+            api_module.WSSI_DATA_PATH.unlink()
+    else:
+        api_module.WSSI_DATA_PATH.write_text(previous_root_wssi, encoding="utf-8")
+    api_module.ANALYTICS_DIR = previous_analytics_dir
+    api_module.LEGACY_ANALYTICS_DIRS = previous_legacy_dirs
 
     if previous_token is None:
         os.environ.pop("WSSI_BRIEF_PUBLISH_TOKEN", None)
     else:
         os.environ["WSSI_BRIEF_PUBLISH_TOKEN"] = previous_token
+
+    if previous_ingest_token is None:
+        os.environ.pop("WSSI_ANALYTICS_INGEST_TOKEN", None)
+    else:
+        os.environ["WSSI_ANALYTICS_INGEST_TOKEN"] = previous_ingest_token
 
     if previous_max is None:
         os.environ.pop("WSSI_BRIEF_ARCHIVE_MAX_RELEASES", None)
@@ -247,6 +278,14 @@ def free_archive_api_key(api_module):
     cursor.execute("DELETE FROM api_keys WHERE key_hash = ?", (key_hash,))
     conn.commit()
     conn.close()
+
+@pytest.fixture
+def archive_core_only_setup(api_module, archive_publish_setup):
+    for filename in ["alerts.json", "correlations.json", "network.json", "patterns.json", "wssi-history.json"]:
+        path = api_module.ANALYTICS_DIR / filename
+        if path.exists():
+            path.unlink()
+    yield archive_publish_setup
 
 
 def _canonical_json(value):
@@ -514,6 +553,80 @@ def test_day10_checkout_reports_not_configured_without_stripe(client, api_key):
     assert detail.get("code") == "BILLING_NOT_CONFIGURED"
 
 
+def test_day11_5_ingest_endpoint_requires_valid_token(client, archive_publish_setup):
+    missing = client.post("/api/v1/analytics/ingest", json={"files": {}})
+    assert missing.status_code == 401
+    assert missing.json().get("detail", {}).get("code") == "INGEST_TOKEN_INVALID"
+
+    invalid = client.post(
+        "/api/v1/analytics/ingest",
+        json={"files": {"wssi-latest.json": {"wssi_score": 10}}},
+        headers={"X-Analytics-Ingest-Token": "wrong-token"},
+    )
+    assert invalid.status_code == 401
+    assert invalid.json().get("detail", {}).get("code") == "INGEST_TOKEN_INVALID"
+
+
+def test_day11_5_ingest_writes_files_and_readiness_green(client, api_module, archive_publish_setup):
+    payload = {
+        "source": "pytest",
+        "files": {
+            "alerts.json": {"generated_at": "2099-01-10T00:00:00Z", "active_alerts": [], "recent_alerts": []},
+            "correlations.json": {"generated_at": "2099-01-10T00:00:00Z", "theme_level": {"pairs": [], "matrix": {}}},
+        },
+    }
+    response = client.post(
+        "/api/v1/analytics/ingest",
+        json=payload,
+        headers={"X-Analytics-Ingest-Token": archive_publish_setup["ingest_token"]},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body.get("status") == "ingested"
+    assert set(body.get("written_files", [])) == {"alerts.json", "correlations.json"}
+    assert (api_module.ANALYTICS_DIR / "alerts.json").exists()
+    assert (api_module.ANALYTICS_DIR / "correlations.json").exists()
+
+    readiness = client.get("/api/v1/briefs/releases/readiness")
+    assert readiness.status_code == 200
+    readiness_payload = readiness.json()
+    assert readiness_payload.get("publish_blocked") is False
+    assert "dataset_status" in readiness_payload
+
+
+def test_day11_5_ingest_rejects_unknown_filenames(client, archive_publish_setup):
+    response = client.post(
+        "/api/v1/analytics/ingest",
+        json={"files": {"unknown-file.json": {"ok": True}}},
+        headers={"X-Analytics-Ingest-Token": archive_publish_setup["ingest_token"]},
+    )
+    assert response.status_code == 422
+    detail = response.json().get("detail", {})
+    assert detail.get("code") == "INVALID_ARTIFACT_NAMES"
+
+
+def test_day11_5_readiness_reports_blocked_when_core_missing(client, api_module, archive_publish_setup):
+    analytics_wssi = api_module.ANALYTICS_DIR / "wssi-latest.json"
+    original_analytics = analytics_wssi.read_text(encoding="utf-8") if analytics_wssi.exists() else None
+    original_root_wssi = api_module.WSSI_DATA_PATH.read_text(encoding="utf-8") if api_module.WSSI_DATA_PATH.exists() else None
+    if analytics_wssi.exists():
+        analytics_wssi.unlink()
+    if api_module.WSSI_DATA_PATH.exists():
+        api_module.WSSI_DATA_PATH.unlink()
+
+    try:
+        readiness = client.get("/api/v1/briefs/releases/readiness")
+        assert readiness.status_code == 200
+        payload = readiness.json()
+        assert payload.get("publish_blocked") is True
+        assert "wssi-latest" in payload.get("core_missing", [])
+    finally:
+        if original_analytics is not None:
+            analytics_wssi.write_text(original_analytics, encoding="utf-8")
+        if original_root_wssi is not None:
+            api_module.WSSI_DATA_PATH.write_text(original_root_wssi, encoding="utf-8")
+
+
 def test_day11_5_publish_endpoint_requires_valid_token(client, archive_publish_setup):
     missing = client.post("/api/v1/briefs/releases/publish", json={"created_by": "pytest"})
     assert missing.status_code == 401
@@ -539,6 +652,8 @@ def test_day11_5_publish_creates_release_and_artifacts(client, api_module, archi
     release = payload.get("release", {})
     release_id = release.get("release_id")
     assert release_id
+    assert "publish_health" in payload
+    assert payload["publish_health"].get("is_degraded") is False
     try:
         conn = api_module.get_db()
         cursor = conn.cursor()
@@ -552,6 +667,57 @@ def test_day11_5_publish_creates_release_and_artifacts(client, api_module, archi
         assert (api_module.resolve_data_relative_path(row["paid_json_path"])).exists()
     finally:
         _cleanup_release(api_module, release_id)
+
+
+def test_day11_5_publish_degraded_when_non_core_missing(client, api_module, archive_core_only_setup, api_key):
+    response = client.post(
+        "/api/v1/briefs/releases/publish",
+        json={"release_date": "2099-01-08", "created_by": "pytest"},
+        headers={"X-Brief-Publish-Token": archive_core_only_setup["token"]},
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    release = payload.get("release", {})
+    release_id = release.get("release_id")
+    assert release_id
+    assert payload.get("publish_health", {}).get("is_degraded") is True
+    assert "correlations" in payload.get("publish_health", {}).get("missing_sections", [])
+    assert release.get("data_quality") == "degraded"
+    try:
+        paid_model = client.get(
+            f"/api/v1/briefs/releases/{release_id}/model?variant=paid",
+            headers=_auth_headers(api_key),
+        )
+        assert paid_model.status_code == 200
+        model_payload = paid_model.json()
+        assert model_payload.get("publish_health", {}).get("is_degraded") is True
+    finally:
+        _cleanup_release(api_module, release_id)
+
+
+def test_day11_5_publish_fails_when_core_missing(client, api_module, archive_publish_setup):
+    analytics_wssi = api_module.ANALYTICS_DIR / "wssi-latest.json"
+    original_analytics = analytics_wssi.read_text(encoding="utf-8") if analytics_wssi.exists() else None
+    original_root_wssi = api_module.WSSI_DATA_PATH.read_text(encoding="utf-8") if api_module.WSSI_DATA_PATH.exists() else None
+    if analytics_wssi.exists():
+        analytics_wssi.unlink()
+    if api_module.WSSI_DATA_PATH.exists():
+        api_module.WSSI_DATA_PATH.unlink()
+
+    try:
+        response = client.post(
+            "/api/v1/briefs/releases/publish",
+            json={"release_date": "2099-01-09", "created_by": "pytest"},
+            headers={"X-Brief-Publish-Token": archive_publish_setup["token"]},
+        )
+        assert response.status_code == 503
+        detail = response.json().get("detail", {})
+        assert detail.get("code") == "DATA_UNAVAILABLE"
+    finally:
+        if original_analytics is not None:
+            analytics_wssi.write_text(original_analytics, encoding="utf-8")
+        if original_root_wssi is not None:
+            api_module.WSSI_DATA_PATH.write_text(original_root_wssi, encoding="utf-8")
 
 
 def test_day11_5_release_list_sorted_newest_first(client, api_module, archive_publish_setup):

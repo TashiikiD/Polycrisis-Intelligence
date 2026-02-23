@@ -104,12 +104,27 @@ Script: `day12-archive-smoke-check.js`
 What it validates:
 1. In-app publish control stays hidden without local publish token
 2. In-app publish control appears when local publish token is set
-3. Publish action posts release and surfaces success state + archive link
+3. Publish flow performs readiness precheck and posts release with health metadata
 4. Archive page loads newest-first release list with free-tier lock behavior
-5. Paid-tier archive browse exposes paid variant links
-6. Paid variant endpoint enforces access control for unauth/free callers
-7. No runtime console/page regressions during publish + archive flows
-8. App and archive route reachability
+5. Release health pills (healthy/degraded) render with missing/stale context
+6. Paid-tier archive browse exposes paid variant links
+7. Readiness endpoint reports non-blocking vs blocking state
+8. Paid variant endpoint enforces access control for unauth/free callers
+9. No runtime console/page regressions during publish + archive flows
+10. App and archive route reachability
+
+## Day 11.5 Operations Sequence
+
+Canonical run order for reliable server archive publish:
+
+1. Push analytics bundle:
+   - `python ..\\..\\..\\wssi-api\\scripts\\push_analytics_bundle.py --base-url https://polycrisis-intelligence-production.up.railway.app --input-dir e:/clawd/output/analytics`
+2. Check readiness:
+   - `python ..\\..\\..\\wssi-api\\scripts\\check_brief_archive_readiness.py --base-url https://polycrisis-intelligence-production.up.railway.app`
+3. Publish release:
+   - `python ..\\..\\..\\wssi-api\\scripts\\publish_fragility_brief_release.py --base-url https://polycrisis-intelligence-production.up.railway.app --created-by script`
+4. Validate archive UI:
+   - open `dashboard/v2/archive/index.html` and confirm newest release is first with expected health badge.
 
 ## Usage
 

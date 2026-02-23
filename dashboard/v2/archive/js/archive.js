@@ -4,6 +4,7 @@ const elements = {
     rows: document.getElementById("archiveRows"),
     empty: document.getElementById("archiveEmptyState")
 };
+const DEFAULT_PUBLIC_API_BASE = "https://polycrisis-intelligence-production.up.railway.app";
 
 function readStorage(key) {
     try {
@@ -28,7 +29,9 @@ function tierLabel(tier) {
 }
 
 function apiPath(path) {
-    const base = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const fromStorage = String(readStorage("wssi_api_base_url") ?? "").trim().replace(/\/+$/, "");
+    const host = String(window.location?.hostname ?? "").toLowerCase();
+    const base = fromStorage || (host.endsWith("github.io") ? DEFAULT_PUBLIC_API_BASE : "");
     if (!base) return path;
     return `${base}${path}`;
 }
@@ -81,6 +84,19 @@ function releaseActions(release) {
     return `<div class="actions">${freeView}${freeModel}${paidView}</div>`;
 }
 
+function releaseHealth(release) {
+    const quality = String(release?.data_quality ?? (release?.is_degraded ? "degraded" : "healthy")).toLowerCase();
+    const missing = Array.isArray(release?.missing_sections) ? release.missing_sections : [];
+    const stale = Array.isArray(release?.stale_sections) ? release.stale_sections : [];
+    const label = quality === "degraded" ? "Degraded" : "Healthy";
+    const tone = quality === "degraded" ? "health-degraded" : "health-healthy";
+    const fragments = [];
+    if (missing.length > 0) fragments.push(`Missing: ${missing.join(", ")}`);
+    if (stale.length > 0) fragments.push(`Stale: ${stale.join(", ")}`);
+    const detail = fragments.length > 0 ? `<div class="meta">${escapeHtml(fragments.join(" | "))}</div>` : "";
+    return `<span class="health-pill ${tone}">${label}</span>${detail}`;
+}
+
 function renderReleaseRows(releases) {
     if (!elements.rows || !elements.empty) return;
     elements.rows.innerHTML = "";
@@ -101,6 +117,7 @@ function renderReleaseRows(releases) {
                     <div>Stress: ${escapeHtml(summary.stress_level ?? "--")}</div>
                     <div class="meta">Alerts C/W/I: ${escapeHtml(alertCounts.critical ?? 0)}/${escapeHtml(alertCounts.warning ?? 0)}/${escapeHtml(alertCounts.info ?? 0)}</div>
                 </td>
+                <td>${releaseHealth(release)}</td>
                 <td>${releaseActions(release)}</td>
             </tr>`;
     }).join("");
